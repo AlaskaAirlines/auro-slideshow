@@ -49,7 +49,7 @@
     "core-js": "^3.41.0",
     "eslint": "^9.22.0",
     "eslint-plugin-jsdoc": "^50.6.6",
-    "husky": "^9.1.7",
+    "husky": "^8.0.0",
     "lodash": "^4.17.21",
     "markdown-magic": "^3.4.0",
     "nodemon": "^3.1.9",
@@ -164,6 +164,7 @@
     "test": "wtr --coverage",
     "test:watch": "wtr --watch",
     "types": "tsc",
-    "postversion": "npm-run-all build:api build:docs"
+    "postversion": "npm-run-all build:api build:docs",
+    "prepare": "husky install"
   }
 }
