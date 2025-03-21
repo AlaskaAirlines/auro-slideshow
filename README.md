@@ -80,7 +80,14 @@ import "@aurodesignsystem/auro-slideshow";
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
 ```html
-<auro-slideshow>Hello World</auro-slideshow>
+<auro-slideshow loop pagination navigation autoplay="2500">
+  <img src="https://picsum.photos/200?random=0" style="height: 300px; width: 600px;" alt="Random insert 0">
+  <img src="https://picsum.photos/200?random=1" style="height: 300px; width: 200px;" alt="Random insert 1">
+  <img src="https://picsum.photos/200?random=2" style="height: 300px; width: 300px;" alt="Random insert 2">
+  <img src="https://picsum.photos/200?random=3" style="height: 300px; width: 500px;" alt="Random insert 3">
+  <img src="https://picsum.photos/200?random=4" style="height: 300px; width: 400px;" alt="Random insert 4">
+  <img src="https://picsum.photos/200?random=5" style="height: 300px; width: 300px;" alt="Random insert 5">
+</auro-slideshow>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 
@@ -124,7 +131,14 @@ The `<auro-slideshow>` element should be used in situations where users may:
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
 ```html
-<auro-slideshow>Hello World</auro-slideshow>
+<auro-slideshow loop pagination navigation autoplay="2500">
+  <img src="https://picsum.photos/200?random=0" style="height: 300px; width: 600px;" alt="Random insert 0">
+  <img src="https://picsum.photos/200?random=1" style="height: 300px; width: 200px;" alt="Random insert 1">
+  <img src="https://picsum.photos/200?random=2" style="height: 300px; width: 300px;" alt="Random insert 2">
+  <img src="https://picsum.photos/200?random=3" style="height: 300px; width: 500px;" alt="Random insert 3">
+  <img src="https://picsum.photos/200?random=4" style="height: 300px; width: 400px;" alt="Random insert 4">
+  <img src="https://picsum.photos/200?random=5" style="height: 300px; width: 300px;" alt="Random insert 5">
+</auro-slideshow>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 

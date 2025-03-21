@@ -12,3 +12,93 @@
 @import './../node_modules/@aurodesignsystem/webcorestylesheets/src/core';
 @import './../node_modules/@aurodesignsystem/webcorestylesheets/src/animation';
 
+@import '../node_modules/swiper/swiper.scss';
+@import '../node_modules/swiper/modules/pagination.scss';
+@import '../node_modules/swiper/modules/navigation.scss';
+
+.swiper {
+  display: flex; /* Ensure it only expands based on its children */
+  width: auto; /* Adjust to content width */
+  height: auto;
+}
+
+.swiper-wrapper {
+  display: flex; /* Ensure slides are arranged correctly */
+  width: max-content; /* Ensures it only takes as much space as needed */
+  height: auto;
+}
+
+.progress-bar-container {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 150px;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  z-index: 10;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: #007aff;
+  transition: width 0.25s linear;
+}
+
+.scroll-prev, 
+.scroll-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.scroll-prev { 
+  left: 10px; 
+}
+
+.scroll-next { 
+  right: 10px; 
+}
+
+.swiper-pagination {
+  --swiper-pagination-bottom: -48px;
+  text-align: left !important;
+  left: 0;
+  width: auto;
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 10px;
+  z-index: 10;
+  margin-top: 16px;
+}
+
+.play-pause {
+  margin-right: 8px; /* Proper spacing between button and bullets */
+}
+
+.swiper-pagination {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start; /* Ensures pagination bullets stay aligned left */
+  position: relative !important;
+  left: 0 !important;
+  width: auto !important;
+  bottom: unset !important;
+}
+
+/* Ensure bullets are aligned correctly */
+.swiper-pagination-bullet {
+  background-color: #007bff !important;
+  margin: 0 4px !important; /* Controls spacing between bullets */
+}
+
+
