@@ -1,9 +1,9 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import serve from 'rollup-plugin-serve';
 
-const production = !process.env.ROLLUP_WATCH,
+const production = !process.env.ROLLUP_WATCH;
 
- modernConfig = {
+const modernConfig = {
   input: {
     ['auro-slideshow__bundled']: './index.js',
   },
@@ -21,4 +21,27 @@ const production = !process.env.ROLLUP_WATCH,
   ]
 };
 
-export default [modernConfig];
+const indexExamplesConfig = {
+  input: {
+    ['index.min']: './demo/index.js',
+  },
+  output: {
+    format: 'esm',
+    dir: 'demo/'
+  },
+  plugins: [nodeResolve()]
+};
+
+const apiExamplesConfig = {
+  input: {
+    ['api.min']: './demo/api.js',
+  },
+  output: {
+    format: 'esm',
+    dir: 'demo/'
+  },
+  plugins: [nodeResolve()]
+};
+
+export default [modernConfig, indexExamplesConfig, apiExamplesConfig];
+
