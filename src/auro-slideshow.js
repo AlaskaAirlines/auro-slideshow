@@ -115,14 +115,35 @@ export class AuroSlideshow extends LitElement {
   }
 
   firstUpdated() {
-    const slot = this.shadowRoot.querySelector('slot');
-  
+    this.handleHeaderSlotContent();
+
+    const slot = this.shadowRoot.querySelector('slot:not([name="header"]):not([name="subheader"])');
+
     // Listen for the slotchange event to handle updates to slot content
     this.slotChangeListener = () => {
       this.initializeSwiper();
     };
     
     slot.addEventListener('slotchange', this.slotChangeListener);
+  }
+
+  handleHeaderSlotContent() {
+    const container = this.shadowRoot.querySelector('.container');
+    const headerSlot = this.shadowRoot.querySelector('slot[name="header"]');
+    const subheaderSlot = this.shadowRoot.querySelector('slot[name="subheader"]');
+
+    const hasHeaderContent = headerSlot && headerSlot.assignedNodes().length > 0;
+    const hasSubheaderContent = subheaderSlot && subheaderSlot.assignedNodes().length > 0;
+
+    if (hasHeaderContent && hasSubheaderContent) {
+      container.classList.add('has-both-headers');
+    } else if (hasHeaderContent) {
+      container.classList.add('has-header-only');
+    } else if (hasSubheaderContent) {
+      container.classList.add('has-subheader-only');
+    } else {
+      container.classList.add('has-no-headers');
+    }
   }
   
   initializeSwiper() {
@@ -132,7 +153,7 @@ export class AuroSlideshow extends LitElement {
     const nextButton = this.shadowRoot.querySelector('.scroll-next');
     const playPauseButton = this.shadowRoot.querySelector('.play-pause');
     const paginationEl = this.shadowRoot.querySelector('.swiper-pagination');
-    const slot = this.shadowRoot.querySelector('slot');
+    const slot = this.shadowRoot.querySelector('slot:not([name="header"]):not([name="subheader"])');
   
     if (!slot) {
       return;
@@ -274,6 +295,8 @@ export class AuroSlideshow extends LitElement {
   render() {
     return html`
       <div class="container">
+        <slot name="header"></slot>
+        <slot name="subheader"></slot>
         <div class="slideshow-wrapper">
           ${this.navigation ? html`
             <${this.buttonTag} arialabel="chevron-left" iconOnly rounded variant="secondary" class="scroll-prev">
