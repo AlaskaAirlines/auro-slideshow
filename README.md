@@ -80,7 +80,7 @@ import "@aurodesignsystem/auro-slideshow";
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
 ```html
-<auro-slideshow loop pagination navigation autoplay="2500">
+<auro-slideshow loop pagination navigation autoplay="7000">
   <img src="https://picsum.photos/200?random=0" style="height: 300px; width: 600px;" alt="Random insert 0">
   <img src="https://picsum.photos/200?random=1" style="height: 300px; width: 200px;" alt="Random insert 1">
   <img src="https://picsum.photos/200?random=2" style="height: 300px; width: 300px;" alt="Random insert 2">
@@ -131,7 +131,7 @@ The `<auro-slideshow>` element should be used in situations where users may:
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
 ```html
-<auro-slideshow loop pagination navigation autoplay="2500">
+<auro-slideshow loop pagination navigation autoplay="7000">
   <img src="https://picsum.photos/200?random=0" style="height: 300px; width: 600px;" alt="Random insert 0">
   <img src="https://picsum.photos/200?random=1" style="height: 300px; width: 200px;" alt="Random insert 1">
   <img src="https://picsum.photos/200?random=2" style="height: 300px; width: 300px;" alt="Random insert 2">

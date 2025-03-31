@@ -16,36 +16,41 @@
 @import '../node_modules/swiper/modules/pagination.scss';
 @import '../node_modules/swiper/modules/navigation.scss';
 
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Container wraps slideshow + pagination */
+.container {
+  display: flex;
+  flex-direction: column;    /* Stack slideshow and pagination */
+  align-items: flex-start;   /* Align content to the left */
+  width: 100%;
+}
+
+/* Slideshow container */
+.slideshow-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Swiper container */
 .swiper {
-  display: flex; /* Ensure it only expands based on its children */
-  width: auto; /* Adjust to content width */
+  width: 100%;
   height: auto;
+  max-width: 100%;
 }
 
 .swiper-wrapper {
-  display: flex; /* Ensure slides are arranged correctly */
-  width: max-content; /* Ensures it only takes as much space as needed */
-  height: auto;
+  display: flex;
+  height: auto; /* Adjusts height based on images */
 }
 
-.progress-bar-container {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  width: 150px;
-  height: 4px;
-  overflow: hidden;
-  border-radius: 2px;
-  z-index: 10;
-}
-
-.progress-bar {
-  width: 0%;
-  height: 100%;
-  background: #007aff;
-  transition: width 0.25s linear;
-}
-
+/* Navigation Buttons */
 .scroll-prev, 
 .scroll-next {
   position: absolute;
@@ -65,40 +70,85 @@
   right: 10px; 
 }
 
-.swiper-pagination {
-  --swiper-pagination-bottom: -48px;
-  text-align: left !important;
-  left: 0;
-  width: auto;
+.play-pause {
+  --ds-auro-button-border-color: var(--ds-component-button-primary-border, #{$ds-component-button-primary-border});
+  --ds-auro-button-container-color: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
+  --ds-auro-button-container-image: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
 }
 
 .pagination-container {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  position: absolute;
-  left: 10px;
-  z-index: 10;
-  margin-top: 16px;
-}
-
-.play-pause {
-  margin-right: 8px; /* Proper spacing between button and bullets */
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 40px;
 }
 
 .swiper-pagination {
   display: flex !important;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: flex-start; /* Ensures pagination bullets stay aligned left */
-  position: relative !important;
-  left: 0 !important;
-  width: auto !important;
-  bottom: unset !important;
+  flex-direction: row;
+  left: 58px !important;
+  width: unset !important;
+
+  --swiper-pagination-bottom: none;
+  --swiper-pagination-bullet-inactive-color: #CFE0EF;
+  --swiper-pagination-bullet-inactive-opacity: none;
 }
 
-/* Ensure bullets are aligned correctly */
 .swiper-pagination-bullet {
-  background-color: #007bff !important;
-  margin: 0 4px !important; /* Controls spacing between bullets */
+  width: 12px;                
+  height: 12px;
+  border-radius: 50%;
+  background-color: none;      
+  position: relative;          
+  transition: background-color 0.3s;
+
+  --swiper-pagination-bullet-horizontal-gap: 10px;
 }
 
+/* Creates 24x24px clickable area for bullet */
+.swiper-pagination-bullet::before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;              
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: transparent;
+}
 
+/* Active bullet with progress bar and border radius */
+.swiper-pagination-bullet-active {
+  background-color: transparent;  
+  width: 52px;
+  height: 12px;                     
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;                
+}
+
+/* Progress bar container with border radius */
+.pagination-swiper-up__progress-bar-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;  
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #CFE0EF; // Token does not exist yet: var(--ds-color-button-primary-background-inactive, $ds-color-button-primary-background-inactive);
+  border-radius: 12px;
+}
+
+/* Animated progress bar with rounded edges */
+.pagination-swiper-up__progress {
+  width: 0%;          
+  height: 100%;
+  background: var(--ds-component-button-primary-background, $ds-component-button-primary-background);
+  transition: width 0.3s ease; 
+  border-radius: 12px;
+}

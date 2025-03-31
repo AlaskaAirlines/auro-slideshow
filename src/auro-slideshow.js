@@ -132,9 +132,8 @@ export class AuroSlideshow extends LitElement {
     const nextButton = this.shadowRoot.querySelector('.scroll-next');
     const playPauseButton = this.shadowRoot.querySelector('.play-pause');
     const paginationEl = this.shadowRoot.querySelector('.swiper-pagination');
-    const progressBar = this.shadowRoot.querySelector('.progress-bar');
     const slot = this.shadowRoot.querySelector('slot');
-
+  
     if (!slot) {
       return;
     }
@@ -147,7 +146,7 @@ export class AuroSlideshow extends LitElement {
       console.warn("No slides found inside slot.");
       return; // Avoid initializing if no slides are present
     }
-
+  
     assignedSlides.forEach(slide => {
       slide.classList.add('swiper-slide');
       slide.part = 'slide';
@@ -172,47 +171,34 @@ export class AuroSlideshow extends LitElement {
       spaceBetween: this.spaceBetweenSlides,
       centeredSlides: true,
       autoplay: this.autoplay ? {
-        delay: 2500,
+        delay: 7000,
         disableOnInteraction: false,
         pauseOnMouseEnter: true
       } : false,
-      navigation: this.navigation ? {
-        nextEl: nextButton,
-        prevEl: prevButton,
-      } : false,
-      pagination: this.pagination ? {
+      pagination: {
         el: paginationEl,
-      } : false,
-      on: {
-        slideChangeTransitionStart() {
-          progressBar.style.width = '0%';
-        },
-        slideChangeTransitionEnd() {
-          progressBar.style.width = '100%';
+        clickable: true,
+        renderBullet: (index, className) => {
+          // Render a circular bullet for non-active slides, progress bar for active slides
+          return `
+            <span class="${className}">
+              <div class="pagination-swiper-up__progress-bar-container">
+                <div class="pagination-swiper-up__progress"></div>
+              </div>
+            </span>
+          `;
         }
       }
     };
-
-    if (this.pagination) {
-      swiperConfig.pagination = {
-        el: paginationEl,
-        clickable: true,
-      };
-    }
-
+  
     if (this.navigation) {
       swiperConfig.navigation = {
         nextEl: nextButton,
-        prevEl: prevButton,
+        prevEl: prevButton
       };
     }
   
     if (this.autoplay) {
-      swiperConfig.on.autoplayTimeLeft = (...args) => {
-        const progress = args[args.length - 1];
-        progressBar.style.width = `${(1 - progress) * 100}%`;
-      };
-
       playPauseButton.addEventListener('click', () => {
         if (this.swiper.autoplay.running) {
           this.swiper.autoplay.stop();
@@ -239,10 +225,34 @@ export class AuroSlideshow extends LitElement {
     prevButton.addEventListener('click', () => {
       this.swiper.slidePrev();
     });
+
+    // TODO: Add logic to the progress bar for pausing and playing the slideshow
+    this.swiper.on('slideChange', () => {
+      const activeBullet = this.shadowRoot.querySelector('.swiper-pagination-bullet-active');
   
+      // Reset all progress bars
+      const allBullets = this.shadowRoot.querySelectorAll('.swiper-pagination-bullet');
+      allBullets.forEach(bullet => {
+        const progressBar = bullet.querySelector('.pagination-swiper-up__progress');
+        if (progressBar) {
+          progressBar.style.transition = 'none'; // Disable transition for reset
+          progressBar.style.width = '0%'; // Reset width for all bullets
+        }
+      });
+  
+      // Animate the progress bar of the active bullet
+      if (activeBullet) {
+        const progressBar = activeBullet.querySelector('.pagination-swiper-up__progress');
+        if (progressBar) {
+          progressBar.style.transition = `width ${swiperConfig.autoplay.delay}ms linear`;
+          progressBar.style.width = '100%'; // Fill progress bar to 100%
+        }
+      }
+    });
+
     // Reattach the slotchange event listener after the swiper is initialized
     slot.addEventListener('slotchange', this.slotChangeListener);
-  }  
+  }
   
   /**
    * Internal function to generate the HTML for the icon to use.
@@ -263,34 +273,35 @@ export class AuroSlideshow extends LitElement {
 
   render() {
     return html`
-      ${this.navigation ? html`
-        <${this.buttonTag} arialabel="chevron-left" iconOnly rounded variant="secondary" class="scroll-prev">
-          ${this.generateIconHtml(chevronLeft.svg)}
-          <span class="util_displayHiddenVisually">Scroll Left</span>
-        </${this.buttonTag}>
-
-        <${this.buttonTag} arialabel="chevron-right" iconOnly rounded variant="secondary" class="scroll-next">
-          ${this.generateIconHtml(chevronRight.svg)}
-          <span class="util_displayHiddenVisually">Scroll Right</span>
-        </${this.buttonTag}>
-      ` : undefined }
-      <div class="swiper">
-        <div class="swiper-wrapper">
-          <slot></slot>
+      <div class="container">
+        <div class="slideshow-wrapper">
+          ${this.navigation ? html`
+            <${this.buttonTag} arialabel="chevron-left" iconOnly rounded variant="secondary" class="scroll-prev">
+              ${this.generateIconHtml(chevronLeft.svg)}
+              <span class="util_displayHiddenVisually">Scroll Left</span>
+            </${this.buttonTag}>
+  
+            <${this.buttonTag} arialabel="chevron-right" iconOnly rounded variant="secondary" class="scroll-next">
+              ${this.generateIconHtml(chevronRight.svg)}
+              <span class="util_displayHiddenVisually">Scroll Right</span>
+            </${this.buttonTag}>
+          ` : undefined }
+  
+          <div class="swiper">
+            <div class="swiper-wrapper">
+              <slot></slot>
+            </div>
+          </div>
         </div>
   
-        <div class="progress-bar-container">
-          <div class="progress-bar"></div>
+        <div class="pagination-container">
+          <${this.buttonTag} arialabel="play-pause" iconOnly rounded class="play-pause">
+            ${this.generateIconHtml(arrowUp.svg)}
+            <span class="util_displayHiddenVisually">Play/Pause</span>
+          </${this.buttonTag}>
+          <div class="swiper-pagination"></div>
         </div>
       </div>
-
-      <div class="pagination-container">
-        <${this.buttonTag} arialabel="play-pause" iconOnly rounded class="play-pause">
-          ${this.generateIconHtml(arrowUp.svg)}
-          <span class="util_displayHiddenVisually">Play/Pause</span>
-        </${this.buttonTag}>
-        <div class="swiper-pagination"></div>
-      </div>
     `;
-  }
+  }  
 }
