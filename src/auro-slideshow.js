@@ -21,7 +21,9 @@ import iconVersion from './iconVersion.js';
 import chevronRight from '@alaskaairux/icons/dist/icons/interface/chevron-right.mjs';
 import chevronLeft from '@alaskaairux/icons/dist/icons/interface/chevron-left.mjs';
 
+// These should be replaced with pause/play icons when created by design
 import arrowUp from '@alaskaairux/icons/dist/icons/interface/arrow-up.mjs';
+import arrowDown from '@alaskaairux/icons/dist/icons/interface/arrow-down.mjs';
 
 import styleCss from './style-css.js';
 
@@ -29,14 +31,19 @@ export class AuroSlideshow extends LitElement {
   constructor() {
     super();
 
-    this.autoplay = undefined;
+    this.autoplay = 7000;
     this.pagination = false;
     this.navigation = false;
     this.loop = false;
-    this.slidesPerView = 1;
-    this.spaceBetweenSlides = 30;
+    this.slidesPerView = "auto";
+    this.spaceBetweenSlides = 16;
 
     const versioning = new AuroDependencyVersioning();
+
+    /**
+     * @private
+     */
+    this.isPlaying = true;
 
     /**
      * @private
@@ -71,6 +78,10 @@ export class AuroSlideshow extends LitElement {
       autoplay: {
         type: Number,
         reflect: true
+      },
+
+      isPlaying: {
+        type: Boolean
       },
 
       /**
@@ -188,19 +199,18 @@ export class AuroSlideshow extends LitElement {
     const swiperConfig = {
       modules: [Navigation, Pagination, Autoplay],
       loop: this.loop,
-      slidesPerView: "auto",
+      slidesPerView: this.slidesPerView,
       spaceBetween: this.spaceBetweenSlides,
       centeredSlides: true,
       autoplay: this.autoplay ? {
-        delay: 7000,
+        delay: this.autoplay,
         disableOnInteraction: false,
         pauseOnMouseEnter: true
       } : false,
       pagination: {
         el: paginationEl,
         clickable: true,
-        renderBullet: (index, className) => {
-          // Render a circular bullet for non-active slides, progress bar for active slides
+        renderBullet: (_, className) => {
           return `
             <span class="${className}">
               <div class="pagination-swiper-up__progress-bar-container">
@@ -217,15 +227,26 @@ export class AuroSlideshow extends LitElement {
         nextEl: nextButton,
         prevEl: prevButton
       };
+
+      // Event listeners for navigation buttons
+      nextButton.addEventListener('click', () => {
+        this.swiper.slideNext();
+      });
+    
+      prevButton.addEventListener('click', () => {
+        this.swiper.slidePrev();
+      });
     }
   
     if (this.autoplay) {
       playPauseButton.addEventListener('click', () => {
         if (this.swiper.autoplay.running) {
           this.swiper.autoplay.stop();
+          this.isPlaying = false;
           playPauseButton.setAttribute('aria-label', 'play');
         } else {
           this.swiper.autoplay.start();
+          this.isPlaying = true;
           playPauseButton.setAttribute('aria-label', 'pause');
         }
       });
@@ -238,15 +259,6 @@ export class AuroSlideshow extends LitElement {
       this.swiper = new Swiper(swiperElement, swiperConfig);
     }
   
-    // Event listeners for navigation buttons
-    nextButton.addEventListener('click', () => {
-      this.swiper.slideNext();
-    });
-  
-    prevButton.addEventListener('click', () => {
-      this.swiper.slidePrev();
-    });
-
     // TODO: Add logic to the progress bar for pausing and playing the slideshow
     this.swiper.on('slideChange', () => {
       const activeBullet = this.shadowRoot.querySelector('.swiper-pagination-bullet-active');
@@ -279,15 +291,16 @@ export class AuroSlideshow extends LitElement {
    * Internal function to generate the HTML for the icon to use.
    * @private
    * @param {string} svgContent - The SVG content to be embedded.
+   * @param {boolean} hideIcon - Whether the icon should be hidden
    * @returns {Element} The HTML element containing the SVG icon.
    */
-  generateIconHtml(svgContent) {
+  generateIconHtml(svgContent, hideIcon) {
     const dom = new DOMParser().parseFromString(svgContent, 'text/html');
     const svg = dom.body.firstChild;
 
     svg.setAttribute('slot', 'svg');
 
-    const iconHtml = html`<${this.iconTag} customColor customSvg slot="icon">${svg}</${this.iconTag}>`;
+    const iconHtml = html`<${this.iconTag} customColor customSvg slot="icon" ?hidden="${hideIcon}">${svg}</${this.iconTag}>`;
 
     return iconHtml;
   }
@@ -319,7 +332,8 @@ export class AuroSlideshow extends LitElement {
   
         <div class="pagination-container">
           <${this.buttonTag} arialabel="play-pause" iconOnly rounded class="play-pause">
-            ${this.generateIconHtml(arrowUp.svg)}
+            ${this.generateIconHtml(arrowUp.svg, !this.isPlaying)}
+            ${this.generateIconHtml(arrowDown.svg, this.isPlaying)}
             <span class="util_displayHiddenVisually">Play/Pause</span>
           </${this.buttonTag}>
           <div class="swiper-pagination"></div>
