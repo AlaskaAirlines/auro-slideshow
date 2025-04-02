@@ -21,11 +21,10 @@
   width: 100%;
 }
 
-/* Container wraps slideshow + pagination */
 .container {
   display: flex;
-  flex-direction: column;    /* Stack slideshow and pagination */
-  align-items: flex-start;   /* Align content to the left */
+  flex-direction: column;
+  align-items: flex-start;
   width: 100%;
 }
 
@@ -40,7 +39,7 @@ slot[name="subheader"] {
   display: block;
   line-height: 26px;
   font-size: 18px;
-  color: var(--ds-color-texticon-muted, $ds-color-texticon-muted);
+  color: var(--ds-color-texticon-muted, #{$ds-color-texticon-muted});
   font-weight: 450; // font-weight not applying correctly
 }
 
@@ -57,7 +56,6 @@ slot[name="subheader"] {
   margin-bottom: 40px;
 }
 
-/* Slideshow container */
 .slideshow-wrapper {
   position: relative;
   width: 100%;
@@ -66,7 +64,6 @@ slot[name="subheader"] {
   align-items: center;
 }
 
-/* Swiper container */
 .swiper {
   width: 100%;
   height: auto;
@@ -78,7 +75,6 @@ slot[name="subheader"] {
   height: auto; /* Adjusts height based on images */
 }
 
-/* Navigation Buttons */
 .scroll-prev, 
 .scroll-next {
   position: absolute;
@@ -122,8 +118,6 @@ slot[name="subheader"] {
   width: unset !important;
 
   --swiper-pagination-bottom: none;
-  --swiper-pagination-bullet-inactive-color: #CFE0EF;
-  --swiper-pagination-bullet-inactive-opacity: none;
 }
 
 .swiper-pagination-bullet {
@@ -131,10 +125,20 @@ slot[name="subheader"] {
   height: 12px;
   border-radius: 50%;
   background-color: none;      
-  position: relative;          
-  transition: background-color 0.3s;
-
+  position: relative;   
+  
   --swiper-pagination-bullet-horizontal-gap: 10px;
+  --swiper-pagination-bullet-inactive-color: #CFE0EF; // Token does not exist yet: var(--ds-color-button-primary-background-inactive, $ds-color-button-primary-background-inactive);
+  --swiper-pagination-bullet-inactive-opacity: none;
+
+  &:focus, &:focus-visible {
+    outline: 2px solid var(--ds-component-focused, #{$ds-component-focused});
+    outline-offset: 2px;
+  }
+
+  &:hover {
+    --swiper-pagination-bullet-inactive-color: #89B2D4; // Color does not exist yet: var(--ds-component-button-primary-background-inactive-hover, #{$ds-component-button-primary-background-inactive-hover});
+  }
 }
 
 /* Creates 24x24px clickable area for bullet */
@@ -170,13 +174,16 @@ slot[name="subheader"] {
   left: 0;
   background: #CFE0EF; // Token does not exist yet: var(--ds-color-button-primary-background-inactive, $ds-color-button-primary-background-inactive);
   border-radius: 12px;
+
+  &:hover {
+    background: #89B2D4; // Token does not exist yet: var(--ds-component-button-primary-background-inactive-hover, #{$ds-component-button-primary-background-inactive-hover});
+  }
 }
 
 /* Animated progress bar with rounded edges */
 .pagination-swiper-up__progress {
-  width: 0%;          
+  width: 0%;
   height: 100%;
-  background: var(--ds-component-button-primary-background, $ds-component-button-primary-background);
-  transition: width 0.3s ease; 
+  background: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
   border-radius: 12px;
 }

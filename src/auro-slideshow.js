@@ -212,7 +212,7 @@ export class AuroSlideshow extends LitElement {
         clickable: true,
         renderBullet: (_, className) => {
           return `
-            <span class="${className}">
+            <span class="${className}"  tabindex="0">
               <div class="pagination-swiper-up__progress-bar-container">
                 <div class="pagination-swiper-up__progress"></div>
               </div>
@@ -258,13 +258,23 @@ export class AuroSlideshow extends LitElement {
     } else {
       this.swiper = new Swiper(swiperElement, swiperConfig);
     }
+
+    const allBullets = this.shadowRoot.querySelectorAll('.swiper-pagination-bullet');
+
+    allBullets.forEach(bullet => {
+      bullet.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();  // Prevent scrolling if space is used
+          bullet.click();  // Simulate a click event
+        }
+      });
+    });
   
     // TODO: Add logic to the progress bar for pausing and playing the slideshow
     this.swiper.on('slideChange', () => {
       const activeBullet = this.shadowRoot.querySelector('.swiper-pagination-bullet-active');
   
       // Reset all progress bars
-      const allBullets = this.shadowRoot.querySelectorAll('.swiper-pagination-bullet');
       allBullets.forEach(bullet => {
         const progressBar = bullet.querySelector('.pagination-swiper-up__progress');
         if (progressBar) {
