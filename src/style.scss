@@ -74,6 +74,10 @@ slot[name="subheader"] {
 .swiper-wrapper {
   display: flex;
   height: auto; /* Adjusts height based on images */
+
+  & > * {
+    border-radius: 15px;
+  }
 }
 
 .play-pause {
@@ -171,6 +175,13 @@ slot[name="subheader"] {
   border-radius: 12px;
 }
 
+:host([variant="slideshow"]) {
+  .swiper {
+    width: calc(100% + 64px);
+    padding-left: 64px;
+    margin-left: -64px;
+  }
+}
 :host([variant="slider"]) {
   .slideshow-wrapper {
     // setting side space for sneak peak and prev/next buttons
