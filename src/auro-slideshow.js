@@ -117,7 +117,7 @@ export class AuroSlideshow extends LitElement {
       },
 
       /**
-       * 'slideshow': pagination indicators will be showing underneat and auto-play progress bar
+       * 'slideshow': pagination indicators will be showing underneat with auto-play the progressbar
        * `slider`: prev/next button will show on hover and there will be no pagination indicator
        * @default 'slidershow'
        */
