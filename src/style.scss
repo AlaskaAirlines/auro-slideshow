@@ -75,6 +75,10 @@ slot[name="subheader"] {
 .swiper-wrapper {
   display: flex;
   height: auto; /* Adjusts height based on images */
+
+  & > * {
+    border-radius: 15px;
+  }
 }
 
 .swiper-slide:not(.swiper-slide-active) {
