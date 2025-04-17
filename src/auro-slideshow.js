@@ -36,10 +36,10 @@ export class AuroSlideshow extends LitElement {
     this.autoplay = false;
     this.delay = 3000; // Set default to 7000
     this.pagination = false;
-    this.navigation = false;
     this.loop = false;
     this.slidesPerView = "auto";
     this.spaceBetweenSlides = 16;
+    this.variant = "slideshow";
 
     const versioning = new AuroDependencyVersioning();
 
@@ -100,14 +100,6 @@ export class AuroSlideshow extends LitElement {
       },
 
       /**
-       * If true, the slideshow will display navigation arrows for manual slide navigation.
-       */
-      navigation: {
-        type: Boolean,
-        reflect: true
-      },
-
-      /**
        * If true, the slideshow will display pagination bullets for each slide.
        */
       pagination: {
@@ -128,6 +120,17 @@ export class AuroSlideshow extends LitElement {
        */
       spaceBetweenSlides: {
         type: Number
+      },
+
+      /**
+       * 'slideshow': pagination indicators will be showing underneat and auto-play progress bar
+       * `slider`: prev/next button will show on hover and there will be no pagination indicator
+       * @default 'slidershow'
+       */
+      variant: {
+        // 'slideshow', 'slider'
+        type: String,
+        reflect: true,
       }
     };
   }
