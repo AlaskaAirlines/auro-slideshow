@@ -18,6 +18,9 @@ import buttonVersion from './buttonVersion.js';
 import { AuroIcon } from '@aurodesignsystem/auro-icon/src/auro-icon.js';
 import iconVersion from './iconVersion.js';
 
+import { AuroHeader } from '@aurodesignsystem/auro-header/src/auro-header.js';
+import headerVersion from './headerVersion.js';
+
 import chevronRight from '@alaskaairux/icons/dist/icons/interface/chevron-right.mjs';
 import chevronLeft from '@alaskaairux/icons/dist/icons/interface/chevron-left.mjs';
 
@@ -54,6 +57,11 @@ export class AuroSlideshow extends LitElement {
      * @private
      */
     this.iconTag = versioning.generateTag('auro-icon', iconVersion, AuroIcon);
+
+    /**
+     * @private
+     */
+    this.headerTag = versioning.generateTag('auro-header', headerVersion, AuroHeader);
   }
 
   /**
@@ -313,8 +321,12 @@ export class AuroSlideshow extends LitElement {
   render() {
     return html`
       <div class="container">
-        <slot name="header"></slot>
-        <slot name="subheader"></slot>
+        <${this.headerTag} class="header" display="700" level="2" no-margin-block>
+          <slot name="header"></slot>
+        </${this.headerTag}>
+        <${this.headerTag} class="subheader" display="400" level="3" no-margin-block>
+          <slot name="subheader"></slot>
+        </${this.headerTag}>
         <div class="slideshow-wrapper">
           <div class="swiper">
             <div class="swiper-wrapper">

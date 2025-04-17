@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------------
 
 // Import Auro tokens
+@import './../node_modules/@aurodesignsystem/design-tokens/dist/auro-classic/SCSSVariables';
 @import './../node_modules/@aurodesignsystem/design-tokens/dist/alaska/SCSSVariables--alaska';
 @import './../node_modules/@aurodesignsystem/design-tokens/dist/alaska/SCSSVariablesMapFlat--alaska';
 
@@ -28,32 +29,21 @@
   align-items: flex-start;
 }
 
-slot[name="header"] {
-  display: block;
-  line-height: 44px;
-  font-size: 36px;
-  font-weight: 300; // font-weight not applying correctly
+.subheader {
+  color: var(--ds-basic-color-texticon-muted, #{$ds-basic-color-texticon-muted});
 }
 
-slot[name="subheader"] {
-  display: block;
-  line-height: 26px;
-  font-size: 18px;
-  color: var(--ds-color-texticon-muted, #{$ds-color-texticon-muted});
-  font-weight: 450; // font-weight not applying correctly
+.container.has-both-headers .subheader {
+  margin-top: var(--ds-size-150, $ds-size-150);
+  margin-bottom: var(--ds-size-500, $ds-size-500);
 }
 
-.container.has-both-headers slot[name="subheader"] {
-  margin-top: 12px;
-  margin-bottom: 40px;
+.container.has-header-only .header {
+  margin-bottom: var(--ds-size-500, $ds-size-500);
 }
 
-.container.has-header-only slot[name="header"] {
-  margin-bottom: 40px;
-}
-
-.container.has-subheader-only slot[name="subheader"] {
-  margin-bottom: 40px;
+.container.has-subheader-only .subheader {
+  margin-bottom: var(--ds-size-500, $ds-size-500);
 }
 
 .slideshow-wrapper {
@@ -76,14 +66,14 @@ slot[name="subheader"] {
   height: auto; /* Adjusts height based on images */
 
   & > * {
-    border-radius: 15px;
+    border-radius: var(--ds-size-200, $ds-size-200);
   }
 }
 
 .play-pause {
-  --ds-auro-button-border-color: var(--ds-component-button-primary-border, #{$ds-component-button-primary-border});
-  --ds-auro-button-container-color: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
-  --ds-auro-button-container-image: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
+  --ds-auro-button-border-color: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
+  --ds-auro-button-container-color: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
+  --ds-auro-button-container-image:var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
 }
 
 .pagination-container {
@@ -101,30 +91,30 @@ slot[name="subheader"] {
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  padding-left: 58px;
+  padding-left: var(--ds-size-700, $ds-size-700);;
   width: unset;
 
   --swiper-pagination-bottom: none;
 }
 
 .swiper-pagination-bullet {
-  width: 12px;                
-  height: 12px;
+  width: var(--ds-size-150, $ds-size-150);
+  height: var(--ds-size-150, $ds-size-150);
   border-radius: 50%;
   background-color: none;      
   position: relative;   
   
-  --swiper-pagination-bullet-horizontal-gap: 10px;
-  --swiper-pagination-bullet-inactive-color: #CFE0EF; // Token does not exist yet: var(--ds-color-button-primary-background-inactive, $ds-color-button-primary-background-inactive);
+  --swiper-pagination-bullet-horizontal-gap: var(--ds-size-100, $ds-size-100); // margin for each side
+  --swiper-pagination-bullet-inactive-color: var(--ds-advanced-color-button-primary-background-inactive, $ds-advanced-color-button-primary-background-inactive); // Token does not exist yet: var(--ds-color-button-primary-background-inactive, $ds-color-button-primary-background-inactive);
   --swiper-pagination-bullet-inactive-opacity: none;
 
   &:focus, &:focus-visible {
-    outline: 2px solid var(--ds-component-focused, #{$ds-component-focused});
+    outline: 2px solid var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
     outline-offset: 2px;
   }
 
   &:hover {
-    --swiper-pagination-bullet-inactive-color: #89B2D4; // Color does not exist yet: var(--ds-component-button-primary-background-inactive-hover, #{$ds-component-button-primary-background-inactive-hover});
+    --swiper-pagination-bullet-inactive-color: var(--ds-advanced-color-button-primary-background-inactive-hover, $ds-advanced-color-button-primary-background-inactive-hover); // Color does not exist yet: var(--ds-component-button-primary-background-inactive-hover, #{$ds-component-button-primary-background-inactive-hover});
   }
 }
 
@@ -145,9 +135,9 @@ slot[name="subheader"] {
 .swiper-pagination-bullet-active {
   background-color: transparent;  
   width: 52px;
-  height: 12px;                     
+  height: var(--ds-size-150, $ds-size-150);                     
   position: relative;
-  border-radius: 12px;
+  border-radius: var(--ds-size-150, $ds-size-150);
   overflow: hidden;                
 }
 
@@ -159,11 +149,11 @@ slot[name="subheader"] {
   position: absolute;
   top: 0;
   left: 0;
-  background: #CFE0EF; // Token does not exist yet: var(--ds-color-button-primary-background-inactive, $ds-color-button-primary-background-inactive);
-  border-radius: 12px;
+  background: var(--ds-advanced-color-button-primary-background-inactive, $ds-advanced-color-button-primary-background-inactive); // Token does not exist yet: var(--ds-color-button-primary-background-inactive, $ds-color-button-primary-background-inactive);
+  border-radius: var(--ds-size-150, $ds-size-150);
 
   &:hover {
-    background: #89B2D4; // Token does not exist yet: var(--ds-component-button-primary-background-inactive-hover, #{$ds-component-button-primary-background-inactive-hover});
+    background: var(--ds-advanced-color-button-primary-background-inactive-hover, $ds-advanced-color-button-primary-background-inactive-hover); // Token does not exist yet: var(--ds-component-button-primary-background-inactive-hover, #{$ds-component-button-primary-background-inactive-hover});
   }
 }
 
@@ -171,25 +161,25 @@ slot[name="subheader"] {
 .pagination-swiper-up__progress {
   width: 0%;
   height: 100%;
-  background: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
-  border-radius: 12px;
+  background: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
+  border-radius:  var(--ds-size-150, $ds-size-150);
 }
 
 :host([variant="slideshow"]) {
   .swiper {
-    width: calc(100% + 64px);
-    padding-left: 64px;
-    margin-left: -64px;
+    width: calc(100% + var(--ds-size-800, #{$ds-size-800}));
+    padding-left: var(--ds-size-800, #{$ds-size-800});
+    margin-left: calc(var(--ds-size-800, #{$ds-size-800}) * -1);
   }
 }
 :host([variant="slider"]) {
   .slideshow-wrapper {
     // setting side space for sneak peak and prev/next buttons
-    width: calc(100% + 64px);
-    padding-left: 64px;
-    padding-right: 64px;
-    margin-left: -64px;
-    margin-right: -64px;
+    width: calc(100% + var(--ds-size-800, #{$ds-size-800}));
+    padding-left: var(--ds-size-800, #{$ds-size-800});
+    padding-right: var(--ds-size-800, #{$ds-size-800});
+    margin-left: calc(var(--ds-size-800, #{$ds-size-800}) * -1);
+    margin-right: calc(var(--ds-size-800, #{$ds-size-800}) * -1);
   }
 
   .swiper-pagination{
@@ -197,7 +187,7 @@ slot[name="subheader"] {
   }
 
   .swiper {
-    width: calc(100% - 64px);
+    width: calc(100% - var(--ds-size-800, #{$ds-size-800}));
   }
 
   .chevron-left,
@@ -207,26 +197,24 @@ slot[name="subheader"] {
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-
-    --ds-auro-button-border-color: var(--ds-component-button-primary-border, #{$ds-component-button-primary-border});
-    --ds-auro-button-container-color: var(--ds-component-focused, #{$ds-component-focused});
-    --ds-auro-button-container-image: var(--ds-component-focused, #{$ds-component-focused});
+    --ds-auro-button-border-color: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
+    --ds-auro-button-container-color: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
+    --ds-auro-button-container-image: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
     opacity: 0.4;
 
-    color: var(--ds-component-background, #{$ds-component-background});
+    color: var(--ds-advanced-color-button-primary-text, #{$ds-advanced-color-button-primary-text});
   }
 
   .chevron-left {
-    left: 8px;
+    left: var(--ds-size-100, $ds-size-100);;
   }
 
   .chevron-right {
-    right: calc(64px + 8px);
+    right: calc(var(--ds-size-800, #{$ds-size-800}) + var(--ds-size-100, $ds-size-100));
   }
 
   .slideshow-wrapper:hover .chevron-left,
   .slideshow-wrapper:hover .chevron-right {
     display: block;
   }
-
 }
