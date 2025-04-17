@@ -10,4 +10,4 @@ const compat = new FlatCompat({
     recommendedConfig: js.configs.recommended,
     allConfig: js.configs.all
 });
-export default [...compat.extends("@aurodesignsystem/eslint-config")];
+export default [{ ignores: [ 'nodemodules/**', 'src/*Version.js']}, ...compat.extends("@aurodesignsystem/eslint-config")];

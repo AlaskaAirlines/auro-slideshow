@@ -1,3 +1,6 @@
+/* eslint-disable max-lines */
+/* eslint-disable lit/no-invalid-html */
+/* eslint-disable lit/binding-positions */
 // Copyright (c) 2025 Alaska Airlines. All right reserved. Licensed under the Apache-2.0 license
 // See LICENSE in the project root for license information.
 
@@ -46,11 +49,6 @@ export class AuroSlideshow extends LitElement {
     /**
      * @private
      */
-    this.isPlaying = true;
-
-    /**
-     * @private
-     */
     this.buttonTag = versioning.generateTag('auro-button', buttonVersion, AuroButton);
 
     /**
@@ -89,10 +87,6 @@ export class AuroSlideshow extends LitElement {
         reflect: true
       },
 
-      isPlaying: {
-        type: Boolean
-      },
-
       /**
        * If true, the slideshow will loop back to the first slide after reaching the last slide. Defaults to false.
        */
@@ -125,8 +119,8 @@ export class AuroSlideshow extends LitElement {
       },
 
       /**
-       * 'slideshow': pagination indicators will be showing underneat with auto-play the progressbar
-       * `slider`: prev/next button will show on hover and there will be no pagination indicator
+       * 'slideshow': pagination indicators will be showing underneat with auto-play the progressbar.
+       * `slider`: prev/next button will show on hover and there will be no pagination indicator.
        * @default 'slidershow'
        */
       variant: {
@@ -138,18 +132,14 @@ export class AuroSlideshow extends LitElement {
   }
 
   firstUpdated() {
+    AuroLibraryRuntimeUtils.prototype.handleComponentTagRename(this, 'auro-slideshow');
+
     this.handleHeaderSlotContent();
-
-    const slot = this.shadowRoot.querySelector('slot:not([name="header"]):not([name="subheader"])');
-
-    // Listen for the slotchange event to handle updates to slot content
-    this.slotChangeListener = () => {
-      this.initializeSwiper();
-    };
-
-    slot.addEventListener('slotchange', this.slotChangeListener);
   }
 
+  /**
+   * @private
+   */
   handleHeaderSlotContent() {
     const container = this.shadowRoot.querySelector('.container');
     const headerSlot = this.shadowRoot.querySelector('slot[name="header"]');
@@ -168,143 +158,149 @@ export class AuroSlideshow extends LitElement {
       container.classList.add('has-no-headers');
     }
   }
-  
-  initializeSwiper() {
+
+  get isPlaying() {
+    if (!this.swiper || !this.swiper.autoplay) {
+      return true;
+    }
+    return this.swiper.autoplay.running && !this.swiper.autoplay.paused;
+  }
+
+  togglePlay() {
+    if (this.isPlaying) {
+      this.swiper.autoplay.pause();
+    } else {
+      this.swiper.autoplay.resume();
+    }
+
+    // rerender elements
+    this.requestUpdate();
+  }
+
+  /**
+   * 
+   * @param {@private} event 
+   * @returns 
+   */
+  initializeSwiper(event) {
+    if (!event || !event.target) {
+      return;
+    }
+
     const swiperElement = this.shadowRoot.querySelector('.swiper');
     const swiperWrapper = this.shadowRoot.querySelector('.swiper-wrapper');
     const prevButton = this.shadowRoot.querySelector('.scroll-prev');
     const nextButton = this.shadowRoot.querySelector('.scroll-next');
-    const playPauseButton = this.shadowRoot.querySelector('.play-pause');
     const paginationEl = this.shadowRoot.querySelector('.swiper-pagination');
-    const slot = this.shadowRoot.querySelector('slot:not([name="header"]):not([name="subheader"])');
-  
-    if (!slot) {
-      return;
-    }
-  
+    const slot = event.target;
+
     // Get the assigned slides from the slot
     const assignedSlides = slot.assignedElements();
-    
+
     // Avoid reinitializing Swiper if there are no slides or if the Swiper is already initialized
     if (assignedSlides.length === 0) {
+      // eslint-disable-next-line no-console
       console.warn("No slides found inside slot.");
-      return; // Avoid initializing if no slides are present
+      // Avoid initializing if no slides are present
+      return;
     }
-  
-    assignedSlides.forEach(slide => {
+
+    assignedSlides.forEach((slide) => {
       slide.classList.add('swiper-slide');
       slide.part = 'slide';
     });
-  
-    // Detach the slotchange listener to prevent it from firing while manipulating the slot content
-    slot.removeEventListener('slotchange', this.slotChangeListener);
-  
+
     // Ensure we don't clear the swiper-wrapper content if the slides are updated dynamically
     if (!this.swiper) {
       // If no swiper instance exists, clear the swiper-wrapper and add the new slides
-      swiperWrapper.innerHTML = ''; // Clear the wrapper, only if needed
-      assignedSlides.forEach(slide => {
+      swiperWrapper.innerHTML = '';
+      assignedSlides.forEach((slide) => {
         swiperWrapper.appendChild(slide);
       });
     }
-  
-    const swiperConfig = {
-      modules: [Navigation, Pagination, Autoplay],
-      loop: this.loop,
-      slidesPerView: this.slidesPerView,
-      spaceBetween: this.spaceBetweenSlides,
-      centeredSlides: false,
-      autoplay: this.autoplay ? {
-        delay: this.autoplay,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true
-      } : false,
-      pagination: {
-        el: paginationEl,
-        clickable: true,
-        renderBullet: (_, className) => {
-          return `
-            <span class="${className}"  tabindex="0">
-              <div class="pagination-swiper-up__progress-bar-container">
-                <div class="pagination-swiper-up__progress"></div>
-              </div>
-            </span>
-          `;
-        }
-      }
-    };
 
-    if (this.variant === 'slider') {
-      swiperConfig.navigation = {
-        nextEl: nextButton,
-        prevEl: prevButton
-      };
-    }
-
-    if (this.autoplay) {
-      playPauseButton.addEventListener('click', () => {
-        if (this.swiper.autoplay.running) {
-          this.swiper.autoplay.stop();
-          this.isPlaying = false;
-          playPauseButton.setAttribute('aria-label', 'play');
-        } else {
-          this.swiper.autoplay.start();
-          this.isPlaying = true;
-          playPauseButton.setAttribute('aria-label', 'pause');
-        }
-      });
-    }
-  
     // If the Swiper instance exists, just update it with the new slides
     if (this.swiper) {
       this.swiper.update();
     } else {
+      const swiperConfig = {
+        modules: [
+          Navigation,
+          Pagination,
+          Autoplay
+        ],
+        loop: this.loop,
+        slidesPerView: this.slidesPerView,
+        spaceBetween: this.spaceBetweenSlides,
+        centeredSlides: false,
+        autoplay: this.autoplay ? {
+          delay: this.autoplay,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true
+        } : false,
+        pagination: {
+          el: paginationEl,
+          clickable: true,
+          // eslint-disable-next-line id-length
+          renderBullet: (_, className) => `
+              <span class="${className}"  tabindex="0">
+                <div class="pagination-swiper-up__progress-bar-container">
+                  <div class="pagination-swiper-up__progress"></div>
+                </div>
+              </span>
+            `
+        }
+      };
+
+      if (this.variant === 'slider') {
+        swiperConfig.navigation = {
+          nextEl: nextButton,
+          prevEl: prevButton
+        };
+      }
+
       this.swiper = new Swiper(swiperElement, swiperConfig);
     }
 
     const allBullets = this.shadowRoot.querySelectorAll('.swiper-pagination-bullet');
 
-    allBullets.forEach(bullet => {
-      bullet.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();  // Prevent scrolling if space is used
-          bullet.click();  // Simulate a click event
+    allBullets.forEach((bullet) => {
+      bullet.addEventListener('keydown', (ke) => {
+        if (ke.key === 'Enter' || ke.key === ' ') {
+          // Prevent scrolling if space is used
+          ke.preventDefault();
+
+          // Simulate a click event
+          bullet.click();
         }
       });
-    });
-  
-    // TODO: Add logic to the progress bar for pausing and playing the slideshow
-    this.swiper.on('slideChange', () => {
-      const activeBullet = this.shadowRoot.querySelector('.swiper-pagination-bullet-active');
-  
-      // Reset all progress bars
-      allBullets.forEach(bullet => {
-        const progressBar = bullet.querySelector('.pagination-swiper-up__progress');
-        if (progressBar) {
-          progressBar.style.transition = 'none'; // Disable transition for reset
-          progressBar.style.width = '0%'; // Reset width for all bullets
-        }
-      });
-  
-      // Animate the progress bar of the active bullet
-      if (activeBullet) {
-        const progressBar = activeBullet.querySelector('.pagination-swiper-up__progress');
-        if (progressBar) {
-          progressBar.style.transition = `width ${swiperConfig.autoplay.delay}ms linear`;
-          progressBar.style.width = '100%'; // Fill progress bar to 100%
-        }
-      }
     });
 
-    // Reattach the slotchange event listener after the swiper is initialized
-    slot.addEventListener('slotchange', this.slotChangeListener);
+    this.swiper.on('autoplayTimeLeft', (swiper, timeLeft, percentageLeft) => {
+      const activeBullet = this.shadowRoot.querySelector('.swiper-pagination-bullet-active');
+
+      // Reset all progress bars
+      allBullets.forEach((bullet) => {
+        const progressBar = bullet.querySelector('.pagination-swiper-up__progress');
+        if (progressBar) {
+          if (bullet === activeBullet) {
+            // Fill progress bar to the passed percentage
+            // eslint-disable-next-line no-magic-numbers
+            progressBar.style.width = `${(1 - percentageLeft) * 100}%`;
+          } else {
+            // Reset width for all bullets
+            progressBar.style.width = '0%';
+          }
+        }
+      });
+    });
   }
 
   /**
    * Internal function to generate the HTML for the icon to use.
    * @private
    * @param {string} svgContent - The SVG content to be embedded.
-   * @param {boolean} hideIcon - Whether the icon should be hidden
+   * @param {boolean} hideIcon - Whether the icon should be hidden.
    * @returns {Element} The HTML element containing the SVG icon.
    */
   generateIconHtml(svgContent, hideIcon) {
@@ -330,7 +326,7 @@ export class AuroSlideshow extends LitElement {
         <div class="slideshow-wrapper">
           <div class="swiper">
             <div class="swiper-wrapper">
-              <slot></slot>
+              <slot @slotchange="${this.initializeSwiper}"></slot>
             </div>
           </div>
 
@@ -356,14 +352,17 @@ export class AuroSlideshow extends LitElement {
         </div>
   
         <div class="pagination-container">
-          <${this.buttonTag} arialabel="play-pause" iconOnly rounded class="play-pause">
+          <${this.buttonTag} 
+          arialabel="${this.isPlaying ? 'pause' : 'play'}"
+          iconOnly rounded
+          class="play-pause"
+          @click=${this.togglePlay}>
             ${this.generateIconHtml(arrowUp.svg, !this.isPlaying)}
             ${this.generateIconHtml(arrowDown.svg, this.isPlaying)}
-            <span class="util_displayHiddenVisually">Play/Pause</span>
           </${this.buttonTag}>
           <div class="swiper-pagination"></div>
         </div>
       </div>
     `;
-  }  
+  }
 }

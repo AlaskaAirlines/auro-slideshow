@@ -163,6 +163,7 @@
   height: 100%;
   background: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
   border-radius:  var(--ds-size-150, $ds-size-150);
+  transition: width 10ms linear;
 }
 
 :host([variant="slideshow"]) {
