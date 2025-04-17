@@ -33,10 +33,10 @@ export class AuroSlideshow extends LitElement {
 
     this.autoplay = 7000;
     this.pagination = false;
-    this.navigation = false;
     this.loop = false;
     this.slidesPerView = "auto";
     this.spaceBetweenSlides = 16;
+    this.variant = "slideshow";
 
     const versioning = new AuroDependencyVersioning();
 
@@ -72,6 +72,7 @@ export class AuroSlideshow extends LitElement {
 
   static get properties() {
     return {
+
       /**
        * The time in milliseconds between each slide change. Defaults to undefined.
        */
@@ -88,14 +89,6 @@ export class AuroSlideshow extends LitElement {
        * If true, the slideshow will loop back to the first slide after reaching the last slide. Defaults to false.
        */
       loop: {
-        type: Boolean,
-        reflect: true
-      },
-
-      /**
-       * If true, the slideshow will display navigation arrows for manual slide navigation.
-       */
-      navigation: {
         type: Boolean,
         reflect: true
       },
@@ -121,8 +114,19 @@ export class AuroSlideshow extends LitElement {
        */
       spaceBetweenSlides: {
         type: Number
+      },
+
+      /**
+       * 'slideshow': pagination indicators will be showing underneat and auto-play progress bar
+       * `slider`: prev/next button will show on hover and there will be no pagination indicator
+       * @default 'slidershow'
+       */
+      variant: {
+        // 'slideshow', 'slider'
+        type: String,
+        reflect: true,
       }
-    }
+    };
   }
 
   firstUpdated() {
@@ -134,7 +138,7 @@ export class AuroSlideshow extends LitElement {
     this.slotChangeListener = () => {
       this.initializeSwiper();
     };
-    
+
     slot.addEventListener('slotchange', this.slotChangeListener);
   }
 
@@ -201,7 +205,7 @@ export class AuroSlideshow extends LitElement {
       loop: this.loop,
       slidesPerView: this.slidesPerView,
       spaceBetween: this.spaceBetweenSlides,
-      centeredSlides: true,
+      centeredSlides: false,
       autoplay: this.autoplay ? {
         delay: this.autoplay,
         disableOnInteraction: false,
@@ -221,23 +225,14 @@ export class AuroSlideshow extends LitElement {
         }
       }
     };
-  
-    if (this.navigation) {
+
+    if (this.variant === 'slider') {
       swiperConfig.navigation = {
         nextEl: nextButton,
         prevEl: prevButton
       };
-
-      // Event listeners for navigation buttons
-      nextButton.addEventListener('click', () => {
-        this.swiper.slideNext();
-      });
-    
-      prevButton.addEventListener('click', () => {
-        this.swiper.slidePrev();
-      });
     }
-  
+
     if (this.autoplay) {
       playPauseButton.addEventListener('click', () => {
         if (this.swiper.autoplay.running) {
@@ -296,7 +291,7 @@ export class AuroSlideshow extends LitElement {
     // Reattach the slotchange event listener after the swiper is initialized
     slot.addEventListener('slotchange', this.slotChangeListener);
   }
-  
+
   /**
    * Internal function to generate the HTML for the icon to use.
    * @private
@@ -321,23 +316,31 @@ export class AuroSlideshow extends LitElement {
         <slot name="header"></slot>
         <slot name="subheader"></slot>
         <div class="slideshow-wrapper">
-          ${this.navigation ? html`
-            <${this.buttonTag} arialabel="chevron-left" iconOnly rounded variant="secondary" class="scroll-prev">
-              ${this.generateIconHtml(chevronLeft.svg)}
-              <span class="util_displayHiddenVisually">Scroll Left</span>
-            </${this.buttonTag}>
-  
-            <${this.buttonTag} arialabel="chevron-right" iconOnly rounded variant="secondary" class="scroll-next">
-              ${this.generateIconHtml(chevronRight.svg)}
-              <span class="util_displayHiddenVisually">Scroll Right</span>
-            </${this.buttonTag}>
-          ` : undefined }
-  
           <div class="swiper">
             <div class="swiper-wrapper">
               <slot></slot>
             </div>
           </div>
+
+          <!-- chevron buttons -->
+          ${this.variant === 'slider' ? html`
+            <${this.buttonTag}
+            class="chevron-left"
+            arialabel="Previous Item"
+            rounded
+            iconOnly
+            @click=${() => this.swiper.slidePrev()}>
+              ${this.generateIconHtml(chevronLeft.svg)}
+            </${this.buttonTag}>
+            <${this.buttonTag}
+            class="chevron-right"
+            arialabel="Next Item"
+            rounded
+            iconOnly
+            @click=${() => this.swiper.slideNext()}>
+              ${this.generateIconHtml(chevronRight.svg)}
+            </${this.buttonTag}>
+          ` : ''}
         </div>
   
         <div class="pagination-container">
