@@ -12,9 +12,9 @@
 @import './../node_modules/@aurodesignsystem/webcorestylesheets/src/core';
 @import './../node_modules/@aurodesignsystem/webcorestylesheets/src/animation';
 
-@import '../node_modules/swiper/swiper.scss';
-@import '../node_modules/swiper/modules/pagination.scss';
-@import '../node_modules/swiper/modules/navigation.scss';
+@import '../node_modules/swiper/swiper';
+@import '../node_modules/swiper/modules/pagination';
+@import '../node_modules/swiper/modules/navigation';
 
 :host {
   display: block;
@@ -23,9 +23,9 @@
 
 .container {
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%;
 }
 
 slot[name="header"] {
@@ -66,6 +66,7 @@ slot[name="subheader"] {
 
 .swiper {
   width: 100%;
+  margin-left: 0;
   height: auto;
   max-width: 100%;
 }
@@ -73,25 +74,6 @@ slot[name="subheader"] {
 .swiper-wrapper {
   display: flex;
   height: auto; /* Adjusts height based on images */
-}
-
-.scroll-prev, 
-.scroll-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.scroll-prev { 
-  left: 10px; 
-}
-
-.scroll-next { 
-  right: 10px; 
 }
 
 .play-pause {
@@ -110,12 +92,13 @@ slot[name="subheader"] {
 }
 
 .swiper-pagination {
-  display: flex !important;
+  display: flex;
+  box-sizing: border-box;
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  left: 58px !important;
-  width: unset !important;
+  padding-left: 58px;
+  width: unset;
 
   --swiper-pagination-bottom: none;
 }
@@ -186,4 +169,53 @@ slot[name="subheader"] {
   height: 100%;
   background: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
   border-radius: 12px;
+}
+
+:host([variant="slider"]) {
+  .slideshow-wrapper {
+    // setting side space for sneak peak and prev/next buttons
+    width: calc(100% + 64px);
+    padding-left: 64px;
+    padding-right: 64px;
+    margin-left: -64px;
+    margin-right: -64px;
+  }
+
+  .swiper-pagination{
+    display: none;
+  }
+
+  .swiper {
+    width: calc(100% - 64px);
+  }
+
+  .chevron-left,
+  .chevron-right {
+    position: absolute;
+    display: none;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+
+    --ds-auro-button-border-color: var(--ds-component-button-primary-border, #{$ds-component-button-primary-border});
+    --ds-auro-button-container-color: var(--ds-component-focused, #{$ds-component-focused});
+    --ds-auro-button-container-image: var(--ds-component-focused, #{$ds-component-focused});
+    opacity: 0.4;
+
+    color: var(--ds-component-background, #{$ds-component-background});
+  }
+
+  .chevron-left {
+    left: 8px;
+  }
+
+  .chevron-right {
+    right: calc(64px + 8px);
+  }
+
+  .slideshow-wrapper:hover .chevron-left,
+  .slideshow-wrapper:hover .chevron-right {
+    display: block;
+  }
+
 }

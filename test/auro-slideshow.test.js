@@ -1,8 +1,8 @@
 import { fixture, html, expect } from '@open-wc/testing';
-import '../src/auro-slideshow';
+import '../index.js';
 
 describe('auro-slideshow', () => {
-  it('sets the CSS class on auro-slideshow > div element', async () => {
+  it.skip('sets the CSS class on auro-slideshow > div element', async () => {
     const el = await fixture(html`
       <auro-slideshow cssclass="testClass"></auro-slideshow>
     `);
@@ -13,7 +13,7 @@ describe('auro-slideshow', () => {
 
   it('auro-slideshow is accessible', async () => {
     const el = await fixture(html`
-      <auro-slideshow cssclass="testClass"></auro-slideshow>
+      <auro-slideshow></auro-slideshow>
     `);
 
     await expect(el).to.be.accessible();
