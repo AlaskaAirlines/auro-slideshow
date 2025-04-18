@@ -181,6 +181,8 @@
     padding-right: var(--ds-size-800, #{$ds-size-800});
     margin-left: calc(var(--ds-size-800, #{$ds-size-800}) * -1);
     margin-right: calc(var(--ds-size-800, #{$ds-size-800}) * -1);
+
+    --swiper-wrapper-transition-timing-function: linear;
   }
 
   .swiper-pagination{

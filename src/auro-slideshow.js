@@ -43,6 +43,7 @@ export class AuroSlideshow extends LitElement {
     this.slidesPerView = "auto";
     this.spaceBetweenSlides = 16;
     this.variant = "slideshow";
+    this.slidingSpeed = 300;
 
     const versioning = new AuroDependencyVersioning();
 
@@ -108,6 +109,14 @@ export class AuroSlideshow extends LitElement {
        */
       slidesPerView: {
         type: String,
+        reflect: true
+      },
+
+      /**
+       * The speed of the slide transition between cards.
+       */
+      slidingSpeed: {
+        type: Number,
         reflect: true
       },
 
@@ -233,6 +242,8 @@ export class AuroSlideshow extends LitElement {
         slidesPerView: this.slidesPerView,
         spaceBetween: this.spaceBetweenSlides,
         centeredSlides: false,
+        speed: this.slidingSpeed,
+        pauseOnMouseEnter: true,
         autoplay: this.autoplay ? {
           delay: this.autoplay,
           disableOnInteraction: false,
@@ -274,6 +285,13 @@ export class AuroSlideshow extends LitElement {
           bullet.click();
         }
       });
+    });
+
+    this.swiper.on('autoplayPause', () => {
+      this.requestUpdate();
+    });
+    this.swiper.on('autoplayResume', () => {
+      this.requestUpdate();
     });
 
     this.swiper.on('autoplayTimeLeft', (swiper, timeLeft, percentageLeft) => {
