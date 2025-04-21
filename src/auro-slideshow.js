@@ -9,7 +9,7 @@
 import { LitElement } from 'lit';
 import { html } from 'lit/static-html.js';
 
-import Swiper from 'swiper';
+import ExtendedSwiper from './util/extendedSwiper.js';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 import { AuroDependencyVersioning } from '@aurodesignsystem/auro-library/scripts/runtime/dependencyTagVersioning.mjs';
@@ -169,13 +169,20 @@ export class AuroSlideshow extends LitElement {
   }
 
   get isPlaying() {
-    if (!this.swiper || !this.swiper.autoplay) {
+    if (!this.swiper) {
       return true;
     }
-    return this.swiper.autoplay.running && !this.swiper.autoplay.paused;
+    return this.swiper.isPlaying;
   }
 
   togglePlay() {
+    if (this.variant === 'slider') {
+      if (this.isPlaying) {
+        this.swiper.slider.pause();
+      } else {
+        this.swiper.slider.resume();
+      }
+    }
     if (this.isPlaying) {
       this.swiper.autoplay.pause();
     } else {
@@ -243,7 +250,7 @@ export class AuroSlideshow extends LitElement {
         spaceBetween: this.spaceBetweenSlides,
         centeredSlides: false,
         speed: this.slidingSpeed,
-        pauseOnMouseEnter: true,
+        variant: this.variant,
         autoplay: this.autoplay ? {
           delay: this.autoplay,
           disableOnInteraction: false,
@@ -270,7 +277,7 @@ export class AuroSlideshow extends LitElement {
         };
       }
 
-      this.swiper = new Swiper(swiperElement, swiperConfig);
+      this.swiper = new ExtendedSwiper(swiperElement, swiperConfig);
     }
 
     const allBullets = this.shadowRoot.querySelectorAll('.swiper-pagination-bullet');
