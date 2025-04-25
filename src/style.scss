@@ -12,9 +12,9 @@
 @import './../node_modules/@aurodesignsystem/webcorestylesheets/src/core';
 @import './../node_modules/@aurodesignsystem/webcorestylesheets/src/animation';
 
-@import '../node_modules/swiper/swiper.scss';
-@import '../node_modules/swiper/modules/pagination.scss';
-@import '../node_modules/swiper/modules/navigation.scss';
+@import '../node_modules/swiper/swiper';
+@import '../node_modules/swiper/modules/pagination';
+@import '../node_modules/swiper/modules/navigation';
 
 :host {
   display: block;
@@ -68,11 +68,16 @@ slot[name="subheader"] {
   width: 100%;
   height: auto;
   max-width: 100%;
+  overflow: visible;
 }
 
 .swiper-wrapper {
   display: flex;
   height: auto; /* Adjusts height based on images */
+}
+
+.swiper-slide:not(.swiper-slide-active) {
+  filter: brightness(30%);
 }
 
 .scroll-prev, 
@@ -106,16 +111,13 @@ slot[name="subheader"] {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  margin-top: 40px;
+  margin-block-start: 40px;
 }
 
 .swiper-pagination {
-  display: flex !important;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: row;
-  left: 58px !important;
-  width: unset !important;
+  position: relative;
+  display: flex;
+  margin-inline-start: 10px;
 
   --swiper-pagination-bottom: none;
 }
@@ -186,4 +188,8 @@ slot[name="subheader"] {
   height: 100%;
   background: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
   border-radius: 12px;
+}
+
+.invisible {
+  opacity: 0;
 }

@@ -3,11 +3,13 @@
 
 // ---------------------------------------------------------------------
 
-import { LitElement } from 'lit';
+/* eslint-disable line-comment-position, no-inline-comments, max-lines, lit/no-invalid-html, lit/binding-positions, no-magic-numbers */
+
+import { LitElement, nothing } from 'lit';
 import { html } from 'lit/static-html.js';
 
 import Swiper from 'swiper';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
 
 import { AuroDependencyVersioning } from '@aurodesignsystem/auro-library/scripts/runtime/dependencyTagVersioning.mjs';
 import AuroLibraryRuntimeUtils from "@aurodesignsystem/auro-library/scripts/utils/runtimeUtils.mjs";
@@ -21,9 +23,9 @@ import iconVersion from './iconVersion.js';
 import chevronRight from '@alaskaairux/icons/dist/icons/interface/chevron-right.mjs';
 import chevronLeft from '@alaskaairux/icons/dist/icons/interface/chevron-left.mjs';
 
-// These should be replaced with pause/play icons when created by design
-import arrowUp from '@alaskaairux/icons/dist/icons/interface/arrow-up.mjs';
-import arrowDown from '@alaskaairux/icons/dist/icons/interface/arrow-down.mjs';
+// TODO: These should be replaced with pause/play icons when created by design
+import fakePlay from '@alaskaairux/icons/dist/icons/in-flight/entertainment-stroke.mjs';
+import fakePause from '@alaskaairux/icons/dist/icons/in-flight/luggage-stroke.mjs';
 
 import styleCss from './style-css.js';
 
@@ -31,7 +33,8 @@ export class AuroSlideshow extends LitElement {
   constructor() {
     super();
 
-    this.autoplay = 7000;
+    this.autoplay = false;
+    this.delay = 3000; // Set default to 7000
     this.pagination = false;
     this.navigation = false;
     this.loop = false;
@@ -39,11 +42,6 @@ export class AuroSlideshow extends LitElement {
     this.spaceBetweenSlides = 16;
 
     const versioning = new AuroDependencyVersioning();
-
-    /**
-     * @private
-     */
-    this.isPlaying = true;
 
     /**
      * @private
@@ -72,10 +70,19 @@ export class AuroSlideshow extends LitElement {
 
   static get properties() {
     return {
+
       /**
-       * The time in milliseconds between each slide change. Defaults to undefined.
+       * If true, the slideshow will play automatically.
        */
       autoplay: {
+        type: Boolean,
+        reflect: true
+      },
+
+      /**
+       * The time in milliseconds between each slide change. Defaults to 7000.
+       */
+      delay: {
         type: Number,
         reflect: true
       },
@@ -85,7 +92,7 @@ export class AuroSlideshow extends LitElement {
       },
 
       /**
-       * If true, the slideshow will loop back to the first slide after reaching the last slide. Defaults to false.
+       * If true, the slideshow will loop back to the first slide after reaching the last slide.
        */
       loop: {
         type: Boolean,
@@ -122,20 +129,44 @@ export class AuroSlideshow extends LitElement {
       spaceBetweenSlides: {
         type: Number
       }
+    };
+  }
+
+  /**
+   * Whether the slideshow is currently playing.
+   * @private
+   * @returns {Boolean}
+   */
+  get isPlaying() {
+    if (!this.swiper || !this.swiper.autoplay) {
+      return false;
     }
+    return this.swiper.autoplay.running;
+  }
+
+  /**
+   * Toggles the play/pause state of the slideshow.
+   * @returns {void}
+   */
+  togglePlay() {
+    if (this.isPlaying) {
+      this.swiper.autoplay.stop();
+    } else {
+      this.swiper.autoplay.start();
+    }
+
+    // rerender elements
+    this.requestUpdate();
   }
 
   firstUpdated() {
     this.handleHeaderSlotContent();
+    // console.log(1, this.isPlaying);
+  }
 
-    const slot = this.shadowRoot.querySelector('slot:not([name="header"]):not([name="subheader"])');
-
-    // Listen for the slotchange event to handle updates to slot content
-    this.slotChangeListener = () => {
-      this.initializeSwiper();
-    };
-    
-    slot.addEventListener('slotchange', this.slotChangeListener);
+  handleSlotChange() {
+    this.initializeSwiper();
+    // console.log(2, this.isPlaying);
   }
 
   handleHeaderSlotContent() {
@@ -156,147 +187,131 @@ export class AuroSlideshow extends LitElement {
       container.classList.add('has-no-headers');
     }
   }
-  
+
   initializeSwiper() {
     const swiperElement = this.shadowRoot.querySelector('.swiper');
     const swiperWrapper = this.shadowRoot.querySelector('.swiper-wrapper');
     const prevButton = this.shadowRoot.querySelector('.scroll-prev');
     const nextButton = this.shadowRoot.querySelector('.scroll-next');
-    const playPauseButton = this.shadowRoot.querySelector('.play-pause');
     const paginationEl = this.shadowRoot.querySelector('.swiper-pagination');
-    const slot = this.shadowRoot.querySelector('slot:not([name="header"]):not([name="subheader"])');
-  
-    if (!slot) {
-      return;
-    }
-  
+    const slot = this.shadowRoot.querySelector('slot:not([name])');
+
     // Get the assigned slides from the slot
     const assignedSlides = slot.assignedElements();
-    
-    // Avoid reinitializing Swiper if there are no slides or if the Swiper is already initialized
+
+    // Avoid initializing Swiper if there are no slides
     if (assignedSlides.length === 0) {
       console.warn("No slides found inside slot.");
-      return; // Avoid initializing if no slides are present
+      return;
     }
-  
-    assignedSlides.forEach(slide => {
+
+    assignedSlides.forEach((slide, index) => {
       slide.classList.add('swiper-slide');
       slide.part = 'slide';
+      // Hides the last slide on page load
+      if (index === assignedSlides.length - 1) {
+        slide.classList.add('invisible');
+      }
     });
-  
-    // Detach the slotchange listener to prevent it from firing while manipulating the slot content
-    slot.removeEventListener('slotchange', this.slotChangeListener);
-  
-    // Ensure we don't clear the swiper-wrapper content if the slides are updated dynamically
-    if (!this.swiper) {
-      // If no swiper instance exists, clear the swiper-wrapper and add the new slides
-      swiperWrapper.innerHTML = ''; // Clear the wrapper, only if needed
-      assignedSlides.forEach(slide => {
-        swiperWrapper.appendChild(slide);
-      });
-    }
-  
+
     const swiperConfig = {
-      modules: [Navigation, Pagination, Autoplay],
+      modules: [Navigation, Pagination, Autoplay, EffectCoverflow],
       loop: this.loop,
       slidesPerView: this.slidesPerView,
       spaceBetween: this.spaceBetweenSlides,
-      centeredSlides: true,
+      centeredSlides: false,
+      keyboard: {
+        enabled: true
+      },
+      effect: 'coverflow',
+      coverflowEffect: {
+        depth: 0,
+        modifier: 1,
+        rotate: 0,
+        slideShadows: false,
+        stretch: 0
+      },
       autoplay: this.autoplay ? {
-        delay: this.autoplay,
+        delay: this.delay,
         disableOnInteraction: false,
         pauseOnMouseEnter: true
       } : false,
-      pagination: {
+      pagination: this.pagination ? {
         el: paginationEl,
         clickable: true,
-        renderBullet: (_, className) => {
-          return `
-            <span class="${className}"  tabindex="0">
-              <div class="pagination-swiper-up__progress-bar-container">
-                <div class="pagination-swiper-up__progress"></div>
-              </div>
-            </span>
-          `;
-        }
-      }
-    };
-  
-    if (this.navigation) {
-      swiperConfig.navigation = {
+        renderBullet: (index, className) => `
+        <span class="${className}"  tabindex="0">
+        <div class="pagination-swiper-up__progress-bar-container">
+        <div class="pagination-swiper-up__progress"></div>
+        </div>
+        </span>
+        `
+      } : false,
+      navigation: this.navigation ? {
         nextEl: nextButton,
         prevEl: prevButton
-      };
+      } : false
+    };
 
-      // Event listeners for navigation buttons
-      nextButton.addEventListener('click', () => {
-        this.swiper.slideNext();
+    // Ensure we don't clear the swiper-wrapper content if the slides are updated dynamically
+    if (!this.swiper) {
+      // If no swiper instance exists, clear the swiper-wrapper and add the new slides // Why are we clearing and re-adding the slides?
+      // swiperWrapper.innerHTML = '';
+      assignedSlides.forEach((slide) => {
+        swiperWrapper.appendChild(slide);
       });
-    
-      prevButton.addEventListener('click', () => {
-        this.swiper.slidePrev();
-      });
-    }
-  
-    if (this.autoplay) {
-      playPauseButton.addEventListener('click', () => {
-        if (this.swiper.autoplay.running) {
-          this.swiper.autoplay.stop();
-          this.isPlaying = false;
-          playPauseButton.setAttribute('aria-label', 'play');
-        } else {
-          this.swiper.autoplay.start();
-          this.isPlaying = true;
-          playPauseButton.setAttribute('aria-label', 'pause');
-        }
-      });
-    }
-  
-    // If the Swiper instance exists, just update it with the new slides
-    if (this.swiper) {
-      this.swiper.update();
-    } else {
+
+      // Initialize Swiper
       this.swiper = new Swiper(swiperElement, swiperConfig);
+    } else {
+      this.swiper.update();
     }
 
     const allBullets = this.shadowRoot.querySelectorAll('.swiper-pagination-bullet');
 
-    allBullets.forEach(bullet => {
+    allBullets.forEach((bullet) => {
       bullet.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();  // Prevent scrolling if space is used
-          bullet.click();  // Simulate a click event
+          event.preventDefault(); // Prevent scrolling if space is used
+          bullet.click(); // Simulate a click event
         }
       });
     });
-  
-    // TODO: Add logic to the progress bar for pausing and playing the slideshow
+
+    // Make last slide visible after a slide change
     this.swiper.on('slideChange', () => {
-      const activeBullet = this.shadowRoot.querySelector('.swiper-pagination-bullet-active');
-  
-      // Reset all progress bars
-      allBullets.forEach(bullet => {
-        const progressBar = bullet.querySelector('.pagination-swiper-up__progress');
-        if (progressBar) {
-          progressBar.style.transition = 'none'; // Disable transition for reset
-          progressBar.style.width = '0%'; // Reset width for all bullets
-        }
-      });
-  
-      // Animate the progress bar of the active bullet
-      if (activeBullet) {
-        const progressBar = activeBullet.querySelector('.pagination-swiper-up__progress');
-        if (progressBar) {
-          progressBar.style.transition = `width ${swiperConfig.autoplay.delay}ms linear`;
-          progressBar.style.width = '100%'; // Fill progress bar to 100%
-        }
+      const lastSlide = this.shadowRoot.querySelector('.swiper-slide.invisible');
+      if (lastSlide) {
+        lastSlide.classList.remove('invisible');
       }
     });
 
-    // Reattach the slotchange event listener after the swiper is initialized
-    slot.addEventListener('slotchange', this.slotChangeListener);
+    this.swiper.on('autoplayPause', () => {
+      this.requestUpdate();
+    });
+    this.swiper.on('autoplayResume', () => {
+      this.requestUpdate();
+    });
+
+    this.swiper.on('autoplayTimeLeft', (swiper, timeLeft, percentageLeft) => {
+      const activeBullet = this.shadowRoot.querySelector('.swiper-pagination-bullet-active');
+
+      // Reset all progress bars
+      allBullets.forEach((bullet) => {
+        const progressBar = bullet.querySelector('.pagination-swiper-up__progress');
+        if (progressBar) {
+          if (bullet === activeBullet) {
+            // Fill progress bar to the passed percentage
+            progressBar.style.width = `${(1 - percentageLeft) * 100}%`;
+          } else {
+            // Reset width for all bullets
+            progressBar.style.width = '0%';
+          }
+        }
+      });
+    });
   }
-  
+
   /**
    * Internal function to generate the HTML for the icon to use.
    * @private
@@ -315,40 +330,58 @@ export class AuroSlideshow extends LitElement {
     return iconHtml;
   }
 
+  /**
+   * Generates the HTML for the navigation controls (previous and next buttons).
+   * @private
+   * @returns {Element} The HTML element containing the navigation controls.
+   */
+  navigationControls() {
+    return html`
+      <${this.buttonTag} arialabel="Previous slide" iconOnly rounded variant="secondary" class="scroll-prev"
+        @click=${() => this.swiper.slidePrev()}>
+        ${this.generateIconHtml(chevronLeft.svg)}
+      </${this.buttonTag}>
+      <${this.buttonTag} arialabel="Next slide" iconOnly rounded variant="secondary" class="scroll-next"
+        @click=${() => this.swiper.slideNext()}>
+        ${this.generateIconHtml(chevronRight.svg)}
+      </${this.buttonTag}>`;
+  }
+
+  /**
+   * Generates the HTML for the pagination controls.
+   * @private
+   * @returns {Element} The HTML element containing the pagination controls.
+   */
+  paginationControls() {
+    // TODO: Separate play/pause button from pagination
+    return html`
+      <div class="pagination-container">
+        <${this.buttonTag} arialabel="${this.isPlaying ? 'Pause' : 'Play'}"
+          iconOnly rounded class="play-pause"
+          @click=${this.togglePlay}>
+          ${this.generateIconHtml(fakePlay.svg, this.isPlaying)}
+          ${this.generateIconHtml(fakePause.svg, !this.isPlaying)}
+        </${this.buttonTag}>
+        <div class="swiper-pagination"></div>
+      </div>
+    `;
+  }
+
   render() {
     return html`
       <div class="container">
         <slot name="header"></slot>
         <slot name="subheader"></slot>
         <div class="slideshow-wrapper">
-          ${this.navigation ? html`
-            <${this.buttonTag} arialabel="chevron-left" iconOnly rounded variant="secondary" class="scroll-prev">
-              ${this.generateIconHtml(chevronLeft.svg)}
-              <span class="util_displayHiddenVisually">Scroll Left</span>
-            </${this.buttonTag}>
-  
-            <${this.buttonTag} arialabel="chevron-right" iconOnly rounded variant="secondary" class="scroll-next">
-              ${this.generateIconHtml(chevronRight.svg)}
-              <span class="util_displayHiddenVisually">Scroll Right</span>
-            </${this.buttonTag}>
-          ` : undefined }
-  
+          ${this.navigation ? this.navigationControls() : nothing}
           <div class="swiper">
             <div class="swiper-wrapper">
-              <slot></slot>
+              <slot @slotchange=${this.handleSlotChange}></slot>
             </div>
           </div>
         </div>
-  
-        <div class="pagination-container">
-          <${this.buttonTag} arialabel="play-pause" iconOnly rounded class="play-pause">
-            ${this.generateIconHtml(arrowUp.svg, !this.isPlaying)}
-            ${this.generateIconHtml(arrowDown.svg, this.isPlaying)}
-            <span class="util_displayHiddenVisually">Play/Pause</span>
-          </${this.buttonTag}>
-          <div class="swiper-pagination"></div>
-        </div>
+        ${this.pagination ? this.paginationControls() : nothing}
       </div>
     `;
-  }  
+  }
 }
