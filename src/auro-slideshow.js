@@ -71,6 +71,7 @@ export class AuroSlideshow extends LitElement {
   static get properties() {
     return {
 
+
       /**
        * If true, the slideshow will play automatically.
        */
@@ -120,17 +121,6 @@ export class AuroSlideshow extends LitElement {
        */
       spaceBetweenSlides: {
         type: Number
-      },
-
-      /**
-       * 'slideshow': pagination indicators will be showing underneat with auto-play the progressbar
-       * `slider`: prev/next button will show on hover and there will be no pagination indicator
-       * @default 'slidershow'
-       */
-      variant: {
-        // 'slideshow', 'slider'
-        type: String,
-        reflect: true,
       }
     };
   }
@@ -314,6 +304,7 @@ export class AuroSlideshow extends LitElement {
       });
     });
   }
+
 
   /**
    * Internal function to generate the HTML for the icon to use.

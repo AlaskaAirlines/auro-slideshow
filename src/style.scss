@@ -76,9 +76,27 @@ slot[name="subheader"] {
   display: flex;
   height: auto; /* Adjusts height based on images */
 
-  & > * {
-    border-radius: 15px;
-  }
+.swiper-slide:not(.swiper-slide-active) {
+  filter: brightness(30%);
+}
+
+.scroll-prev, 
+.scroll-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.scroll-prev { 
+  left: 10px; 
+}
+
+.scroll-next { 
+  right: 10px; 
 }
 
 .swiper-slide:not(.swiper-slide-active) {
