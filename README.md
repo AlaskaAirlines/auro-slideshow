@@ -83,12 +83,24 @@ import "@aurodesignsystem/auro-slideshow";
 <auro-slideshow loop pagination autoplay>
   <span slot="header">Slideshow Header</span>
   <span slot="subheader">Subheader</span>
-  <img src="https://picsum.photos/800?random=0" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 0">
-  <img src="https://picsum.photos/1000?random=1" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 1">
-  <img src="https://picsum.photos/910?random=2" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 1">
-  <img src="https://picsum.photos/700?random=3" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 3">
-  <img src="https://picsum.photos/850?random=4" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 4">
-  <img src="https://picsum.photos/990?random=5" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 5">
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=0" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=1" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=2" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=5" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=4" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=7" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
 </auro-slideshow>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
@@ -136,12 +148,24 @@ The `<auro-slideshow>` element should be used in situations where users may:
 <auro-slideshow loop pagination autoplay>
   <span slot="header">Slideshow Header</span>
   <span slot="subheader">Subheader</span>
-  <img src="https://picsum.photos/800?random=0" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 0">
-  <img src="https://picsum.photos/1000?random=1" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 1">
-  <img src="https://picsum.photos/910?random=2" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 1">
-  <img src="https://picsum.photos/700?random=3" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 3">
-  <img src="https://picsum.photos/850?random=4" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 4">
-  <img src="https://picsum.photos/990?random=5" style="height: 400px; width: 900px; border-radius: 1.5rem;" alt="Random insert 5">
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=0" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=1" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=2" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=5" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=4" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
+  <auro-slideshowitem>
+    <img src="https://picsum.photos/800?random=7" style="height: 400px; width: 900px;">
+  </auro-slideshowitem>
 </auro-slideshow>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
