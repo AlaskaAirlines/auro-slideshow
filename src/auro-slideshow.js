@@ -34,24 +34,29 @@ export class AuroSlideshow extends LitElement {
     super();
 
     this.autoplay = false;
-    this.delay = 3000; // Set default to 7000
-    this.pagination = false;
+    this.delay = 2000; // Set default to 7000
     this.loop = false;
+    this.navigation = false;
+    this.pagination = false;
     this.slidesPerView = "auto";
+    this.slides = [];
     this.spaceBetweenSlides = 16;
-    this.variant = "slideshow";
 
     const versioning = new AuroDependencyVersioning();
 
     /**
      * @private
      */
-    this.buttonTag = versioning.generateTag('auro-button', buttonVersion, AuroButton);
+    this.buttonTag = versioning.generateTag(
+      "auro-button",
+      buttonVersion,
+      AuroButton
+    );
 
     /**
      * @private
      */
-    this.iconTag = versioning.generateTag('auro-icon', iconVersion, AuroIcon);
+    this.iconTag = versioning.generateTag("auro-icon", iconVersion, AuroIcon);
   }
 
   /**
@@ -71,13 +76,12 @@ export class AuroSlideshow extends LitElement {
   static get properties() {
     return {
 
-
       /**
        * If true, the slideshow will play automatically.
        */
       autoplay: {
         type: Boolean,
-        reflect: true
+        reflect: true,
       },
 
       /**
@@ -85,11 +89,11 @@ export class AuroSlideshow extends LitElement {
        */
       delay: {
         type: Number,
-        reflect: true
+        reflect: true,
       },
 
       isPlaying: {
-        type: Boolean
+        type: Boolean,
       },
 
       /**
@@ -97,7 +101,7 @@ export class AuroSlideshow extends LitElement {
        */
       loop: {
         type: Boolean,
-        reflect: true
+        reflect: true,
       },
 
       /**
@@ -105,23 +109,40 @@ export class AuroSlideshow extends LitElement {
        */
       pagination: {
         type: Boolean,
-        reflect: true
+        reflect: true,
       },
 
       /**
-       * The number of slides per view. Defaults to 1.
+       * If true, the slideshow will display navigation arrows for previous and next slides.
+       */
+      navigation: {
+        type: Boolean,
+        reflect: true,
+      },
+
+      /**
+       * The number of slides per view. Defaults to 'auto'.
        */
       slidesPerView: {
         type: String,
-        reflect: true
+        reflect: true,
       },
 
       /**
        * The pixel distance between slides when multiple slides are in view.
        */
       spaceBetweenSlides: {
-        type: Number
-      }
+        type: Number,
+      },
+
+      /**
+       * Array of slideshow items.
+       * @private
+       */
+      slides: {
+        type: Array,
+        state: true,
+      },
     };
   }
 
@@ -135,6 +156,14 @@ export class AuroSlideshow extends LitElement {
       return false;
     }
     return this.swiper.autoplay.running;
+  }
+
+  updateSlides() {
+    const slot = this.shadowRoot.querySelector("slot:not([name])");
+    slot.assignedElements().forEach((element) => {
+      element.classList.add("swiper-slide");
+    });
+    this.slides = slot.assignedElements();
   }
 
   /**
@@ -154,58 +183,50 @@ export class AuroSlideshow extends LitElement {
 
   firstUpdated() {
     this.handleHeaderSlotContent();
+    this.updateSlides();
+    this.initializeSwiper();
+    console.log("first updated", this.slides);
     // console.log(1, this.isPlaying);
   }
 
   handleSlotChange() {
+    this.updateSlides();
     this.initializeSwiper();
+    console.log("slot changed", this.slides);
+    this.swiper.update();
     // console.log(2, this.isPlaying);
   }
 
   handleHeaderSlotContent() {
-    const container = this.shadowRoot.querySelector('.container');
+    const container = this.shadowRoot.querySelector(".container");
     const headerSlot = this.shadowRoot.querySelector('slot[name="header"]');
-    const subheaderSlot = this.shadowRoot.querySelector('slot[name="subheader"]');
+    const subheaderSlot = this.shadowRoot.querySelector(
+      'slot[name="subheader"]'
+    );
 
-    const hasHeaderContent = headerSlot && headerSlot.assignedNodes().length > 0;
-    const hasSubheaderContent = subheaderSlot && subheaderSlot.assignedNodes().length > 0;
+    const hasHeaderContent =
+      headerSlot && headerSlot.assignedNodes().length > 0;
+    const hasSubheaderContent =
+      subheaderSlot && subheaderSlot.assignedNodes().length > 0;
 
     if (hasHeaderContent && hasSubheaderContent) {
-      container.classList.add('has-both-headers');
+      container.classList.add("has-both-headers");
     } else if (hasHeaderContent) {
-      container.classList.add('has-header-only');
+      container.classList.add("has-header-only");
     } else if (hasSubheaderContent) {
-      container.classList.add('has-subheader-only');
+      container.classList.add("has-subheader-only");
     } else {
-      container.classList.add('has-no-headers');
+      container.classList.add("has-no-headers");
     }
   }
 
   initializeSwiper() {
-    const swiperElement = this.shadowRoot.querySelector('.swiper');
-    const swiperWrapper = this.shadowRoot.querySelector('.swiper-wrapper');
-    const prevButton = this.shadowRoot.querySelector('.scroll-prev');
-    const nextButton = this.shadowRoot.querySelector('.scroll-next');
-    const paginationEl = this.shadowRoot.querySelector('.swiper-pagination');
-    const slot = this.shadowRoot.querySelector('slot:not([name])');
-
-    // Get the assigned slides from the slot
-    const assignedSlides = slot.assignedElements();
-
-    // Avoid initializing Swiper if there are no slides
-    if (assignedSlides.length === 0) {
-      console.warn("No slides found inside slot.");
-      return;
-    }
-
-    assignedSlides.forEach((slide, index) => {
-      slide.classList.add('swiper-slide');
-      slide.part = 'slide';
-      // Hides the last slide on page load
-      if (index === assignedSlides.length - 1) {
-        slide.classList.add('invisible');
-      }
-    });
+    const swiperElement = this.shadowRoot.querySelector(".swiper");
+    const prevButton = this.shadowRoot.querySelector(".scroll-prev");
+    const nextButton = this.shadowRoot.querySelector(".scroll-next");
+    const paginationEl = this.shadowRoot.querySelector(".swiper-pagination");
+    const swiperWrapper = this.shadowRoot.querySelector(".swiper-wrapper");
+    const assignedSlides = swiperWrapper.querySelectorAll(".swiper-slide");
 
     const swiperConfig = {
       modules: [Navigation, Pagination, Autoplay, EffectCoverflow],
@@ -214,97 +235,90 @@ export class AuroSlideshow extends LitElement {
       spaceBetween: this.spaceBetweenSlides,
       centeredSlides: false,
       keyboard: {
-        enabled: true
+        enabled: true,
       },
-      effect: 'coverflow',
+      effect: "coverflow",
       coverflowEffect: {
         depth: 0,
         modifier: 1,
         rotate: 0,
         slideShadows: false,
-        stretch: 0
+        stretch: 0,
       },
-      autoplay: this.autoplay ? {
-        delay: this.delay,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true
-      } : false,
-      pagination: this.pagination ? {
-        el: paginationEl,
-        clickable: true,
-        renderBullet: (index, className) => `
-        <span class="${className}"  tabindex="0">
-        <div class="pagination-swiper-up__progress-bar-container">
-        <div class="pagination-swiper-up__progress"></div>
-        </div>
-        </span>
-        `
-      } : false,
-      navigation: this.navigation ? {
-        nextEl: nextButton,
-        prevEl: prevButton
-      } : false
+      autoplay: this.autoplay
+        ? {
+          delay: this.delay,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }
+        : false,
+      pagination: this.pagination
+        ? {
+          el: paginationEl,
+          clickable: true,
+          renderBullet: (index, className) => `
+            <span class="${className}"  tabindex="0">
+            <div class="pagination-swiper-up__progress-bar-container">
+            <div class="pagination-swiper-up__progress"></div>
+            </div>
+            </span>
+          `,
+        }
+        : false,
+      navigation: this.navigation
+        ? {
+          nextEl: nextButton,
+          prevEl: prevButton,
+        }
+        : false,
     };
 
-    // Ensure we don't clear the swiper-wrapper content if the slides are updated dynamically
-    if (!this.swiper) {
-      // If no swiper instance exists, clear the swiper-wrapper and add the new slides // Why are we clearing and re-adding the slides?
-      // swiperWrapper.innerHTML = '';
-      assignedSlides.forEach((slide) => {
-        swiperWrapper.appendChild(slide);
-      });
 
-      // Initialize Swiper
-      this.swiper = new Swiper(swiperElement, swiperConfig);
-    } else {
-      this.swiper.update();
-    }
+    swiperWrapper.innerHTML = '';
+    assignedSlides.forEach((slide) => {
+      swiperWrapper.appendChild(slide);
+    });
 
-    const allBullets = this.shadowRoot.querySelectorAll('.swiper-pagination-bullet');
+    this.swiper = new Swiper(swiperElement, swiperConfig);
+
+    const allBullets = this.shadowRoot.querySelectorAll(".swiper-pagination-bullet");
 
     allBullets.forEach((bullet) => {
-      bullet.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
+      bullet.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
           event.preventDefault(); // Prevent scrolling if space is used
           bullet.click(); // Simulate a click event
         }
       });
     });
 
-    // Make last slide visible after a slide change
-    this.swiper.on('slideChange', () => {
-      const lastSlide = this.shadowRoot.querySelector('.swiper-slide.invisible');
-      if (lastSlide) {
-        lastSlide.classList.remove('invisible');
-      }
-    });
-
-    this.swiper.on('autoplayPause', () => {
+    this.swiper.on("autoplayPause", () => {
       this.requestUpdate();
     });
-    this.swiper.on('autoplayResume', () => {
+    this.swiper.on("autoplayResume", () => {
       this.requestUpdate();
     });
 
-    this.swiper.on('autoplayTimeLeft', (swiper, timeLeft, percentageLeft) => {
-      const activeBullet = this.shadowRoot.querySelector('.swiper-pagination-bullet-active');
+    this.swiper.on("autoplayTimeLeft", (swiper, timeLeft, percentageLeft) => {
+      const activeBullet = this.shadowRoot.querySelector(".swiper-pagination-bullet-active");
 
       // Reset all progress bars
       allBullets.forEach((bullet) => {
-        const progressBar = bullet.querySelector('.pagination-swiper-up__progress');
+        const progressBar = bullet.querySelector(
+          ".pagination-swiper-up__progress"
+        );
         if (progressBar) {
           if (bullet === activeBullet) {
             // Fill progress bar to the passed percentage
             progressBar.style.width = `${(1 - percentageLeft) * 100}%`;
           } else {
             // Reset width for all bullets
-            progressBar.style.width = '0%';
+            progressBar.style.width = "0%";
           }
         }
       });
     });
   }
-
 
   /**
    * Internal function to generate the HTML for the icon to use.
@@ -314,10 +328,10 @@ export class AuroSlideshow extends LitElement {
    * @returns {Element} The HTML element containing the SVG icon.
    */
   generateIconHtml(svgContent, hideIcon) {
-    const dom = new DOMParser().parseFromString(svgContent, 'text/html');
+    const dom = new DOMParser().parseFromString(svgContent, "text/html");
     const svg = dom.body.firstChild;
 
-    svg.setAttribute('slot', 'svg');
+    svg.setAttribute("slot", "svg");
 
     const iconHtml = html`<${this.iconTag} customColor customSvg slot="icon" ?hidden="${hideIcon}">${svg}</${this.iconTag}>`;
 
@@ -331,11 +345,15 @@ export class AuroSlideshow extends LitElement {
    */
   navigationControls() {
     return html`
-      <${this.buttonTag} arialabel="Previous slide" iconOnly rounded variant="secondary" class="scroll-prev"
+      <${
+        this.buttonTag
+      } arialabel="Previous slide" iconOnly rounded variant="secondary" class="scroll-prev"
         @click=${() => this.swiper.slidePrev()}>
         ${this.generateIconHtml(chevronLeft.svg)}
       </${this.buttonTag}>
-      <${this.buttonTag} arialabel="Next slide" iconOnly rounded variant="secondary" class="scroll-next"
+      <${
+        this.buttonTag
+      } arialabel="Next slide" iconOnly rounded variant="secondary" class="scroll-next"
         @click=${() => this.swiper.slideNext()}>
         ${this.generateIconHtml(chevronRight.svg)}
       </${this.buttonTag}>`;
@@ -350,7 +368,7 @@ export class AuroSlideshow extends LitElement {
     // TODO: Separate play/pause button from pagination
     return html`
       <div class="pagination-container">
-        <${this.buttonTag} arialabel="${this.isPlaying ? 'Pause' : 'Play'}"
+        <${this.buttonTag} arialabel="${this.isPlaying ? "Pause" : "Play"}"
           iconOnly rounded class="play-pause"
           @click=${this.togglePlay}>
           ${this.generateIconHtml(fakePlay.svg, this.isPlaying)}

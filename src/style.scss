@@ -39,7 +39,7 @@ slot[name="subheader"] {
   display: block;
   line-height: 26px;
   font-size: 18px;
-  color: var(--ds-color-texticon-muted, #{$ds-color-texticon-muted});
+  // color: var(--ds-color-texticon-muted, #{$ds-color-texticon-muted});
   font-weight: 450; // font-weight not applying correctly
 }
 
@@ -75,6 +75,8 @@ slot[name="subheader"] {
 .swiper-wrapper {
   display: flex;
   height: auto; /* Adjusts height based on images */
+}
+
 
 .swiper-slide:not(.swiper-slide-active) {
   filter: brightness(30%);
@@ -99,9 +101,6 @@ slot[name="subheader"] {
   right: 10px; 
 }
 
-.swiper-slide:not(.swiper-slide-active) {
-  filter: brightness(30%);
-}
 
 .scroll-prev, 
 .scroll-next {
@@ -123,9 +122,9 @@ slot[name="subheader"] {
 }
 
 .play-pause {
-  --ds-auro-button-border-color: var(--ds-component-button-primary-border, #{$ds-component-button-primary-border});
-  --ds-auro-button-container-color: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
-  --ds-auro-button-container-image: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
+  // --ds-auro-button-border-color: var(--ds-component-button-primary-border, #{$ds-component-button-primary-border});
+  // --ds-auro-button-container-color: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
+  // --ds-auro-button-container-image: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
 }
 
 .pagination-container {
@@ -157,7 +156,7 @@ slot[name="subheader"] {
   --swiper-pagination-bullet-inactive-opacity: none;
 
   &:focus, &:focus-visible {
-    outline: 2px solid var(--ds-component-focused, #{$ds-component-focused});
+    // outline: 2px solid var(--ds-component-focused, #{$ds-component-focused});
     outline-offset: 2px;
   }
 
@@ -167,7 +166,7 @@ slot[name="subheader"] {
 }
 
 /* Creates 24x24px clickable area for bullet */
-.swiper-pagination-bullet::before {
+.swiper-pagination-bullet ::before {
   content: "";
   position: absolute;
   width: 24px;
@@ -209,10 +208,6 @@ slot[name="subheader"] {
 .pagination-swiper-up__progress {
   width: 0%;
   height: 100%;
-  background: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
+  // background: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
   border-radius: 12px;
-}
-
-.invisible {
-  opacity: 0;
 }

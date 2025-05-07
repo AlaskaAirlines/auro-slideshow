@@ -1,0 +1,23 @@
+// Copyright (c) 2025 Alaska Airlines. All right reserved. Licensed under the Apache-2.0 license
+// See LICENSE in the project root for license information.
+
+// ---------------------------------------------------------------------
+
+// Import Auro tokens
+@import './../node_modules/@aurodesignsystem/design-tokens/dist/alaska/SCSSVariables--alaska';
+@import './../node_modules/@aurodesignsystem/design-tokens/dist/alaska/SCSSVariablesMapFlat--alaska';
+
+// general WCSS imports
+@import './../node_modules/@aurodesignsystem/webcorestylesheets/src/breakpoints';
+@import './../node_modules/@aurodesignsystem/webcorestylesheets/src/core';
+@import './../node_modules/@aurodesignsystem/webcorestylesheets/src/animation';
+
+@import '../node_modules/swiper/swiper';
+@import '../node_modules/swiper/modules/pagination';
+@import '../node_modules/swiper/modules/navigation';
+
+:host {
+  border: 2px solid red;
+  border-radius: 1.5rem;
+  width: 100%;
+}
