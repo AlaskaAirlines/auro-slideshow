@@ -1,4 +1,4 @@
-import { AuroSlideshow } from '../../src/auro-slideshow.js';
+import { AuroSlideshow } from "../../src/auro-slideshow.js";
 
 /**
  * @private

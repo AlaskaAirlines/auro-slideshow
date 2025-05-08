@@ -1,15 +1,14 @@
-import '../index.js';
+import "../index.js";
 
-export function initExamples(initCount) {
-  initCount = initCount || 0;
+// export function initExamples(initCount = 0) {
+//   try {
 
-  try {
-  } catch (err) {
-    if (initCount <= 20) {
-      // setTimeout handles issue where content is sometimes loaded after the functions get called
-      setTimeout(() => {
-        initExamples(initCount + 1);
-      }, 100);
-    }
-  }
-}
+//   } catch (err) {
+//     if (initCount <= 20) {
+//       // setTimeout handles issue where content is sometimes loaded after the functions get called
+//       setTimeout(() => {
+//         initExamples(initCount + 1);
+//       }, 100);
+//     }
+//   }
+// }

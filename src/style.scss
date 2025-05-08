@@ -3,14 +3,16 @@
 
 // ---------------------------------------------------------------------
 
-// Import Auro tokens
-@import './../node_modules/@aurodesignsystem/design-tokens/dist/alaska/SCSSVariables--alaska';
-@import './../node_modules/@aurodesignsystem/design-tokens/dist/alaska/SCSSVariablesMapFlat--alaska';
+// Import Auro Sass variables
+@import "./../node_modules/@aurodesignsystem/design-tokens/dist/auro-classic/SCSSVariables";
+@import "./../node_modules/@aurodesignsystem/design-tokens/dist/alaska/SCSSVariables--alaska";
 
 // general WCSS imports
-@import './../node_modules/@aurodesignsystem/webcorestylesheets/src/breakpoints';
-@import './../node_modules/@aurodesignsystem/webcorestylesheets/src/core';
-@import './../node_modules/@aurodesignsystem/webcorestylesheets/src/animation';
+@import "./../node_modules/@aurodesignsystem/webcorestylesheets/src/breakpoints";
+@import "./../node_modules/@aurodesignsystem/webcorestylesheets/src/core";
+@import "./../node_modules/@aurodesignsystem/webcorestylesheets/src/animation";
+
+@import "./../node_modules/@aurodesignsystem/design-tokens/dist/auro-classic/SCSSVariableMap";
 
 @import '../node_modules/swiper/swiper';
 @import '../node_modules/swiper/modules/pagination';
@@ -39,7 +41,7 @@ slot[name="subheader"] {
   display: block;
   line-height: 26px;
   font-size: 18px;
-  color: var(--ds-color-texticon-muted, #{$ds-color-texticon-muted});
+  color: var(--ds-basic-color-texticon-muted, #{$ds-basic-color-texticon-muted});
   font-weight: 450; // font-weight not applying correctly
 }
 
@@ -81,9 +83,9 @@ slot[name="subheader"] {
 }
 
 .play-pause {
-  --ds-auro-button-border-color: var(--ds-component-button-primary-border, #{$ds-component-button-primary-border});
-  --ds-auro-button-container-color: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
-  --ds-auro-button-container-image: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
+  --ds-auro-button-border-color: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
+  --ds-auro-button-container-color: var(--ds-advanced-color-button-primary-background, #{$ds-advanced-color-button-primary-background});
+  --ds-auro-button-container-image: var(--ds-advanced-color-button-primary-background, #{$ds-advanced-color-button-primary-background});
 }
 
 .pagination-container {
@@ -119,7 +121,7 @@ slot[name="subheader"] {
   --swiper-pagination-bullet-inactive-opacity: none;
 
   &:focus, &:focus-visible {
-    outline: 2px solid var(--ds-component-focused, #{$ds-component-focused});
+    outline: 2px solid var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
     outline-offset: 2px;
   }
 
@@ -171,7 +173,7 @@ slot[name="subheader"] {
 .pagination-swiper-up__progress {
   width: 0%;
   height: 100%;
-  background: var(--ds-component-button-primary-background, #{$ds-component-button-primary-background});
+  background: var(--ds-advanced-color-button-primary-background, #{$ds-advanced-color-button-primary-background});
   border-radius: 12px;
 }
 
@@ -208,12 +210,12 @@ slot[name="subheader"] {
     transform: translateY(-50%);
     z-index: 10;
 
-    --ds-auro-button-border-color: var(--ds-component-button-primary-border, #{$ds-component-button-primary-border});
-    --ds-auro-button-container-color: var(--ds-component-focused, #{$ds-component-focused});
-    --ds-auro-button-container-image: var(--ds-component-focused, #{$ds-component-focused});
+    --ds-auro-button-border-color: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
+    --ds-auro-button-container-color: var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
+    --ds-auro-button-container-image: var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
     opacity: 0.4;
 
-    color: var(--ds-component-background, #{$ds-component-background});
+    color: var(--ds-advanced-color-shared-background, #{$ds-advanced-color-shared-background});
   }
 
   .chevron-left {
