@@ -25,7 +25,7 @@ import arrowDown from "@alaskaairux/icons/dist/icons/interface/arrow-down.mjs";
 // These should be replaced with pause/play icons when created by design
 import arrowUp from "@alaskaairux/icons/dist/icons/interface/arrow-up.mjs";
 
-import styleCss from "./style-css.js";
+import styleCss from "./style.scss";
 
 export class AuroSlideshow extends LitElement {
   constructor() {
@@ -133,6 +133,7 @@ export class AuroSlideshow extends LitElement {
   }
 
   firstUpdated() {
+    console.log("first updated");
     this.handleHeaderSlotContent();
 
     const slot = this.shadowRoot.querySelector(
@@ -343,10 +344,6 @@ export class AuroSlideshow extends LitElement {
             </div>
           </div>
 
-          <!-- chevron buttons -->
-          ${
-            this.variant === "slider"
-              ? html`
             <${this.buttonTag}
             class="chevron-left"
             arialabel="Previous Item"
@@ -363,9 +360,7 @@ export class AuroSlideshow extends LitElement {
             @click=${() => this.swiper.slideNext()}>
               ${this.generateIconHtml(chevronRight.svg)}
             </${this.buttonTag}>
-          `
-              : ""
-          }
+          
         </div>
   
         <div class="pagination-container">
