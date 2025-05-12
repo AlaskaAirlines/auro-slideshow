@@ -52,6 +52,7 @@
     "copyfiles": "^2.4.1",
     "core-js": "^3.42.0",
     "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
     "lodash": "^4.17.21",
     "markdown-magic": "^3.6.1",
     "nodemon": "^3.1.10",
@@ -88,10 +89,7 @@
     "last 2 Safari major versions"
   ],
   "nodemonConfig": {
-    "ignore": [
-      "*-css.js",
-      "*.css"
-    ]
+    "ignore": ["*-css.js", "*.css"]
   },
   "release": {
     "branches": [
@@ -133,12 +131,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "alaska airlines",
-    "auro",
-    "design system",
-    "web components"
-  ],
+  "keywords": ["alaska airlines", "auro", "design system", "web components"],
   "scripts": {
     "build": "auro build",
     "dev": "auro dev --open",
@@ -158,6 +151,10 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     }
+  },
+  "lint-staged": {
+    "*": ["biome check --fix --no-errors-on-unmatched"],
+    "*.{scss,css}": ["stylelint --fix"]
   },
   "files": [
     "dist/**/*",
