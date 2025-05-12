@@ -154,6 +154,7 @@
   },
   "lint-staged": {
     "*": ["biome check --fix --no-errors-on-unmatched"],
+    "*.{js,ts}": ["wtr"],
     "*.{scss,css}": ["stylelint --fix"]
   },
   "files": [
