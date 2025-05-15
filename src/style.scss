@@ -16,10 +16,7 @@
 
 @import "./../node_modules/@aurodesignsystem/design-tokens/dist/auro-classic/SCSSVariableMap";
 
-@import '../node_modules/swiper/swiper';
-@import '../node_modules/swiper/modules/pagination';
-@import '../node_modules/swiper/modules/navigation';
-
+/* stylelint-disable */
 :host {
   display: block;
   width: 100%;
@@ -234,3 +231,4 @@ slot[name="subheader"] {
   }
 
 }
+/* stylelint-enable */

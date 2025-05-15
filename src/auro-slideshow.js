@@ -6,8 +6,13 @@
 import { LitElement } from "lit";
 import { html } from "lit/static-html.js";
 
-import Swiper from "swiper";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+// import EmblaCarousel from "embla-carousel";
+// import Autoplay from "embla-carousel-autoplay";
+
+// const emblaNode = document.querySelector(".embla");
+// const options = { loop: false };
+// const plugins = [Autoplay()];
+// const emblaApi = EmblaCarousel(emblaNode, options, plugins);
 
 import { AuroDependencyVersioning } from "@aurodesignsystem/auro-library/scripts/runtime/dependencyTagVersioning.mjs";
 import AuroLibraryRuntimeUtils from "@aurodesignsystem/auro-library/scripts/utils/runtimeUtils.mjs";
