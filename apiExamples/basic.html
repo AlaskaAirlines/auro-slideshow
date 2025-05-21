@@ -1,12 +1,22 @@
-<auro-slideshow loop pagination>
-  <span slot="header">Slider Header</span>
-  <span slot="subheader">Subheader</span>
-  <img src="https://picsum.photos/200?random=0" style="height: 300px; width: 600px;" alt="Random insert 0">
-  <div style="height: 300px; width: 500px; background-color: bisque;">Slide 2</div>
-  <img src="https://picsum.photos/200?random=1" style="height: 300px; width: 200px;" alt="Random insert 1">
-  <img src="https://picsum.photos/200?random=2" style="height: 300px; width: 300px;" alt="Random insert 2">
-  <img src="https://picsum.photos/200?random=3" style="height: 300px; width: 500px;" alt="Random insert 3">
-  <img src="https://picsum.photos/200?random=4" style="height: 300px; width: 400px;" alt="Random insert 4">
-  <img src="https://picsum.photos/200?random=5" style="height: 300px; width: 300px;" alt="Random insert 5">
-</auro-slideshow>
-
+<div class="parent-container">
+  <auro-slideshow pagination navigation autoplay>
+    <img src="https://picsum.photos/200?random=0" style="height: 300px; width: 600px;" alt="Random insert 0">
+    <div style="height: 300px; width: 500px; background-color: bisque;">
+      <h2>Slide 2</h2>
+      <p>this is a slide</p>
+      <a href="#">This is a link.</a>
+    </div>
+    <img src="https://picsum.photos/200?random=1" style="height: 300px; width: 200px;" alt="Random insert 1">
+    <img src="https://picsum.photos/200?random=2" style="height: 300px; width: 300px;" alt="Random insert 2">
+    <img src="https://picsum.photos/200?random=3" style="height: 300px; width: 500px;" alt="Random insert 3">
+    <img src="https://picsum.photos/200?random=4" style="height: 300px; width: 400px;" alt="Random insert 4">
+    <img src="https://picsum.photos/200?random=5" style="height: 300px; width: 300px;" alt="Random insert 5">
+  </auro-slideshow>
+</div>
+<style>
+  .parent-container {
+    display: flex;
+    justify-content: start;
+    border: 1px solid hotpink;
+  }
+</style>
