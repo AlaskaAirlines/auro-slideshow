@@ -1,5 +1,5 @@
 import { expect, fixture, html } from "@open-wc/testing";
-import "../dist/registered.js";
+import "../src/registered.js";
 
 describe("auro-slideshow", () => {
   it("auro-slideshow is accessible", async () => {
