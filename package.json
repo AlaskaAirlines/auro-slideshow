@@ -31,7 +31,7 @@
     "swiper": "^11.2.6"
   },
   "devDependencies": {
-    "@aurodesignsystem/auro-cli": "^2.2.0",
+    "@aurodesignsystem/auro-cli": "^2.4.0",
     "@aurodesignsystem/auro-config": "^1.0.1",
     "@aurodesignsystem/design-tokens": "^5.3.1",
     "@aurodesignsystem/webcorestylesheets": "^6.5.0",
@@ -91,43 +91,6 @@
   "nodemonConfig": {
     "ignore": ["*-css.js", "*.css"]
   },
-  "release": {
-    "branches": [
-      {
-        "name": "main"
-      },
-      {
-        "name": "beta",
-        "prerelease": true
-      }
-    ],
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/changelog",
-        {
-          "changelogFile": "./CHANGELOG.md",
-          "changelogTitle": "# Semantic Release Automated Changelog"
-        }
-      ],
-      "@semantic-release/npm",
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "./package.json",
-            "./CHANGELOG.md",
-            "./README.md",
-            "./docs/api.md",
-            "./demo/index.md",
-            "./demo/api.md"
-          ]
-        }
-      ],
-      "@semantic-release/github"
-    ]
-  },
   "publishConfig": {
     "access": "public"
   },
@@ -137,9 +100,9 @@
     "dev": "auro dev --open",
     "lint": "biome check --fix --no-errors-on-unmatched && stylelint \"./src/**/*.scss\"",
     "preCommit": "node ./node_modules/@aurodesignsystem/auro-library/scripts/build/pre-commit.mjs",
-    "test": "wtr",
-    "test:watch": "wtr --watch",
-    "prepare": "husky install"
+    "test": "auro test",
+    "test:watch": "auro test --watch",
+    "prepare": "husky"
   },
   "exports": {
     "./readme.md": "./README.md",
@@ -154,7 +117,6 @@
   },
   "lint-staged": {
     "*": ["biome check --fix --no-errors-on-unmatched"],
-    "*.{js,ts}": ["wtr"],
     "*.{scss,css}": ["stylelint --fix"]
   },
   "files": [
