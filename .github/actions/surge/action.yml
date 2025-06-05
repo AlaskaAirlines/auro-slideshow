@@ -53,7 +53,7 @@ runs:
           const sha = context.sha;
           const ref = context.ref;
           console.log('DEBUG: context.ref =', ref);
-          const deploymentUrl = `https://auro-formkit-${component}-${prNumber}.surge.sh`;
+          const deploymentUrl = `https://auro-${component}-${prNumber}.surge.sh`;
           const environmentName = `${component}-demo`;
           
           // GitHub API for deployment status
