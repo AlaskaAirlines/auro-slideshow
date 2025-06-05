@@ -1,4 +1,4 @@
-import { AuroSlideshow } from "../src/auro-slideshow";
+import { AuroSlideshow } from "../src/index.js";
 
 AuroSlideshow.register();
 AuroSlideshow.register("custom-slideshow");
