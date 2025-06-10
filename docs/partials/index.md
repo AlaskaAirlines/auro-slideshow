@@ -16,16 +16,9 @@ This file is generated based on a template fetched from `./docs/partials/index.m
 
 ## Additional Information
 
-> Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam fermentum libero ipsum, ac tempor sapien blandit in. Nam tincidunt non felis molestie varius.
-
-|convallis|tristique|nisl dignissim|eleifend|
-|---|---|---|---|
-|√|√|||
-|||√|√|
-
-Aenean at blandit lorem. Fusce imperdiet mi nec gravida maximus. Quisque nisl libero, condimentum in nisi a, imperdiet lacinia arcu.
-
 ## Example(s)
+
+### Autoplay
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/basic.html) -->
@@ -40,7 +33,22 @@ Aenean at blandit lorem. Fusce imperdiet mi nec gravida maximus. Quisque nisl li
 
 </auro-accordion>
 
-Having a closing statement about your example helps to really complete the thought with your reader.
+
+### Autoscroll
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoscroll.html) -->
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/autoscroll.html) -->
+<!-- AURO-GENERATED-CONTENT:END -->
+
+</auro-accordion>
+
 
 ## Recommended Use and Version Control
 
@@ -56,14 +64,20 @@ registerComponent('custom-slideshow');
 This will create a new custom element that you can use in your HTML that will function identically to the `auro-slideshow` element.
 
 <div class="exampleWrapper">
-  <custom-slideshow display="display">Salutations World!</custom-slideshow>
+  <custom-slideshow>
+    <div>Slide 1</div>
+    <div>Slide 2</div>
+    <div>Slide 3</div>
+  </custom-slideshow>
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-
   ```html
-  <custom-slideshow display="display">Salutations World!</custom-slideshow>
+    <custom-slideshow>
+      <div>Slide 1</div>
+      <div>Slide 2</div>
+      <div>Slide 3</div>
+    </custom-slideshow>
   ```
-
 </auro-accordion>
