@@ -2,18 +2,15 @@
 
 ## Properties
 
-| Property             | Attribute            | Type      | Default        | Description                                      |
-|----------------------|----------------------|-----------|----------------|--------------------------------------------------|
-| `autoplay`           | `autoplay`           | `number`  | 7000           | The time in milliseconds between each slide change. Defaults to undefined. |
-| `loop`               | `loop`               | `boolean` | false          | If true, the slideshow will loop back to the first slide after reaching the last slide. Defaults to false. |
-| `pagination`         | `pagination`         | `boolean` | false          | If true, the slideshow will display pagination bullets for each slide. |
-| `slidesPerView`      | `slidesPerView`      | `string`  | "auto"         | The number of slides per view. Defaults to 1.    |
-| `spaceBetweenSlides` | `spaceBetweenSlides` | `number`  | 16             | The pixel distance between slides when multiple slides are in view. |
-| `variant`            | `variant`            | `string`  | "'slidershow'" | 'slideshow': pagination indicators will be showing underneat with auto-play the progressbar<br />`slider`: prev/next button will show on hover and there will be no pagination indicator |
-
-## Methods
-
-| Method                    | Type       |
-|---------------------------|------------|
-| `handleHeaderSlotContent` | `(): void` |
-| `initializeSwiper`        | `(): void` |
+| Property       | Attribute      | Type      | Default          | Description                                      |
+|----------------|----------------|-----------|------------------|--------------------------------------------------|
+| `autoScroll`   | `autoScroll`   | `boolean` | false            | If true, the slideshow will scroll continuously. |
+| `autoplay`     | `autoplay`     | `boolean` | false            | If true, the slideshow will play automatically.  |
+| `delay`        | `delay`        | `number`  | 7000             | Slide duration in milliseconds.                  |
+| `loop`         | `loop`         | `boolean` | false            | If true, the slideshow will loop back to the first slide after reaching the last slide. |
+| `navigation`   | `navigation`   | `boolean` | false            | If true, the slideshow will display navigation arrows for previous and next slides. |
+| `pagination`   | `pagination`   | `boolean` | false            | If true, the slideshow will display pagination bullets for each slide. |
+| `playBtnLabel` | `playBtnLabel` | `string`  | "Play slideshow" | The label for the play button.                   |
+| `playOnInit`   | `playOnInit`   | `boolean` | false            | If true, the slideshow will start playing automatically when initialized. |
+| `scrollSpeed`  | `scrollSpeed`  | `number`  | 1                | Number of pixels auto scroll should advance per frame. |
+| `startDelay`   | `startDelay`   | `number`  | 1000             | Delay in milliseconds before the auto scroll starts. |

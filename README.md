@@ -80,28 +80,41 @@ import "@aurodesignsystem/auro-slideshow";
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
 ```html
-<div class="parent-container">
-  <auro-slideshow pagination navigation autoplay>
-    <img src="https://picsum.photos/200?random=0" style="height: 300px; width: 600px;" alt="Random insert 0">
-    <div style="height: 300px; width: 500px; background-color: bisque;">
-      <h2>Slide 2</h2>
-      <p>this is a slide</p>
-      <a href="#">This is a link.</a>
+  <auro-slideshow pagination autoplay playOnInit loop>
+    <div class="large-promo-card">
+      <div class="content-wrapper">
+        <div class="title-wrapper">
+          <auro-header level="2" display="700" margin="both" size="none" class="title" auro-header="true">
+            Your next adventure starts here
+          </auro-header>
+          <div class="description">Book by April 8, 2025.</div>
+        </div>
+        <auro-hyperlink class="hyperlink" secondary="" type="cta"
+          href="#" tabindex="-1" 
+          target="_self" auro-hyperlink="true">
+          View deals
+        </auro-hyperlink>
+      </div>
+      <img class="image"
+        src="https://images.contentstack.io/v3/assets/blt2cefe12c88e9dd91/bltbfcc9ab08c467362/67f61f2c84b207735a781654/snowy-mountain-tops-1k.png"
+        alt="">
     </div>
-    <img src="https://picsum.photos/200?random=1" style="height: 300px; width: 200px;" alt="Random insert 1">
-    <img src="https://picsum.photos/200?random=2" style="height: 300px; width: 300px;" alt="Random insert 2">
-    <img src="https://picsum.photos/200?random=3" style="height: 300px; width: 500px;" alt="Random insert 3">
-    <img src="https://picsum.photos/200?random=4" style="height: 300px; width: 400px;" alt="Random insert 4">
-    <img src="https://picsum.photos/200?random=5" style="height: 300px; width: 300px;" alt="Random insert 5">
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=1" alt="Random 1">
+    </div>
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=2" alt="Random 2">
+    </div>
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=3" alt="Random 3">
+    </div>
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=4" alt="Random 4">
+    </div>
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=5" alt="Random 5">
+    </div>
   </auro-slideshow>
-</div>
-<style>
-  .parent-container {
-    display: flex;
-    justify-content: start;
-    border: 1px solid hotpink;
-  }
-</style>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 
@@ -145,28 +158,41 @@ The `<auro-slideshow>` element should be used in situations where users may:
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
 ```html
-<div class="parent-container">
-  <auro-slideshow pagination navigation autoplay>
-    <img src="https://picsum.photos/200?random=0" style="height: 300px; width: 600px;" alt="Random insert 0">
-    <div style="height: 300px; width: 500px; background-color: bisque;">
-      <h2>Slide 2</h2>
-      <p>this is a slide</p>
-      <a href="#">This is a link.</a>
+  <auro-slideshow pagination autoplay playOnInit loop>
+    <div class="large-promo-card">
+      <div class="content-wrapper">
+        <div class="title-wrapper">
+          <auro-header level="2" display="700" margin="both" size="none" class="title" auro-header="true">
+            Your next adventure starts here
+          </auro-header>
+          <div class="description">Book by April 8, 2025.</div>
+        </div>
+        <auro-hyperlink class="hyperlink" secondary="" type="cta"
+          href="#" tabindex="-1" 
+          target="_self" auro-hyperlink="true">
+          View deals
+        </auro-hyperlink>
+      </div>
+      <img class="image"
+        src="https://images.contentstack.io/v3/assets/blt2cefe12c88e9dd91/bltbfcc9ab08c467362/67f61f2c84b207735a781654/snowy-mountain-tops-1k.png"
+        alt="">
     </div>
-    <img src="https://picsum.photos/200?random=1" style="height: 300px; width: 200px;" alt="Random insert 1">
-    <img src="https://picsum.photos/200?random=2" style="height: 300px; width: 300px;" alt="Random insert 2">
-    <img src="https://picsum.photos/200?random=3" style="height: 300px; width: 500px;" alt="Random insert 3">
-    <img src="https://picsum.photos/200?random=4" style="height: 300px; width: 400px;" alt="Random insert 4">
-    <img src="https://picsum.photos/200?random=5" style="height: 300px; width: 300px;" alt="Random insert 5">
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=1" alt="Random 1">
+    </div>
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=2" alt="Random 2">
+    </div>
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=3" alt="Random 3">
+    </div>
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=4" alt="Random 4">
+    </div>
+    <div class="large-promo-card">
+      <img src="https://picsum.photos/1000?random=5" alt="Random 5">
+    </div>
   </auro-slideshow>
-</div>
-<style>
-  .parent-container {
-    display: flex;
-    justify-content: start;
-    border: 1px solid hotpink;
-  }
-</style>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 

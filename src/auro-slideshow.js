@@ -7,7 +7,9 @@ import { LitElement, nothing } from "lit";
 import { html } from "lit/static-html.js";
 
 import EmblaCarousel from "embla-carousel";
+import AutoScroll from "embla-carousel-auto-scroll";
 import Autoplay from "embla-carousel-autoplay";
+import ClassNames from "embla-carousel-class-names";
 
 import { AuroDependencyVersioning } from "@aurodesignsystem/auro-library/scripts/runtime/dependencyTagVersioning.mjs";
 import AuroLibraryRuntimeUtils from "@aurodesignsystem/auro-library/scripts/utils/runtimeUtils.mjs";
@@ -20,10 +22,8 @@ import iconVersion from "./iconVersion.js";
 
 import chevronLeft from "@alaskaairux/icons/dist/icons/interface/chevron-left.mjs";
 import chevronRight from "@alaskaairux/icons/dist/icons/interface/chevron-right.mjs";
-
-// TODO: These should be replaced with pause/play icons when created by design
-import fakePlay from "@alaskaairux/icons/dist/icons/in-flight/entertainment-stroke.mjs";
-import fakePause from "@alaskaairux/icons/dist/icons/in-flight/luggage-stroke.mjs";
+import pause from "@alaskaairux/icons/dist/icons/interface/pause.mjs";
+import play from "@alaskaairux/icons/dist/icons/interface/play-filled.mjs";
 
 import styleCss from "./style.scss";
 
@@ -32,36 +32,38 @@ export class AuroSlideshow extends LitElement {
     super();
 
     this.autoplay = false;
-    this.playOnInit = false;
-    this.delay = 5000;
+    this.delay = 7000;
 
     this.autoScroll = false;
+    this.scrollSpeed = 1;
+    this.startDelay = 1000;
 
+    this.playOnInit = false;
     this.loop = false;
     this.navigation = false;
     this.pagination = false;
 
     this.playBtnLabel = "Play slideshow";
 
-    // private
-    this.playIcon = fakePlay.svg;
+    /** @private */
+    this.isPlaying = false;
+
+    /** @private */
     this.embla = null;
+
+    /** @private */
     this.slides = [];
 
     const versioning = new AuroDependencyVersioning();
 
-    /**
-     * @private
-     */
+    /** @private */
     this.buttonTag = versioning.generateTag(
       "auro-button",
       buttonVersion,
       AuroButton,
     );
 
-    /**
-     * @private
-     */
+    /** @private */
     this.iconTag = versioning.generateTag("auro-icon", iconVersion, AuroIcon);
   }
 
@@ -89,6 +91,13 @@ export class AuroSlideshow extends LitElement {
         reflect: true,
       },
       /**
+       * If true, the slideshow will scroll continuously.
+       */
+      autoScroll: {
+        type: Boolean,
+        reflect: true,
+      },
+      /**
        * If true, the slideshow will start playing automatically when initialized.
        */
       playOnInit: {
@@ -100,6 +109,27 @@ export class AuroSlideshow extends LitElement {
        */
       delay: {
         type: Number,
+        reflect: true,
+      },
+      /**
+       * Number of pixels auto scroll should advance per frame.
+       */
+      scrollSpeed: {
+        type: Number,
+        reflect: true,
+      },
+      /**
+       * Delay in milliseconds before the auto scroll starts.
+       */
+      startDelay: {
+        type: Number,
+        reflect: true,
+      },
+      /**
+       * The label for the play button.
+       */
+      playBtnLabel: {
+        type: String,
         reflect: true,
       },
       /**
@@ -130,60 +160,141 @@ export class AuroSlideshow extends LitElement {
     return this.shadowRoot.querySelector(".play-pause");
   }
 
+  get _dotsNode() {
+    return this.shadowRoot.querySelector(".embla__dots");
+  }
+
+  get _progressNode() {
+    return this.shadowRoot.querySelector(".embla__progress");
+  }
+
+  /** @private */
   initializeEmbla() {
     const emblaNode = this.shadowRoot.querySelector(".embla");
-    const options = { loop: this.loop };
-    let plugins = null;
+    const options = { loop: this.loop, align: "start" };
+
+    const classNamesOptions = {
+      snapped: "active",
+      inView: "in-view",
+      loop: "",
+      draggable: "",
+      dragging: "",
+    };
 
     const autoplayOptions = {
-      playOnInit: false,
+      playOnInit: this.playOnInit,
       delay: this.delay,
     };
 
-    const autoscrollOptions = {};
+    const autoscrollOptions = {
+      playOnInit: this.playOnInit,
+      speed: this.scrollSpeed,
+      startDelay: this.startDelay,
+    };
 
+    let plugins = [ClassNames(classNamesOptions)];
+
+    // Autoplay and AutoScroll cannot be used together.
     if (this.autoplay) {
-      plugins = [Autoplay(autoplayOptions)];
+      plugins.push(Autoplay(autoplayOptions));
     }
     if (this.autoScroll) {
-      plugins = [Autoscroll(autoscrollOptions)];
+      plugins = [AutoScroll(autoscrollOptions)];
     }
 
     // Attach slides to the Embla instance
     const emblaContainer = this.shadowRoot.querySelector(".embla__container");
     emblaContainer.replaceChildren(...this.slides);
 
+    // Initialize Embla instance
     this.embla = EmblaCarousel(emblaNode, options, plugins);
 
-    this.addPlayBtnListeners(this.embla, this._playBtn);
+    if (this.pagination) {
+      this.addDotBtnsAndClickHandlers(
+        this.embla,
+        this._dotsNode,
+        this.onNavButtonClick,
+      );
+    }
 
-    if (this.playOnInit) {
-      this.embla.plugins().autoplay.play();
+    if (this.autoplay) {
+      this.addAutoPlayBtnListener(this.embla, this._playBtn);
+    }
+
+    if (this.autoScroll) {
+      this.addAutoScrollBtnListener(this.embla, this._playBtn);
     }
   }
 
   firstUpdated() {
     this.updateSlides();
     this.initializeEmbla();
-    console.log(this.embla.plugins().autoplay.isPlaying());
+
+    // add event listener to embla instance to toggle tabindex on active slide whenever slide is changed
+    this.embla.on("select", () => {
+      const activeSlide = this.slides[this.embla.selectedScrollSnap()];
+      this.slides.forEach((slide) => {
+        slide.setAttribute("tabindex", "-1");
+      });
+      activeSlide.setAttribute("tabindex", "0");
+    });
+
+    const emblaContainer = this.shadowRoot.querySelector(".embla__container");
+    emblaContainer.replaceChildren(...this.slides);
+
     console.log("first updated", this.slides);
+
+    // if (this.autoplay && this.playOnInit) {
+    //   this.embla.plugins().autoplay.play();
+    // }
+
+    // if (this.autoScroll && this.playOnInit) {
+    //   this.embla.plugins().autoScroll.play();
+    // }
   }
 
+  /** @private */
   handleSlotChange() {
     // this.updateSlides();
     // this.initializeEmbla();
   }
 
+  /** @private */
   updateSlides() {
     const slot = this.shadowRoot.querySelector("slot:not([name])");
-    slot.assignedElements().forEach((element) => {
+    slot.assignedElements().forEach((element, index) => {
       element.classList.add("embla__slide");
+      if (index === 0) {
+        element.setAttribute("tabindex", "0");
+      } else {
+        element.setAttribute("tabindex", "-1");
+      }
     });
     this.slides = slot.assignedElements();
   }
 
-  addPlayBtnListeners = (emblaApi, playBtn) => {
-    const togglePlayBtnState = (emblaApi) => {
+  /**
+   * @private
+   * Stops autoplay when the user interacts with the navigation buttons.
+   */
+  onNavButtonClick = (emblaApi) => {
+    const autoplay = emblaApi?.plugins()?.autoplay;
+    if (!autoplay) return;
+
+    const resetOrStop =
+      autoplay.options.stopOnInteraction === false
+        ? autoplay.reset
+        : autoplay.stop;
+
+    resetOrStop();
+  };
+
+  /**
+   * @private
+   * Adds event listeners to the play button to control autoplay.
+   */
+  addAutoPlayBtnListener = (emblaApi, playBtn) => {
+    const togglePlayBtnState = () => {
       const autoplay = emblaApi?.plugins()?.autoplay;
       if (!autoplay) return;
 
@@ -191,8 +302,6 @@ export class AuroSlideshow extends LitElement {
       this.playBtnLabel = autoplay.isPlaying()
         ? "Play Slideshow"
         : "Pause Slideshow";
-      this.playIcon = autoplay.isPlaying() ? fakePlay.svg : fakePause.svg;
-      this.requestUpdate();
     };
 
     const onPlayBtnClick = () => {
@@ -201,7 +310,7 @@ export class AuroSlideshow extends LitElement {
 
       const playOrStop = autoplay.isPlaying() ? autoplay.stop : autoplay.play;
       playOrStop();
-      console.log("Playing?", autoplay.isPlaying());
+      this.isPlaying = autoplay.isPlaying();
     };
 
     playBtn.addEventListener("click", onPlayBtnClick);
@@ -220,21 +329,157 @@ export class AuroSlideshow extends LitElement {
   };
 
   /**
-   * Toggles the play/pause state of the slideshow.
-   * @returns {void}
+   * @private
+   * Adds event listeners to the play button to control auto scroll.
    */
-  togglePlay() {
-    console.log("play clicked");
-    const autoplay = this.embla?.plugins()?.autoplay;
+  addAutoScrollBtnListener = (emblaApi, playBtn) => {
+    const togglePlayBtnState = (emblaApi) => {
+      const autoScroll = emblaApi?.plugins()?.autoScroll;
+      if (!autoScroll) return;
 
-    autoplay.isPlaying() ? autoplay.stop : autoplay.play;
+      this.playBtnLabel = autoScroll.isPlaying()
+        ? "Play Slideshow"
+        : "Pause Slideshow";
+    };
 
-    // this.togglePlayBtnState()
+    const onPlayBtnClick = () => {
+      const autoScroll = emblaApi?.plugins()?.autoScroll;
+      if (!autoScroll) return;
 
-    // this.isPlaying = !this.isPlaying;
-    // rerender elements
-    // this.requestUpdate();
-  }
+      const playOrStop = autoScroll.isPlaying()
+        ? autoScroll.stop
+        : autoScroll.play;
+      playOrStop();
+      this.isPlaying = autoScroll.isPlaying();
+    };
+
+    playBtn.addEventListener("click", onPlayBtnClick);
+    emblaApi
+      .on("autoScroll:play", togglePlayBtnState)
+      .on("autoScroll:stop", togglePlayBtnState)
+      .on("reInit", togglePlayBtnState);
+
+    return () => {
+      playBtn.removeEventListener("click", onPlayBtnClick);
+      emblaApi
+        .off("autoScroll:play", togglePlayBtnState)
+        .off("autoScroll:stop", togglePlayBtnState)
+        .off("reInit", togglePlayBtnState);
+    };
+  };
+
+  /**
+   * @private
+   * Adds dot buttons and click handlers for pagination.
+   */
+  addDotBtnsAndClickHandlers = (emblaApi, dotsNode, onButtonClick) => {
+    let dotNodes = [];
+
+    const addDotBtnsWithClickHandlers = () => {
+      dotsNode.innerHTML = emblaApi
+        .scrollSnapList()
+        .map(
+          () =>
+            '<button class="embla__dot" type="button" tabindex="-1"></button>',
+        )
+        .join("");
+
+      const scrollTo = (index) => {
+        emblaApi.scrollTo(index);
+        if (onButtonClick) onButtonClick(emblaApi);
+      };
+
+      dotNodes = Array.from(dotsNode.querySelectorAll(".embla__dot"));
+      dotNodes.forEach((dotNode, index) => {
+        dotNode.addEventListener("click", () => scrollTo(index), false);
+      });
+    };
+
+    const toggleDotBtnsActive = () => {
+      const previous = emblaApi.previousScrollSnap();
+      const selected = emblaApi.selectedScrollSnap();
+
+      if (this.autoplay) {
+        const progressBar = document.createElement("div");
+        progressBar.classList.add("embla__progress__bar");
+
+        dotNodes[previous].classList.replace("embla__progress", "embla__dot");
+        dotNodes[previous].removeAttribute("tabindex");
+        dotNodes[previous].replaceChildren();
+
+        dotNodes[selected].classList.replace("embla__dot", "embla__progress");
+        dotNodes[selected].setAttribute("tabindex", "-1");
+        dotNodes[selected].appendChild(progressBar);
+
+        this.addAutoplayProgressListeners(this.embla, this._progressNode);
+      } else {
+        dotNodes[previous].classList.remove("embla__dot--selected");
+        dotNodes[selected].classList.add("embla__dot--selected");
+      }
+    };
+
+    emblaApi
+      .on("init", addDotBtnsWithClickHandlers)
+      .on("reInit", addDotBtnsWithClickHandlers)
+      .on("init", toggleDotBtnsActive)
+      .on("reInit", toggleDotBtnsActive)
+      .on("select", toggleDotBtnsActive);
+
+    return () => {
+      dotsNode.innerHTML = "";
+    };
+  };
+
+  /**
+   * @private
+   */
+  addAutoplayProgressListeners = (emblaApi, progressNode) => {
+    const progressBarNode = progressNode.querySelector(".embla__progress__bar");
+
+    let animationName = "";
+    let timeoutId = 0;
+    let rafId = 0;
+
+    const startProgress = (emblaApi) => {
+      this._progressNode.classList.remove("embla__progress--paused");
+      const autoplay = emblaApi?.plugins()?.autoplay;
+      if (!autoplay) return;
+
+      const timeUntilNext = autoplay.timeUntilNext();
+      if (timeUntilNext === null) return;
+
+      if (!animationName) {
+        const style = window.getComputedStyle(progressBarNode);
+        animationName = style.animationName;
+      }
+
+      progressBarNode.style.animationName = "none";
+      progressBarNode.style.transform = "translate3d(0,0,0)";
+
+      rafId = window.requestAnimationFrame(() => {
+        timeoutId = window.setTimeout(() => {
+          progressBarNode.style.animationName = animationName;
+          progressBarNode.style.animationDuration = `${timeUntilNext}ms`;
+        }, 0);
+      });
+    };
+
+    const stopProgress = (emblaApi) => {
+      this._progressNode.classList.add("embla__progress--paused");
+      const autoplay = emblaApi?.plugins()?.autoplay;
+      if (!autoplay) return;
+    };
+
+    emblaApi
+      .on("autoplay:timerset", startProgress)
+      .on("autoplay:timerstopped", stopProgress);
+
+    return () => {
+      emblaApi
+        .off("autoplay:timerset", startProgress)
+        .off("autoplay:timerstopped", stopProgress);
+    };
+  };
 
   /**
    * Internal function to generate the HTML for the icon to use.
@@ -279,6 +524,7 @@ export class AuroSlideshow extends LitElement {
       </${this.buttonTag}>`;
   }
 
+  /** @private */
   renderPlayButton() {
     return html`
     <${this.buttonTag} 
@@ -287,7 +533,8 @@ export class AuroSlideshow extends LitElement {
       iconOnly 
       rounded 
       >
-        ${this.generateIconHtml(this.playIcon)}
+        ${this.generateIconHtml(play.svg, this.isPlaying)}
+        ${this.generateIconHtml(pause.svg, !this.isPlaying)}
     </${this.buttonTag}>
     `;
   }
@@ -298,10 +545,7 @@ export class AuroSlideshow extends LitElement {
    * @returns {Element} The HTML element containing the pagination controls.
    */
   renderPaginationDots() {
-    return html`
-      <div class="embla__dots">
-      </div>
-    `;
+    return html` <div class="embla__dots"></div> `;
   }
 
   render() {
@@ -316,7 +560,9 @@ export class AuroSlideshow extends LitElement {
           </div>
         </div>
         <div class="pagination-container">
-          ${this.autoplay ? this.renderPlayButton() : nothing}
+          ${
+            this.autoplay || this.autoScroll ? this.renderPlayButton() : nothing
+          }
           ${this.pagination ? this.renderPaginationDots() : nothing}
         </div>
       </div>
