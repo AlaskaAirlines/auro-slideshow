@@ -60,6 +60,19 @@
   margin-right: 1rem;
   box-sizing: border-box;
 
+  // TEMPORARY
+  &:focus-visible::after {
+    content: "";
+    outline: 6px solid white;
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    height: 95%;
+    width: 97%;
+    z-index: 1;
+    border-radius: 16px;
+  }
+
   // &:not(.active) {
   //   filter: brightness(30%);
   // }
@@ -131,15 +144,11 @@
   background-color: var(--ds-advanced-color-button-primary-background-inactive, $ds-advanced-color-button-primary-background-inactive);
   position: relative;
   cursor: pointer;
-  
-  // --swiper-pagination-bullet-horizontal-gap: 10px;
-  // --swiper-pagination-bullet-inactive-color: #CFE0EF; // Token does not exist yet: var(--ds-color-button-primary-background-inactive, $ds-color-button-primary-background-inactive);
-  // --swiper-pagination-bullet-inactive-opacity: none;
 
-  &:focus, &:focus-visible {
-    outline: 2px solid var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
-    outline-offset: 2px;
-  }
+  // &:focus, &:focus-visible {
+  //   outline: 2px solid var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
+  //   outline-offset: 2px;
+  // }
 
   &:hover:not(.embla__dot--selected) {
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, $ds-advanced-color-button-primary-background-inactive-hover);
@@ -186,10 +195,10 @@
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, $ds-advanced-color-button-primary-background-inactive-hover);
   }
 
-  &:focus, &:focus-visible {
-    outline: 2px solid var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
-    outline-offset: 2px;
-  }
+  // &:focus, &:focus-visible {
+  //   outline: 2px solid var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
+  //   outline-offset: 2px;
+  // }
 }
 
 .embla__progress__bar {

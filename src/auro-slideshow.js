@@ -22,8 +22,6 @@ import iconVersion from "./iconVersion.js";
 
 import chevronLeft from "@alaskaairux/icons/dist/icons/interface/chevron-left.mjs";
 import chevronRight from "@alaskaairux/icons/dist/icons/interface/chevron-right.mjs";
-import pause from "@alaskaairux/icons/dist/icons/interface/pause.mjs";
-import play from "@alaskaairux/icons/dist/icons/interface/play-filled.mjs";
 
 import styleCss from "./style.scss";
 
@@ -153,6 +151,12 @@ export class AuroSlideshow extends LitElement {
         type: Boolean,
         reflect: true,
       },
+      /**
+       * @private
+       */
+      isPlaying: {
+        type: Boolean,
+      },
     };
   }
 
@@ -184,22 +188,24 @@ export class AuroSlideshow extends LitElement {
     const autoplayOptions = {
       playOnInit: this.playOnInit,
       delay: this.delay,
+      stopOnMouseEnter: true,
     };
 
     const autoscrollOptions = {
       playOnInit: this.playOnInit,
       speed: this.scrollSpeed,
       startDelay: this.startDelay,
+      stopOnMouseEnter: true,
     };
 
-    let plugins = [ClassNames(classNamesOptions)];
+    const plugins = [ClassNames(classNamesOptions)];
 
     // Autoplay and AutoScroll cannot be used together.
     if (this.autoplay) {
       plugins.push(Autoplay(autoplayOptions));
     }
     if (this.autoScroll) {
-      plugins = [AutoScroll(autoscrollOptions)];
+      plugins.push(AutoScroll(autoscrollOptions));
     }
 
     // Attach slides to the Embla instance
@@ -219,10 +225,24 @@ export class AuroSlideshow extends LitElement {
 
     if (this.autoplay) {
       this.addAutoPlayBtnListener(this.embla, this._playBtn);
+      this.embla
+        .on("autoplay:stop", () => {
+          this.isPlaying = false;
+        })
+        .on("autoplay:play", () => {
+          this.isPlaying = true;
+        });
     }
 
     if (this.autoScroll) {
       this.addAutoScrollBtnListener(this.embla, this._playBtn);
+      this.embla
+        .on("autoScroll:stop", () => {
+          this.isPlaying = false;
+        })
+        .on("autoScroll:play", () => {
+          this.isPlaying = true;
+        });
     }
   }
 
@@ -244,19 +264,28 @@ export class AuroSlideshow extends LitElement {
 
     console.log("first updated", this.slides);
 
-    // if (this.autoplay && this.playOnInit) {
-    //   this.embla.plugins().autoplay.play();
-    // }
-
-    // if (this.autoScroll && this.playOnInit) {
-    //   this.embla.plugins().autoScroll.play();
-    // }
+    this.isPlaying = this.playOnInit;
   }
 
   /** @private */
   handleSlotChange() {
     // this.updateSlides();
-    // this.initializeEmbla();
+  }
+
+  /**
+   * @private
+   * @param {KeyboardEvent} event - The keydown event triggered by the user.
+   * @returns {void}
+   */
+  handleKeydown(event) {
+    if (event.key === "ArrowLeft") {
+      this.embla.scrollPrev();
+    } else if (event.key === "ArrowRight") {
+      this.embla.scrollNext();
+    }
+    // move focus to the active slide
+    const activeSlide = this.slides[this.embla.selectedScrollSnap()];
+    activeSlide.focus();
   }
 
   /** @private */
@@ -264,6 +293,7 @@ export class AuroSlideshow extends LitElement {
     const slot = this.shadowRoot.querySelector("slot:not([name])");
     slot.assignedElements().forEach((element, index) => {
       element.classList.add("embla__slide");
+      element.addEventListener("keydown", this.handleKeydown.bind(this));
       if (index === 0) {
         element.setAttribute("tabindex", "0");
       } else {
@@ -533,8 +563,18 @@ export class AuroSlideshow extends LitElement {
       iconOnly 
       rounded 
       >
-        ${this.generateIconHtml(play.svg, this.isPlaying)}
-        ${this.generateIconHtml(pause.svg, !this.isPlaying)}
+        <${this.iconTag} 
+          onDark category="interface" 
+          name="play-filled" 
+          ?hidden=${this.isPlaying} 
+          slot="icon">
+        </${this.iconTag}>
+        <${this.iconTag} 
+          onDark category="interface" 
+          name="pause" 
+          ?hidden=${!this.isPlaying} 
+          slot="icon">
+        </${this.iconTag}>
     </${this.buttonTag}>
     `;
   }

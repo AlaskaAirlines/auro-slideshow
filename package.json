@@ -22,7 +22,7 @@
   "dependencies": {
     "@alaskaairux/icons": "^5.5.0",
     "@aurodesignsystem/auro-button": "^9.3.3",
-    "@aurodesignsystem/auro-icon": "^8.0.2",
+    "@aurodesignsystem/auro-icon": "^8.0.4",
     "@aurodesignsystem/auro-library": "^4.4.1",
     "@aurodesignsystem/design-tokens": "^5.14.0",
     "@aurodesignsystem/webcorestylesheets": "^6.5.0",
