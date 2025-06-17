@@ -16,6 +16,9 @@ This file is generated based on a template fetched from `./docs/partials/index.m
 
 ## Additional Information
 
+<!-- AURO-GENERATED-CONTENT:START (FILE:src=./../docs/partials/readmeAddlInfo.md) -->
+<!-- AURO-GENERATED-CONTENT:END -->
+
 ## Example(s)
 
 ### Autoplay
@@ -64,20 +67,14 @@ registerComponent('custom-slideshow');
 This will create a new custom element that you can use in your HTML that will function identically to the `auro-slideshow` element.
 
 <div class="exampleWrapper">
-  <custom-slideshow>
-    <div>Slide 1</div>
-    <div>Slide 2</div>
-    <div>Slide 3</div>
-  </custom-slideshow>
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/custom.html) -->
+  <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-  ```html
-    <custom-slideshow>
-      <div>Slide 1</div>
-      <div>Slide 2</div>
-      <div>Slide 3</div>
-    </custom-slideshow>
-  ```
+
+  <!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/custom.html) -->
+  <!-- AURO-GENERATED-CONTENT:END -->
+  
 </auro-accordion>
