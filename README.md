@@ -21,15 +21,15 @@ The following sections are editable by making changes to the following files:
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/description.md) -->
 <!-- The below content is automatically added from ./docs/partials/description.md -->
-`<auro-slideshow>` is a [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of ...
+`<auro-slideshow>` is an [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of displaying a sequence of slides, which can automatically advance through the content or be manually controlled by the user. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam convallis in tellus nec pellentesque. Integer bibendum ligula sit amet vehicula gravida. Maecenas accumsan, ligula vitae molestie iaculis, tellus mi laoreet ex [install instructions](https://auro.alaskaair.com/components/auro/button/install), ac malesuada velit dolor vel mi. Cras et rutrum urna. Sed mattis mi eu tortor ullamcorper, egestas bibendum mauris cursus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus viverra eros eget neque commodo vulputate. In tempus eu velit at dictum.
+The `<auro-slideshow>` component is a wrapper element. All slides are slotted content and must be direct children of the component. 
 
-Nulla at augue facilisis `odio lobortis` molestie vitae a nulla.
+`<auro-slideshow>` is a fully customizable component and does not come with any features turned on by default. The features of `<auro-slideshow>` are turned on by including the proper attributes on the element.
 <!-- AURO-GENERATED-CONTENT:END -->
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/readmeAddlInfo.md) -->
 <!-- The below content is automatically added from ./docs/partials/readmeAddlInfo.md -->
-<!-- AURO-GENERATED-CONTENT This file is to be used for any additional content that should be included in the README.md which is specific to this component. -->
+Autoplay and AutoScroll are mutually exclusive properties and should not be used together on the same component instance.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## UI development browser support
@@ -81,39 +81,21 @@ import "@aurodesignsystem/auro-slideshow";
 
 ```html
   <auro-slideshow pagination autoplay playOnInit loop>
-    <div class="large-promo-card">
-      <div class="content-wrapper">
-        <div class="title-wrapper">
-          <auro-header level="2" display="700" margin="both" size="none" class="title" auro-header="true">
-            Your next adventure starts here
-          </auro-header>
-          <div class="description">Book by April 8, 2025.</div>
-        </div>
-        <auro-hyperlink class="hyperlink" secondary="" type="cta"
-          href="#" tabindex="-1" 
-          target="_self" auro-hyperlink="true">
-          View deals
-        </auro-hyperlink>
-      </div>
-      <img class="image"
-        src="https://images.contentstack.io/v3/assets/blt2cefe12c88e9dd91/bltbfcc9ab08c467362/67f61f2c84b207735a781654/snowy-mountain-tops-1k.png"
-        alt="">
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
     </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=1" alt="Random 1">
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
     </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=2" alt="Random 2">
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
     </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=3" alt="Random 3">
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
     </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=4" alt="Random 4">
-    </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=5" alt="Random 5">
-    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+    </div>    
   </auro-slideshow>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
@@ -143,11 +125,11 @@ In cases where the project is not able to process JS assets, there are pre-proce
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/useCases.md) -->
 <!-- The below content is automatically added from ./docs/partials/useCases.md -->
-The `<auro-slideshow>` element should be used in situations where users may:
+The `<auro-slideshow>` element should be used in situations where:
 
-* ...
-* ...
-* ...
+* A series of images or content needs to be displayed in a space-saving way
+* Autoplaying or autoscrolling functionality is needed
+* A current slide indicator is required
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## API Code Examples
@@ -159,39 +141,21 @@ The `<auro-slideshow>` element should be used in situations where users may:
 
 ```html
   <auro-slideshow pagination autoplay playOnInit loop>
-    <div class="large-promo-card">
-      <div class="content-wrapper">
-        <div class="title-wrapper">
-          <auro-header level="2" display="700" margin="both" size="none" class="title" auro-header="true">
-            Your next adventure starts here
-          </auro-header>
-          <div class="description">Book by April 8, 2025.</div>
-        </div>
-        <auro-hyperlink class="hyperlink" secondary="" type="cta"
-          href="#" tabindex="-1" 
-          target="_self" auro-hyperlink="true">
-          View deals
-        </auro-hyperlink>
-      </div>
-      <img class="image"
-        src="https://images.contentstack.io/v3/assets/blt2cefe12c88e9dd91/bltbfcc9ab08c467362/67f61f2c84b207735a781654/snowy-mountain-tops-1k.png"
-        alt="">
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
     </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=1" alt="Random 1">
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
     </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=2" alt="Random 2">
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
     </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=3" alt="Random 3">
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
     </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=4" alt="Random 4">
-    </div>
-    <div class="large-promo-card">
-      <img src="https://picsum.photos/1000?random=5" alt="Random 5">
-    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+    </div>    
   </auro-slideshow>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->

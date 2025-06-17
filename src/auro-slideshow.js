@@ -17,11 +17,12 @@ import AuroLibraryRuntimeUtils from "@aurodesignsystem/auro-library/scripts/util
 import { AuroButton } from "@aurodesignsystem/auro-button/src/auro-button.js";
 import buttonVersion from "./buttonVersion.js";
 
-import { AuroIcon } from "@aurodesignsystem/auro-icon/src/auro-icon.js";
-import iconVersion from "./iconVersion.js";
-
 import chevronLeft from "@alaskaairux/icons/dist/icons/interface/chevron-left.mjs";
 import chevronRight from "@alaskaairux/icons/dist/icons/interface/chevron-right.mjs";
+import pause from "@alaskaairux/icons/dist/icons/interface/pause.mjs";
+import play from "@alaskaairux/icons/dist/icons/interface/play-filled.mjs";
+import { AuroIcon } from "@aurodesignsystem/auro-icon/src/auro-icon.js";
+import iconVersion from "./iconVersion.js";
 
 import styleCss from "./style.scss";
 
@@ -41,7 +42,11 @@ export class AuroSlideshow extends LitElement {
     this.navigation = false;
     this.pagination = false;
 
-    this.playBtnLabel = "Play slideshow";
+    this.playLabel = this.playLabel || "Play slideshow";
+    this.pauseLabel = this.pauseLabel || "Pause slideshow";
+
+    /** @private */
+    this.playBtnLabel = this.playLabel;
 
     /** @private */
     this.isPlaying = false;
@@ -96,7 +101,7 @@ export class AuroSlideshow extends LitElement {
         reflect: true,
       },
       /**
-       * If true, the slideshow will start playing automatically when initialized.
+       * If true, the slideshow will start playing automatically on page load.
        */
       playOnInit: {
         type: Boolean,
@@ -124,9 +129,18 @@ export class AuroSlideshow extends LitElement {
         reflect: true,
       },
       /**
-       * The label for the play button.
+       * The aria-label for the play button.
+       * @default Play slideshow
        */
-      playBtnLabel: {
+      playLabel: {
+        type: String,
+        reflect: true,
+      },
+      /**
+       * The aria-label for the pause button.
+       * @default Pause slideshow
+       */
+      pauseLabel: {
         type: String,
         reflect: true,
       },
@@ -138,14 +152,14 @@ export class AuroSlideshow extends LitElement {
         reflect: true,
       },
       /**
-       * If true, the slideshow will display navigation arrows for previous and next slides.
+       * If true, the slideshow will display navigation arrows for previous and next slides when the slide container is hovered.
        */
       navigation: {
         type: Boolean,
         reflect: true,
       },
       /**
-       * If true, the slideshow will display pagination bullets for each slide.
+       * If true, the slideshow will display pagination dots for each slide. If autoplay is on, the active dot will also show a progress bar.
        */
       pagination: {
         type: Boolean,
@@ -262,14 +276,7 @@ export class AuroSlideshow extends LitElement {
     const emblaContainer = this.shadowRoot.querySelector(".embla__container");
     emblaContainer.replaceChildren(...this.slides);
 
-    console.log("first updated", this.slides);
-
     this.isPlaying = this.playOnInit;
-  }
-
-  /** @private */
-  handleSlotChange() {
-    // this.updateSlides();
   }
 
   /**
@@ -278,14 +285,19 @@ export class AuroSlideshow extends LitElement {
    * @returns {void}
    */
   handleKeydown(event) {
+    const focusActiveSlide = () => {
+      setTimeout(() => {
+        const activeSlide = this.slides[this.embla.selectedScrollSnap()];
+        activeSlide.focus();
+      }, 200);
+    };
     if (event.key === "ArrowLeft") {
       this.embla.scrollPrev();
+      focusActiveSlide();
     } else if (event.key === "ArrowRight") {
       this.embla.scrollNext();
+      focusActiveSlide();
     }
-    // move focus to the active slide
-    const activeSlide = this.slides[this.embla.selectedScrollSnap()];
-    activeSlide.focus();
   }
 
   /** @private */
@@ -328,10 +340,10 @@ export class AuroSlideshow extends LitElement {
       const autoplay = emblaApi?.plugins()?.autoplay;
       if (!autoplay) return;
 
-      // Not sure why these are reversed. Embla is weird.
+      // Investigate why values are reversed
       this.playBtnLabel = autoplay.isPlaying()
-        ? "Play Slideshow"
-        : "Pause Slideshow";
+        ? this.playLabel
+        : this.pauseLabel;
     };
 
     const onPlayBtnClick = () => {
@@ -368,8 +380,8 @@ export class AuroSlideshow extends LitElement {
       if (!autoScroll) return;
 
       this.playBtnLabel = autoScroll.isPlaying()
-        ? "Play Slideshow"
-        : "Pause Slideshow";
+        ? this.playLabel
+        : this.pauseLabel;
     };
 
     const onPlayBtnClick = () => {
@@ -434,11 +446,9 @@ export class AuroSlideshow extends LitElement {
         progressBar.classList.add("embla__progress__bar");
 
         dotNodes[previous].classList.replace("embla__progress", "embla__dot");
-        dotNodes[previous].removeAttribute("tabindex");
         dotNodes[previous].replaceChildren();
 
         dotNodes[selected].classList.replace("embla__dot", "embla__progress");
-        dotNodes[selected].setAttribute("tabindex", "-1");
         dotNodes[selected].appendChild(progressBar);
 
         this.addAutoplayProgressListeners(this.embla, this._progressNode);
@@ -502,7 +512,8 @@ export class AuroSlideshow extends LitElement {
 
     emblaApi
       .on("autoplay:timerset", startProgress)
-      .on("autoplay:timerstopped", stopProgress);
+      .on("autoplay:timerstopped", stopProgress)
+      .emit("autoplay:timerset"); // starts progress animation for playOnInit
 
     return () => {
       emblaApi
@@ -521,7 +532,6 @@ export class AuroSlideshow extends LitElement {
   generateIconHtml(svgContent, hideIcon) {
     const dom = new DOMParser().parseFromString(svgContent, "text/html");
     const svg = dom.body.firstChild;
-
     svg.setAttribute("slot", "svg");
 
     const iconHtml = html`<${this.iconTag} customColor customSvg slot="icon" ?hidden="${hideIcon}">${svg}</${this.iconTag}>`;
@@ -563,29 +573,25 @@ export class AuroSlideshow extends LitElement {
       iconOnly 
       rounded 
       >
-        <${this.iconTag} 
-          onDark category="interface" 
-          name="play-filled" 
-          ?hidden=${this.isPlaying} 
-          slot="icon">
-        </${this.iconTag}>
-        <${this.iconTag} 
-          onDark category="interface" 
-          name="pause" 
-          ?hidden=${!this.isPlaying} 
-          slot="icon">
-        </${this.iconTag}>
+        ${this.generateIconHtml(play.svg, this.isPlaying)}
+        ${this.generateIconHtml(pause.svg, !this.isPlaying)}
     </${this.buttonTag}>
     `;
   }
 
   /**
-   * Generates the HTML for the pagination controls.
+   * Generates the HTML for the pagination container, which includes the play button and pagination dots.
+   * If autoplay or autoScroll is enabled, it will render the play button.
+   * If pagination is enabled, it will render the dots.
    * @private
-   * @returns {Element} The HTML element containing the pagination controls.
    */
-  renderPaginationDots() {
-    return html` <div class="embla__dots"></div> `;
+  renderPaginationContainer() {
+    return html`
+      <div class="pagination-container">
+        ${this.autoplay || this.autoScroll ? this.renderPlayButton() : nothing}
+        ${this.pagination ? html`<div class="embla__dots"></div>` : nothing}
+      </div>
+    `;
   }
 
   render() {
@@ -599,12 +605,7 @@ export class AuroSlideshow extends LitElement {
             </div>
           </div>
         </div>
-        <div class="pagination-container">
-          ${
-            this.autoplay || this.autoScroll ? this.renderPlayButton() : nothing
-          }
-          ${this.pagination ? this.renderPaginationDots() : nothing}
-        </div>
+        ${this.pagination || this.autoplay || this.autoScroll ? this.renderPaginationContainer() : nothing}
       </div>
     `;
   }

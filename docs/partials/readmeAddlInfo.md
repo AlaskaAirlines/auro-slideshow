@@ -1,1 +1,2 @@
-<!-- AURO-GENERATED-CONTENT This file is to be used for any additional content that should be included in the README.md which is specific to this component. -->
+
+Autoplay and AutoScroll are mutually exclusive properties and should not be used together on the same component instance. 
