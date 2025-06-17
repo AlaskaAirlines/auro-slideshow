@@ -73,8 +73,19 @@ This will create a new custom element that you can use in your HTML that will fu
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-
-  <!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/custom.html) -->
-  <!-- AURO-GENERATED-CONTENT:END -->
+  
+```html
+ <custom-slideshow navigation>
+    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+      <p>Slide 1</p>
+    </div>
+    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+      <p>Slide 2</p>
+    </div>
+    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+      <p>Slide 3</p>
+    </div>
+  </custom-slideshow>
+  ```
   
 </auro-accordion>
