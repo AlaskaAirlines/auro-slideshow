@@ -547,18 +547,20 @@ export class AuroSlideshow extends LitElement {
   renderNavigationControls() {
     return html`
       <${this.buttonTag} 
-        arialabel="Previous slide" 
+        aria-label="Previous slide" 
         class="scroll-prev"
-        iconOnly rounded 
-        variant="secondary" 
+        shape="circle"
+        onDark
+        size="lg"
         @click=${() => this.embla.scrollPrev()}>
         ${this.generateIconHtml(chevronLeft.svg)}
       </${this.buttonTag}>
       <${this.buttonTag} 
-        arialabel="Next slide" 
+        aria-label="Next slide" 
         class="scroll-next"
-        iconOnly rounded 
-        variant="secondary" 
+        shape="circle"
+        onDark
+        size="lg"
         @click=${() => this.embla.scrollNext()}>
         ${this.generateIconHtml(chevronRight.svg)}
       </${this.buttonTag}>`;
@@ -568,10 +570,9 @@ export class AuroSlideshow extends LitElement {
   renderPlayButton() {
     return html`
     <${this.buttonTag} 
-      arialabel="${this.playBtnLabel}"
+      aria-label="${this.playBtnLabel}"
       class="play-pause"
-      iconOnly 
-      rounded 
+      shape="circle"
       >
         ${this.generateIconHtml(play.svg, this.isPlaying)}
         ${this.generateIconHtml(pause.svg, !this.isPlaying)}

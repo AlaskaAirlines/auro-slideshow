@@ -105,12 +105,6 @@
   display: block;
 }
 
-.play-pause {
-  --ds-auro-button-border-color: var(--ds-advanced-color-button-primary-border, #{$ds-advanced-color-button-primary-border});
-  --ds-auro-button-container-color: var(--ds-advanced-color-button-primary-background, #{$ds-advanced-color-button-primary-background});
-  --ds-auro-button-container-image: var(--ds-advanced-color-button-primary-background, #{$ds-advanced-color-button-primary-background});
-}
-
 // ==== Pagination ====
 
 .pagination-container {
