@@ -15,8 +15,6 @@
 @import "./../node_modules/@aurodesignsystem/webcorestylesheets/src/core";
 @import "./../node_modules/@aurodesignsystem/webcorestylesheets/src/animation";
 
-/* stylelint-disable */
-
 :host {
   --border-size: 6px; /* Tokenize */
   --border-radius: 24px; /* Tokenize */
@@ -131,10 +129,6 @@
   position: relative;
   cursor: pointer;
 
-  // &:focus, &:focus-visible {
-  //   outline: 2px solid var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
-  //   outline-offset: 2px;
-  // }
 
   &:hover:not(.embla__dot--selected) {
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, $ds-advanced-color-button-primary-background-inactive-hover);
@@ -181,10 +175,6 @@
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, $ds-advanced-color-button-primary-background-inactive-hover);
   }
 
-  // &:focus, &:focus-visible {
-  //   outline: 2px solid var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
-  //   outline-offset: 2px;
-  // }
 }
 
 .embla__progress__bar {
