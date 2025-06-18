@@ -42,8 +42,8 @@ export class AuroSlideshow extends LitElement {
     this.navigation = false;
     this.pagination = false;
 
-    this.playLabel = this.playLabel || "Play slideshow";
-    this.pauseLabel = this.pauseLabel || "Pause slideshow";
+    this.playLabel = "Play slideshow";
+    this.pauseLabel = "Pause slideshow";
 
     /** @private */
     this.playBtnLabel = this.playLabel;
@@ -174,6 +174,10 @@ export class AuroSlideshow extends LitElement {
     };
   }
 
+  get _slot() {
+    return this.shadowRoot.querySelector("slot:not([name])");
+  }
+
   get _playBtn() {
     return this.shadowRoot.querySelector(".play-pause");
   }
@@ -215,6 +219,13 @@ export class AuroSlideshow extends LitElement {
     const plugins = [ClassNames(classNamesOptions)];
 
     // Autoplay and AutoScroll cannot be used together.
+    if (this.autoplay && this.autoScroll) {
+      console.warn(
+        "Autoplay and AutoScroll are not meant to be used together. Please select one.",
+      );
+      this.autoplay = false;
+      this.autoScroll = false;
+    }
     if (this.autoplay) {
       plugins.push(Autoplay(autoplayOptions));
     }
@@ -265,18 +276,43 @@ export class AuroSlideshow extends LitElement {
     this.initializeEmbla();
 
     // add event listener to embla instance to toggle tabindex on active slide whenever slide is changed
-    this.embla.on("select", () => {
-      const activeSlide = this.slides[this.embla.selectedScrollSnap()];
-      this.slides.forEach((slide) => {
-        slide.setAttribute("tabindex", "-1");
-      });
-      activeSlide.setAttribute("tabindex", "0");
-    });
+    this.embla.on("select", this.toggleTabIndex.bind(this));
 
     const emblaContainer = this.shadowRoot.querySelector(".embla__container");
     emblaContainer.replaceChildren(...this.slides);
 
     this.isPlaying = this.playOnInit;
+  }
+
+  /**
+   * @private
+   * Toggles the tabindex attribute on the active slide to allow keyboard navigation.
+   */
+  toggleTabIndex() {
+    const activeSlide = this.slides[this.embla.selectedScrollSnap()];
+    this.slides.forEach((slide) => {
+      slide.setAttribute("tabindex", "-1");
+    });
+    activeSlide.setAttribute("tabindex", "0");
+  }
+
+  /**
+   * @private
+   * Handles the slot change event to update slides and reinitialize Embla.
+   */
+  handleSlotChange() {
+    // Remove existing event listeners from slides
+    this.slides.forEach((slide) => {
+      slide.removeEventListener("keydown", this.handleKeydown.bind(this));
+    });
+    this.updateSlides();
+
+    // Reinitialize Embla with new slides
+    if (this.embla) {
+      const emblaContainer = this.shadowRoot.querySelector(".embla__container");
+      emblaContainer.replaceChildren(...this.slides);
+      this.embla.reInit();
+    }
   }
 
   /**
@@ -292,9 +328,11 @@ export class AuroSlideshow extends LitElement {
       }, 200);
     };
     if (event.key === "ArrowLeft") {
+      event.preventDefault();
       this.embla.scrollPrev();
       focusActiveSlide();
     } else if (event.key === "ArrowRight") {
+      event.preventDefault();
       this.embla.scrollNext();
       focusActiveSlide();
     }
@@ -302,7 +340,11 @@ export class AuroSlideshow extends LitElement {
 
   /** @private */
   updateSlides() {
-    const slot = this.shadowRoot.querySelector("slot:not([name])");
+    if (!this._slot) {
+      return;
+    }
+
+    const slot = this._slot;
     slot.assignedElements().forEach((element, index) => {
       element.classList.add("embla__slide");
       element.addEventListener("keydown", this.handleKeydown.bind(this));
@@ -418,23 +460,26 @@ export class AuroSlideshow extends LitElement {
     let dotNodes = [];
 
     const addDotBtnsWithClickHandlers = () => {
-      dotsNode.innerHTML = emblaApi
-        .scrollSnapList()
-        .map(
-          () =>
-            '<button class="embla__dot" type="button" tabindex="-1"></button>',
-        )
-        .join("");
-
-      const scrollTo = (index) => {
-        emblaApi.scrollTo(index);
-        if (onButtonClick) onButtonClick(emblaApi);
-      };
-
-      dotNodes = Array.from(dotsNode.querySelectorAll(".embla__dot"));
-      dotNodes.forEach((dotNode, index) => {
-        dotNode.addEventListener("click", () => scrollTo(index), false);
+      // Create new dot buttons using Lit's render
+      const dots = emblaApi.scrollSnapList().map((_, index) => {
+        const button = document.createElement("button");
+        button.className = "embla__dot";
+        button.type = "button";
+        button.tabIndex = -1;
+        button.addEventListener(
+          "click",
+          () => {
+            emblaApi.scrollTo(index);
+            if (onButtonClick) onButtonClick(emblaApi);
+          },
+          false,
+        );
+        return button;
       });
+
+      // Use a single DOM operation to update dots
+      dotsNode.replaceChildren(...dots);
+      dotNodes = dots;
     };
 
     const toggleDotBtnsActive = () => {
@@ -443,18 +488,26 @@ export class AuroSlideshow extends LitElement {
 
       if (this.autoplay) {
         const progressBar = document.createElement("div");
-        progressBar.classList.add("embla__progress__bar");
+        progressBar.className = "embla__progress__bar";
 
-        dotNodes[previous].classList.replace("embla__progress", "embla__dot");
-        dotNodes[previous].replaceChildren();
+        if (dotNodes[previous]) {
+          dotNodes[previous].className = "embla__dot";
+          dotNodes[previous].replaceChildren();
+        }
 
-        dotNodes[selected].classList.replace("embla__dot", "embla__progress");
-        dotNodes[selected].appendChild(progressBar);
+        if (dotNodes[selected]) {
+          dotNodes[selected].className = "embla__progress";
+          dotNodes[selected].replaceChildren(progressBar);
+        }
 
         this.addAutoplayProgressListeners(this.embla, this._progressNode);
       } else {
-        dotNodes[previous].classList.remove("embla__dot--selected");
-        dotNodes[selected].classList.add("embla__dot--selected");
+        if (dotNodes[previous]) {
+          dotNodes[previous].classList.remove("embla__dot--selected");
+        }
+        if (dotNodes[selected]) {
+          dotNodes[selected].classList.add("embla__dot--selected");
+        }
       }
     };
 
@@ -466,7 +519,7 @@ export class AuroSlideshow extends LitElement {
       .on("select", toggleDotBtnsActive);
 
     return () => {
-      dotsNode.innerHTML = "";
+      dotsNode.replaceChildren();
     };
   };
 
@@ -521,6 +574,24 @@ export class AuroSlideshow extends LitElement {
         .off("autoplay:timerstopped", stopProgress);
     };
   };
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    this.embla.off("select", this.toggleTabIndex.bind(this));
+
+    // Clean up event listeners and Embla instance
+    if (this.embla) {
+      this.embla.destroy();
+      this.embla = null;
+    }
+
+    // Remove all slides
+    this.slides.forEach((slide) => {
+      slide.removeEventListener("keydown", this.handleKeydown.bind(this));
+    });
+    this.slides = [];
+  }
 
   /**
    * Internal function to generate the HTML for the icon to use.
