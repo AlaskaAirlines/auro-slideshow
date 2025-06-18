@@ -1,2 +1,2 @@
 
-Autoplay and AutoScroll are mutually exclusive properties and should not be used together on the same component instance. 
+`autoplay` and `autoScroll` are mutually exclusive properties and should not be used together on the same component instance. 

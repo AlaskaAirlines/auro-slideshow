@@ -61,13 +61,11 @@
     outline: unset;
     box-shadow: 0 0 0 2px #fff, 
       0 0 0 var(--border-size) var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
-
   }
 
   &:not(.active):not(.in-view) {
     filter: brightness(30%);
   }
-  
 }
 
 // ==== Controls ====
@@ -128,6 +126,7 @@
   background-color: var(--ds-advanced-color-button-primary-background-inactive, $ds-advanced-color-button-primary-background-inactive);
   position: relative;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
 
 
   &:hover:not(.embla__dot--selected) {
@@ -170,11 +169,12 @@
   max-width: 90%;
   overflow: hidden;
   cursor: pointer;
+  justify-self: center;
+  transition: all 0.3s ease-in-out;
 
    &:hover {
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, $ds-advanced-color-button-primary-background-inactive-hover);
   }
-
 }
 
 .embla__progress__bar {
@@ -185,14 +185,6 @@
   top: 0;
   bottom: 0;
   left: -100%;
-}
-
-.embla__progress {
-  justify-self: center;
-  transition: opacity 0.3s ease-in-out;
-}
-
-.embla__progress__bar {
   animation-name: autoplay-progress;
   animation-timing-function: linear;
   animation-iteration-count: 1;
