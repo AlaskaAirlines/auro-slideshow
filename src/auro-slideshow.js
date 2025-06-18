@@ -534,7 +534,7 @@ export class AuroSlideshow extends LitElement {
     const svg = dom.body.firstChild;
     svg.setAttribute("slot", "svg");
 
-    const iconHtml = html`<${this.iconTag} customColor customSvg slot="icon" ?hidden="${hideIcon}">${svg}</${this.iconTag}>`;
+    const iconHtml = html`<${this.iconTag} customColor customSvg ?hidden="${hideIcon}">${svg}</${this.iconTag}>`;
 
     return iconHtml;
   }
