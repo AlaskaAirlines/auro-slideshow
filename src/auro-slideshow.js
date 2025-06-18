@@ -271,7 +271,7 @@ export class AuroSlideshow extends LitElement {
     this.initializeEmbla();
 
     // add event listener to embla instance to toggle tabindex on active slide whenever slide is changed
-    this.embla.on("select", this.toggleTabIndex.bind(this));
+    this.embla.on("select", this.toggleTabIndex);
 
     this.isPlaying = this.playOnInit;
   }
@@ -280,13 +280,13 @@ export class AuroSlideshow extends LitElement {
    * @private
    * Toggles the tabindex attribute on the active slide to allow keyboard navigation.
    */
-  toggleTabIndex() {
+  toggleTabIndex = () => {
     const activeSlide = this.slides[this.embla.selectedScrollSnap()];
     this.slides.forEach((slide) => {
       slide.setAttribute("tabindex", "-1");
     });
     activeSlide.setAttribute("tabindex", "0");
-  }
+  };
 
   /**
    * @private
@@ -306,7 +306,7 @@ export class AuroSlideshow extends LitElement {
    * @param {KeyboardEvent} event - The keydown event triggered by the user.
    * @returns {void}
    */
-  handleKeydown(event) {
+  handleKeydown = (event) => {
     const focusActiveSlide = () => {
       setTimeout(() => {
         const activeSlide = this.slides[this.embla.selectedScrollSnap()];
@@ -322,7 +322,7 @@ export class AuroSlideshow extends LitElement {
       this.embla.scrollNext();
       focusActiveSlide();
     }
-  }
+  };
 
   /** @private */
   updateSlides() {
@@ -334,7 +334,7 @@ export class AuroSlideshow extends LitElement {
 
     this.slides.forEach((element, index) => {
       element.classList.add("embla__slide");
-      element.addEventListener("keydown", this.handleKeydown.bind(this));
+      element.addEventListener("keydown", this.handleKeydown);
       if (index === 0) {
         element.setAttribute("tabindex", "0");
       } else {
@@ -541,7 +541,7 @@ export class AuroSlideshow extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.embla.off("select", this.toggleTabIndex.bind(this));
+    this.embla.off("select", this.toggleTabIndex);
 
     // Clean up event listeners and Embla instance
     if (this.embla) {
@@ -551,7 +551,7 @@ export class AuroSlideshow extends LitElement {
 
     // Remove all slides
     this.slides.forEach((slide) => {
-      slide.removeEventListener("keydown", this.handleKeydown.bind(this));
+      slide.removeEventListener("keydown", this.handleKeydown);
     });
     this.slides = [];
   }

@@ -29,7 +29,7 @@ The `<auro-slideshow>` component is a wrapper element. All slides are slotted co
 <!-- AURO-GENERATED-CONTENT:END -->
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/readmeAddlInfo.md) -->
 <!-- The below content is automatically added from ./docs/partials/readmeAddlInfo.md -->
-Autoplay and AutoScroll are mutually exclusive properties and should not be used together on the same component instance.
+`autoplay` and `autoScroll` are mutually exclusive properties and should not be used together on the same component instance.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## UI development browser support
