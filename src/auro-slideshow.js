@@ -232,10 +232,6 @@ export class AuroSlideshow extends LitElement {
       plugins.push(AutoScroll(autoscrollOptions));
     }
 
-    // Attach slides to the Embla instance
-    const emblaContainer = this.shadowRoot.querySelector(".embla__container");
-    emblaContainer.replaceChildren(...this.slides);
-
     // Initialize Embla instance
     this.embla = EmblaCarousel(emblaNode, options, plugins);
 
@@ -277,9 +273,6 @@ export class AuroSlideshow extends LitElement {
     // add event listener to embla instance to toggle tabindex on active slide whenever slide is changed
     this.embla.on("select", this.toggleTabIndex.bind(this));
 
-    const emblaContainer = this.shadowRoot.querySelector(".embla__container");
-    emblaContainer.replaceChildren(...this.slides);
-
     this.isPlaying = this.playOnInit;
   }
 
@@ -304,8 +297,6 @@ export class AuroSlideshow extends LitElement {
 
     // Reinitialize Embla with new slides
     if (this.embla) {
-      const emblaContainer = this.shadowRoot.querySelector(".embla__container");
-      emblaContainer.replaceChildren(...this.slides);
       this.embla.reInit();
     }
   }
@@ -342,7 +333,6 @@ export class AuroSlideshow extends LitElement {
     this.slides = Array.from(this._slot.assignedElements());
 
     this.slides.forEach((element, index) => {
-      element.removeEventListener("keydown", this.handleKeydown.bind(this));
       element.classList.add("embla__slide");
       element.addEventListener("keydown", this.handleKeydown.bind(this));
       if (index === 0) {
@@ -351,6 +341,10 @@ export class AuroSlideshow extends LitElement {
         element.setAttribute("tabindex", "-1");
       }
     });
+
+    // Attach slides to the Embla instance
+    const emblaContainer = this.shadowRoot.querySelector(".embla__container");
+    emblaContainer.replaceChildren(...this.slides);
   }
 
   /**
