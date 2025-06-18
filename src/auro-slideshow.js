@@ -223,7 +223,6 @@ export class AuroSlideshow extends LitElement {
       console.warn(
         "Autoplay and AutoScroll are not meant to be used together. Please select one.",
       );
-      this.autoplay = false;
       this.autoScroll = false;
     }
     if (this.autoplay) {
@@ -301,10 +300,6 @@ export class AuroSlideshow extends LitElement {
    * Handles the slot change event to update slides and reinitialize Embla.
    */
   handleSlotChange() {
-    // Remove existing event listeners from slides
-    this.slides.forEach((slide) => {
-      slide.removeEventListener("keydown", this.handleKeydown.bind(this));
-    });
     this.updateSlides();
 
     // Reinitialize Embla with new slides
@@ -344,8 +339,10 @@ export class AuroSlideshow extends LitElement {
       return;
     }
 
-    const slot = this._slot;
-    slot.assignedElements().forEach((element, index) => {
+    this.slides = Array.from(this._slot.assignedElements());
+
+    this.slides.forEach((element, index) => {
+      element.removeEventListener("keydown", this.handleKeydown.bind(this));
       element.classList.add("embla__slide");
       element.addEventListener("keydown", this.handleKeydown.bind(this));
       if (index === 0) {
@@ -354,7 +351,6 @@ export class AuroSlideshow extends LitElement {
         element.setAttribute("tabindex", "-1");
       }
     });
-    this.slides = slot.assignedElements();
   }
 
   /**
@@ -375,82 +371,55 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * @private
-   * Adds event listeners to the play button to control autoplay.
+   * Creates event listeners for controlling autoplay or auto scroll.
    */
-  addAutoPlayBtnListener = (emblaApi, playBtn) => {
-    const togglePlayBtnState = () => {
-      const autoplay = emblaApi?.plugins()?.autoplay;
-      if (!autoplay) return;
+  createPlayButtonListeners = (type) => (emblaApi, playBtn) => {
+    const plugin = type === "autoplay" ? "autoplay" : "autoScroll";
 
-      // Investigate why values are reversed
-      this.playBtnLabel = autoplay.isPlaying()
+    const togglePlayBtnState = () => {
+      const control = emblaApi?.plugins()?.[plugin];
+      if (!control) return;
+
+      this.playBtnLabel = control.isPlaying()
         ? this.playLabel
-        : this.pauseLabel;
+        : this.pauseLabel; // these are reversed
     };
 
     const onPlayBtnClick = () => {
-      const autoplay = emblaApi?.plugins()?.autoplay;
-      if (!autoplay) return;
+      const control = emblaApi?.plugins()?.[plugin];
+      if (!control) return;
 
-      const playOrStop = autoplay.isPlaying() ? autoplay.stop : autoplay.play;
+      const playOrStop = control.isPlaying() ? control.stop : control.play;
       playOrStop();
-      this.isPlaying = autoplay.isPlaying();
+      this.isPlaying = control.isPlaying();
     };
 
-    playBtn.addEventListener("click", onPlayBtnClick);
+    playBtn?.addEventListener("click", onPlayBtnClick);
     emblaApi
-      .on("autoplay:play", togglePlayBtnState)
-      .on("autoplay:stop", togglePlayBtnState)
+      .on(`${plugin}:play`, togglePlayBtnState)
+      .on(`${plugin}:stop`, togglePlayBtnState)
       .on("reInit", togglePlayBtnState);
 
     return () => {
-      playBtn.removeEventListener("click", onPlayBtnClick);
+      playBtn?.removeEventListener("click", onPlayBtnClick);
       emblaApi
-        .off("autoplay:play", togglePlayBtnState)
-        .off("autoplay:stop", togglePlayBtnState)
+        .off(`${plugin}:play`, togglePlayBtnState)
+        .off(`${plugin}:stop`, togglePlayBtnState)
         .off("reInit", togglePlayBtnState);
     };
   };
 
   /**
    * @private
+   * Adds event listeners to the play button to control autoplay.
+   */
+  addAutoPlayBtnListener = this.createPlayButtonListeners("autoplay");
+
+  /**
+   * @private
    * Adds event listeners to the play button to control auto scroll.
    */
-  addAutoScrollBtnListener = (emblaApi, playBtn) => {
-    const togglePlayBtnState = (emblaApi) => {
-      const autoScroll = emblaApi?.plugins()?.autoScroll;
-      if (!autoScroll) return;
-
-      this.playBtnLabel = autoScroll.isPlaying()
-        ? this.playLabel
-        : this.pauseLabel;
-    };
-
-    const onPlayBtnClick = () => {
-      const autoScroll = emblaApi?.plugins()?.autoScroll;
-      if (!autoScroll) return;
-
-      const playOrStop = autoScroll.isPlaying()
-        ? autoScroll.stop
-        : autoScroll.play;
-      playOrStop();
-      this.isPlaying = autoScroll.isPlaying();
-    };
-
-    playBtn.addEventListener("click", onPlayBtnClick);
-    emblaApi
-      .on("autoScroll:play", togglePlayBtnState)
-      .on("autoScroll:stop", togglePlayBtnState)
-      .on("reInit", togglePlayBtnState);
-
-    return () => {
-      playBtn.removeEventListener("click", onPlayBtnClick);
-      emblaApi
-        .off("autoScroll:play", togglePlayBtnState)
-        .off("autoScroll:stop", togglePlayBtnState)
-        .off("reInit", togglePlayBtnState);
-    };
-  };
+  addAutoScrollBtnListener = this.createPlayButtonListeners("autoScroll");
 
   /**
    * @private
@@ -605,9 +574,7 @@ export class AuroSlideshow extends LitElement {
     const svg = dom.body.firstChild;
     svg.setAttribute("slot", "svg");
 
-    const iconHtml = html`<${this.iconTag} customColor customSvg ?hidden="${hideIcon}">${svg}</${this.iconTag}>`;
-
-    return iconHtml;
+    return html`<${this.iconTag} customColor customSvg ?hidden="${hideIcon}">${svg}</${this.iconTag}>`;
   }
 
   /**
@@ -623,7 +590,7 @@ export class AuroSlideshow extends LitElement {
         shape="circle"
         onDark
         size="lg"
-        @click=${() => this.embla.scrollPrev()}>
+        @click=${() => this.embla?.scrollPrev()}>
         ${this.generateIconHtml(chevronLeft.svg)}
       </${this.buttonTag}>
       <${this.buttonTag} 
@@ -632,7 +599,7 @@ export class AuroSlideshow extends LitElement {
         shape="circle"
         onDark
         size="lg"
-        @click=${() => this.embla.scrollNext()}>
+        @click=${() => this.embla?.scrollNext()}>
         ${this.generateIconHtml(chevronRight.svg)}
       </${this.buttonTag}>`;
   }
