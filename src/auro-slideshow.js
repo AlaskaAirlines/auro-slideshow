@@ -293,7 +293,7 @@ export class AuroSlideshow extends LitElement {
     if (this.autoplay) {
       plugins.push(Autoplay(autoplayOptions));
     }
-    if (this.autoScroll) {
+    if (this.autoScroll && !this.isTouchDevice()) {
       plugins.push(AutoScroll(autoscrollOptions));
     }
 
@@ -308,7 +308,7 @@ export class AuroSlideshow extends LitElement {
       );
     }
 
-    if (this.navigation) {
+    if (this.navigation && !this.isTouchDevice()) {
       this.embla
         .on("select", this.toggleNavBtnsState)
         .on("init", this.toggleNavBtnsState)
@@ -321,7 +321,7 @@ export class AuroSlideshow extends LitElement {
         .on("autoplay:play", this.togglePlayButtonOnPlay);
     }
 
-    if (this.autoScroll) {
+    if (this.autoScroll && !this.isTouchDevice()) {
       this.embla
         .on("autoScroll:stop", this.togglePlayButtonOnStop)
         .on("autoScroll:play", this.togglePlayButtonOnPlay);
@@ -413,6 +413,15 @@ export class AuroSlideshow extends LitElement {
 
     autoplay.stop();
   };
+
+  /**
+   * @private
+   * Checks to see if the user is on a touch device.
+   * @returns {boolean} True if touch device, false otherwise.
+   */
+  isTouchDevice() {
+    return window.matchMedia("(pointer: coarse)").matches;
+  }
 
   // ========== EVENT HANDLERS =================
 
@@ -625,7 +634,7 @@ export class AuroSlideshow extends LitElement {
     if (this.embla) {
       this.embla.off("select", this.toggleTabIndex);
 
-      if (this.navigation) {
+      if (this.navigation && !this.isTouchDevice()) {
         this.embla
           .off("select", this.toggleNavBtnsState)
           .off("init", this.toggleNavBtnsState)
@@ -638,7 +647,7 @@ export class AuroSlideshow extends LitElement {
           .off("autoplay:play", this.togglePlayButtonOnPlay);
       }
 
-      if (this.autoScroll) {
+      if (this.autoScroll && !this.isTouchDevice()) {
         this.embla
           .off("autoScroll:stop", this.togglePlayButtonOnStop)
           .off("autoScroll:play", this.togglePlayButtonOnPlay);
@@ -726,7 +735,7 @@ export class AuroSlideshow extends LitElement {
   renderPaginationContainer() {
     return html`
       <div class="pagination-container">
-        ${this.autoplay || this.autoScroll ? this.renderPlayButton() : nothing}
+        ${this.autoplay || (this.autoScroll && !this.isTouchDevice()) ? this.renderPlayButton() : nothing}
         ${this.pagination ? html`<div class="embla__dots"></div>` : nothing}
       </div>
     `;
@@ -736,7 +745,7 @@ export class AuroSlideshow extends LitElement {
     return html`
       <div class="container">
         <div class="slideshow-wrapper">
-          ${this.navigation ? this.renderNavigationControls() : nothing}
+          ${this.navigation && !this.isTouchDevice() ? this.renderNavigationControls() : nothing}
           <div class="embla">
             <div class="embla__container">
               <slot @slotchange=${this.handleSlotChange}></slot>
@@ -744,7 +753,9 @@ export class AuroSlideshow extends LitElement {
           </div>
         </div>
         ${
-          this.pagination || this.autoplay || this.autoScroll
+          this.pagination ||
+          this.autoplay ||
+          (this.autoScroll && !this.isTouchDevice())
             ? this.renderPaginationContainer()
             : nothing
         }
