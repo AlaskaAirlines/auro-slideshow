@@ -411,12 +411,7 @@ export class AuroSlideshow extends LitElement {
     const autoplay = emblaApi?.plugins()?.autoplay;
     if (!autoplay) return;
 
-    const resetOrStop =
-      autoplay.options.stopOnInteraction === false
-        ? autoplay.reset
-        : autoplay.stop;
-
-    resetOrStop();
+    autoplay.stop();
   };
 
   // ========== EVENT HANDLERS =================
@@ -464,6 +459,7 @@ export class AuroSlideshow extends LitElement {
    */
   handleKeydown = (event) => {
     const focusActiveSlide = () => {
+      // Timeout added for UX optimization
       setTimeout(() => {
         const activeSlide = this.slides[this.embla.selectedScrollSnap()];
         activeSlide.focus();

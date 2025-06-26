@@ -26,8 +26,6 @@ describe("auro-slideshow", () => {
     const paginationContainer = el.shadowRoot.querySelector(
       ".pagination-container",
     );
-    const prevButton = el.shadowRoot.querySelector(".scroll-prev");
-    const nextButton = el.shadowRoot.querySelector(".scroll-next");
 
     await expect(el).to.exist;
     await expect(el.autoplay).to.be.false;
@@ -47,8 +45,8 @@ describe("auro-slideshow", () => {
     await expect(el._dotsNode).to.not.exist;
     await expect(el._progressNode).to.not.exist;
     await expect(el._playBtn).to.not.exist;
-    await expect(prevButton).to.not.exist;
-    await expect(nextButton).to.not.exist;
+    await expect(el._prevBtn).to.not.exist;
+    await expect(el._nextBtn).to.not.exist;
   });
 
   it("auro-slideshow custom element is defined", async () => {
@@ -151,12 +149,9 @@ describe("auro-slideshow", () => {
       <auro-slideshow navigation> ${slides} </auro-slideshow>
     `);
 
-    const prevButton = el.shadowRoot.querySelector(".scroll-prev");
-    const nextButton = el.shadowRoot.querySelector(".scroll-next");
-
     await expect(el.navigation).to.be.true;
-    await expect(prevButton).to.exist;
-    await expect(nextButton).to.exist;
+    await expect(el._prevBtn).to.exist;
+    await expect(el._nextBtn).to.exist;
   });
 
   it("renders with pagination enabled", async () => {
@@ -205,7 +200,7 @@ describe("auro-slideshow", () => {
     await expect(el.isPlaying).to.be.true;
 
     // Click to pause
-    shadowButton.click();
+    el._playBtn.click();
     await expect(el.isPlaying).to.be.false;
     await expect(el.playBtnLabel).to.equal(el.playLabel);
     await expect(shadowButton.getAttribute("aria-label")).to.equal(
@@ -213,7 +208,7 @@ describe("auro-slideshow", () => {
     );
 
     // Click to play again
-    shadowButton.click();
+    el._playBtn.click();
     await expect(el.isPlaying).to.be.true;
     await expect(el.playBtnLabel).to.equal(el.pauseLabel);
     await expect(shadowButton.getAttribute("aria-label")).to.equal(
@@ -237,8 +232,7 @@ describe("auro-slideshow", () => {
     });
 
     // Click next button to change slide
-    const nextButton = el.shadowRoot.querySelector(".scroll-next");
-    nextButton.click();
+    el._nextBtn.click();
     await el.updateComplete;
     // Get the new active slide
     activeSlide = el.slides[el.embla.selectedScrollSnap()];
@@ -265,8 +259,7 @@ describe("auro-slideshow", () => {
     });
 
     // Click previous button to change slide
-    const prevButton = el.shadowRoot.querySelector(".scroll-prev");
-    prevButton.click();
+    el._prevBtn.click();
     await el.updateComplete;
     // Get the new active slide
     activeSlide = el.slides[el.embla.selectedScrollSnap()];
@@ -291,5 +284,56 @@ describe("auro-slideshow", () => {
         expect(slide.getAttribute("tabindex")).to.equal("-1");
       }
     });
+  });
+
+  it("calls the correct play and stop methods when autoplay is on", async () => {
+    const el = await fixture(html`
+      <auro-slideshow autoplay> ${slides} </auro-slideshow>
+    `);
+    const playSpy = sinon.spy(el.embla.plugins().autoplay, "play");
+    const stopSpy = sinon.spy(el.embla.plugins().autoplay, "stop");
+
+    el.play();
+    await expect(playSpy.calledOnce).to.be.true;
+    await expect(el.isPlaying).to.be.true;
+
+    el.stop();
+    await expect(stopSpy.calledOnce).to.be.true;
+    await expect(el.isPlaying).to.be.false;
+  });
+
+  it("calls the correct play and stop methods when autoScroll is on", async () => {
+    const el = await fixture(html`
+      <auro-slideshow autoScroll> ${slides} </auro-slideshow>
+    `);
+    const playSpy = sinon.spy(el.embla.plugins().autoScroll, "play");
+    const stopSpy = sinon.spy(el.embla.plugins().autoScroll, "stop");
+
+    el.play();
+    await expect(playSpy.calledOnce).to.be.true;
+    await expect(el.isPlaying).to.be.true;
+
+    el.stop();
+    await expect(stopSpy.calledOnce).to.be.true;
+    await expect(el.isPlaying).to.be.false;
+  });
+
+  it("stops autoplay when user clicks on nav buttons or pagination dots", async () => {
+    const el = await fixture(html`
+      <auro-slideshow autoplay navigation pagination playOnInit> ${slides} </auro-slideshow>
+    `);
+
+    await expect(el.isPlaying).to.be.true;
+
+    el._nextBtn.click();
+    await expect(el.isPlaying).to.be.false;
+
+    el.play();
+    el._prevBtn.click();
+    await expect(el.isPlaying).to.be.false;
+
+    el.play();
+    el._dotsNode.querySelectorAll(".embla__dot")[1].click();
+    await expect(el.isPlaying).to.be.false;
   });
 });
