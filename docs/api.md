@@ -15,3 +15,26 @@
 | `playOnInit`  | `playOnInit`  | `boolean` | false             | If true, the slideshow will start playing automatically on page load. |
 | `scrollSpeed` | `scrollSpeed` | `number`  | 1                 | Number of pixels auto scroll should advance per frame. |
 | `startDelay`  | `startDelay`  | `number`  | 1000              | Delay in milliseconds before the auto scroll starts. |
+
+## Methods
+
+| Method       | Type       | Description                    |
+|--------------|------------|--------------------------------|
+| `play`       | `(): void` | Starts the slideshow playback. |
+| `scrollNext` | `(): void` | Scrolls to the next slide.     |
+| `scrollPrev` | `(): void` | Scrolls to the previous slide. |
+| `stop`       | `(): void` | Stops the slideshow playback.  |
+
+## Slots
+
+| Name | Description                                      |
+|------|--------------------------------------------------|
+|      | Default slot for the slides. Each child element will be treated as a slide. |
+
+## CSS Shadow Parts
+
+| Part                | Description                                 |
+|---------------------|---------------------------------------------|
+| `next-button`       | Use to style the next button control.       |
+| `play-pause-button` | Use to style the play/pause button control. |
+| `prev-button`       | Use to style the previous button control.   |
