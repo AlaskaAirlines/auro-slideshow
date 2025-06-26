@@ -26,6 +26,15 @@ import iconVersion from "./iconVersion.js";
 
 import styleCss from "./style.scss";
 
+/**
+ * The auro-slideshow component is a customizable slideshow that displays a series of slides
+ * with several options such as autoplay, navigation controls, and pagination dots.
+ *
+ * @slot - Default slot for the slides. Each child element will be treated as a slide.
+ * @csspart prev-button - Use to style the previous button control.
+ * @csspart next-button - Use to style the next button control.
+ * @csspart play-pause-button - Use to style the play/pause button control.
+ */
 export class AuroSlideshow extends LitElement {
   constructor() {
     super();
@@ -182,6 +191,14 @@ export class AuroSlideshow extends LitElement {
     return this.shadowRoot.querySelector(".play-pause");
   }
 
+  get _prevBtn() {
+    return this.shadowRoot.querySelector(".scroll-prev");
+  }
+
+  get _nextBtn() {
+    return this.shadowRoot.querySelector(".scroll-next");
+  }
+
   get _dotsNode() {
     return this.shadowRoot.querySelector(".embla__dots");
   }
@@ -190,7 +207,54 @@ export class AuroSlideshow extends LitElement {
     return this.shadowRoot.querySelector(".embla__progress");
   }
 
-  /** @private */
+  // ========== PUBLIC METHODS =================
+
+  /**
+   * Starts the slideshow playback.
+   * @returns {void}
+   */
+  play() {
+    if (this.autoplay) {
+      this.embla?.plugins()?.autoplay.play();
+    } else if (this.autoScroll) {
+      this.embla?.plugins()?.autoScroll.play();
+    }
+  }
+
+  /**
+   * Stops the slideshow playback.
+   * @returns {void}
+   */
+  stop() {
+    if (this.autoplay) {
+      this.embla?.plugins()?.autoplay.stop();
+    } else if (this.autoScroll) {
+      this.embla?.plugins()?.autoScroll.stop();
+    }
+  }
+
+  /**
+   * Scrolls to the previous slide.
+   * @returns {void}
+   */
+  scrollPrev() {
+    this.embla.scrollPrev();
+  }
+
+  /**
+   * Scrolls to the next slide.
+   * @returns {void}
+   */
+  scrollNext() {
+    this.embla.scrollNext();
+  }
+
+  // ========== PRIVATE METHODS =================
+
+  /**
+   * @private
+   * Initializes the Embla carousel with the provided options and plugins.
+   */
   initializeEmbla() {
     const emblaNode = this.shadowRoot.querySelector(".embla");
     const options = { loop: this.loop, align: "start" };
@@ -207,6 +271,7 @@ export class AuroSlideshow extends LitElement {
       playOnInit: this.playOnInit,
       delay: this.delay,
       stopOnMouseEnter: true,
+      stopOnLastSnap: !this.loop,
     };
 
     const autoscrollOptions = {
@@ -218,10 +283,10 @@ export class AuroSlideshow extends LitElement {
 
     const plugins = [ClassNames(classNamesOptions)];
 
-    // Autoplay and AutoScroll cannot be used together.
+    // Prevent both autoplay and autoScroll from being used simultaneously.
     if (this.autoplay && this.autoScroll) {
       console.warn(
-        "Autoplay and AutoScroll are not meant to be used together. Please select one.",
+        "Autoplay and AutoScroll are not meant to be used together. AutoScroll has been disabled.",
       );
       this.autoScroll = false;
     }
@@ -239,42 +304,56 @@ export class AuroSlideshow extends LitElement {
       this.addDotBtnsAndClickHandlers(
         this.embla,
         this._dotsNode,
-        this.onNavButtonClick,
+        this.stopAutoplayOnInteraction,
       );
     }
 
-    if (this.autoplay) {
-      this.addAutoPlayBtnListener(this.embla, this._playBtn);
+    if (this.navigation) {
       this.embla
-        .on("autoplay:stop", () => {
-          this.isPlaying = false;
-        })
-        .on("autoplay:play", () => {
-          this.isPlaying = true;
-        });
+        .on("select", this.toggleNavBtnsState)
+        .on("init", this.toggleNavBtnsState)
+        .on("reInit", this.toggleNavBtnsState);
+    }
+
+    if (this.autoplay) {
+      this.embla
+        .on("autoplay:stop", this.togglePlayButtonOnStop)
+        .on("autoplay:play", this.togglePlayButtonOnPlay);
     }
 
     if (this.autoScroll) {
-      this.addAutoScrollBtnListener(this.embla, this._playBtn);
       this.embla
-        .on("autoScroll:stop", () => {
-          this.isPlaying = false;
-        })
-        .on("autoScroll:play", () => {
-          this.isPlaying = true;
-        });
+        .on("autoScroll:stop", this.togglePlayButtonOnStop)
+        .on("autoScroll:play", this.togglePlayButtonOnPlay);
     }
   }
 
-  firstUpdated() {
-    this.updateSlides();
-    this.initializeEmbla();
+  /**
+   * @private
+   * Gets slides from the slot, adds necessary classes and event listeners,
+   * and updates the Embla instance with the new slides.
+   */
+  updateSlides() {
+    if (this._slot) {
+      this.slides = Array.from(this._slot.assignedElements());
 
-    // add event listener to embla instance to toggle tabindex on active slide whenever slide is changed
-    this.embla.on("select", this.toggleTabIndex);
+      this.slides.forEach((element, index) => {
+        element.classList.add("embla__slide");
+        element.addEventListener("keydown", this.handleKeydown);
+        if (index === 0) {
+          element.setAttribute("tabindex", "0");
+        } else {
+          element.setAttribute("tabindex", "-1");
+        }
+      });
 
-    this.isPlaying = this.playOnInit;
+      // Attach slides to the Embla instance
+      const emblaContainer = this.shadowRoot.querySelector(".embla__container");
+      emblaContainer.replaceChildren(...this.slides);
+    }
   }
+
+  // ========== PRIVATE HELPER METHODS =================
 
   /**
    * @private
@@ -290,68 +369,45 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * @private
-   * Handles the slot change event to update slides and reinitialize Embla.
+   * Toggles the icon and aria-label of the play button to stopped state.
    */
-  handleSlotChange() {
-    this.updateSlides();
-
-    // Reinitialize Embla with new slides
-    if (this.embla) {
-      this.embla.reInit();
-    }
-  }
+  togglePlayButtonOnStop = () => {
+    this.isPlaying = false;
+    this.playBtnLabel = this.playLabel;
+  };
 
   /**
    * @private
-   * @param {KeyboardEvent} event - The keydown event triggered by the user.
-   * @returns {void}
+   * Toggles the icon and aria-label of the play button to playing state.
    */
-  handleKeydown = (event) => {
-    const focusActiveSlide = () => {
-      setTimeout(() => {
-        const activeSlide = this.slides[this.embla.selectedScrollSnap()];
-        activeSlide.focus();
-      }, 200);
-    };
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      this.embla.scrollPrev();
-      focusActiveSlide();
-    } else if (event.key === "ArrowRight") {
-      event.preventDefault();
-      this.embla.scrollNext();
-      focusActiveSlide();
+  togglePlayButtonOnPlay = () => {
+    this.isPlaying = true;
+    this.playBtnLabel = this.pauseLabel;
+  };
+
+  /**
+   * @private
+   * Adds and removes disabled attribute if at the beginning or end of the slideshow and loop is off.
+   */
+  toggleNavBtnsState = () => {
+    if (this.embla.canScrollPrev()) {
+      this._prevBtn.removeAttribute("disabled");
+    } else {
+      this._prevBtn.setAttribute("disabled", "");
+    }
+
+    if (this.embla.canScrollNext()) {
+      this._nextBtn.removeAttribute("disabled");
+    } else {
+      this._nextBtn.setAttribute("disabled", "");
     }
   };
 
-  /** @private */
-  updateSlides() {
-    if (!this._slot) {
-      return;
-    }
-
-    this.slides = Array.from(this._slot.assignedElements());
-
-    this.slides.forEach((element, index) => {
-      element.classList.add("embla__slide");
-      element.addEventListener("keydown", this.handleKeydown);
-      if (index === 0) {
-        element.setAttribute("tabindex", "0");
-      } else {
-        element.setAttribute("tabindex", "-1");
-      }
-    });
-
-    // Attach slides to the Embla instance
-    const emblaContainer = this.shadowRoot.querySelector(".embla__container");
-    emblaContainer.replaceChildren(...this.slides);
-  }
-
   /**
    * @private
-   * Stops autoplay when the user interacts with the navigation buttons.
+   * Stops autoplay when the user interacts with the navigation controls or pagination dots.
    */
-  onNavButtonClick = (emblaApi) => {
+  stopAutoplayOnInteraction = (emblaApi) => {
     const autoplay = emblaApi?.plugins()?.autoplay;
     if (!autoplay) return;
 
@@ -363,57 +419,82 @@ export class AuroSlideshow extends LitElement {
     resetOrStop();
   };
 
+  // ========== EVENT HANDLERS =================
+
   /**
    * @private
-   * Creates event listeners for controlling autoplay or auto scroll.
+   * Handles the slot change event to update slides and initialize or reinitialize Embla.
+   * If the slot is empty, it will not initialize Embla.
    */
-  createPlayButtonListeners = (type) => (emblaApi, playBtn) => {
-    const plugin = type === "autoplay" ? "autoplay" : "autoScroll";
+  handleSlotChange() {
+    this.updateSlides();
 
-    const togglePlayBtnState = () => {
-      const control = emblaApi?.plugins()?.[plugin];
-      if (!control) return;
+    if (this.embla) {
+      this.embla.reInit();
+    } else {
+      this.initializeEmbla();
+    }
 
-      this.playBtnLabel = control.isPlaying()
-        ? this.playLabel
-        : this.pauseLabel; // these are reversed
+    // add event listener to embla instance to toggle tabindex on active slide whenever slide is changed
+    this.embla.on("select", this.toggleTabIndex);
+
+    // Set isPlaying to true if play is triggered on init
+    this.isPlaying = this.playOnInit;
+  }
+
+  /**
+   * @private
+   * @param {string} direction - The direction of the navigation ("prev" or "next").
+   * Handles click events on the previous and next buttons.
+   */
+  handleNavClick(direction) {
+    if (direction === "prev") {
+      this.scrollPrev();
+    }
+    if (direction === "next") {
+      this.scrollNext();
+    }
+    this.stopAutoplayOnInteraction(this.embla);
+  }
+
+  /**
+   * @private
+   * @param {KeyboardEvent} event - The keydown event triggered by the user.
+   * Allows users to navigate through the slideshow using left/right arrow keys.
+   */
+  handleKeydown = (event) => {
+    const focusActiveSlide = () => {
+      setTimeout(() => {
+        const activeSlide = this.slides[this.embla.selectedScrollSnap()];
+        activeSlide.focus();
+      }, 200);
     };
-
-    const onPlayBtnClick = () => {
-      const control = emblaApi?.plugins()?.[plugin];
-      if (!control) return;
-
-      const playOrStop = control.isPlaying() ? control.stop : control.play;
-      playOrStop();
-      this.isPlaying = control.isPlaying();
-    };
-
-    playBtn?.addEventListener("click", onPlayBtnClick);
-    emblaApi
-      .on(`${plugin}:play`, togglePlayBtnState)
-      .on(`${plugin}:stop`, togglePlayBtnState)
-      .on("reInit", togglePlayBtnState);
-
-    return () => {
-      playBtn?.removeEventListener("click", onPlayBtnClick);
-      emblaApi
-        .off(`${plugin}:play`, togglePlayBtnState)
-        .off(`${plugin}:stop`, togglePlayBtnState)
-        .off("reInit", togglePlayBtnState);
-    };
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      this.scrollPrev();
+      focusActiveSlide();
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      this.scrollNext();
+      focusActiveSlide();
+    }
   };
 
   /**
    * @private
-   * Adds event listeners to the play button to control autoplay.
+   * Handles click events on the play button to toggle autoplay or autoScroll.
    */
-  addAutoPlayBtnListener = this.createPlayButtonListeners("autoplay");
+  handlePlayClick() {
+    if (this.isPlaying) {
+      this.stop();
+      this.togglePlayButtonOnStop();
+    } else {
+      this.play();
+      this.togglePlayButtonOnPlay();
+    }
+  }
 
-  /**
-   * @private
-   * Adds event listeners to the play button to control auto scroll.
-   */
-  addAutoScrollBtnListener = this.createPlayButtonListeners("autoScroll");
+  // ========== DOTS AND PROGRESS BAR METHODS =================
 
   /**
    * @private
@@ -423,12 +504,12 @@ export class AuroSlideshow extends LitElement {
     let dotNodes = [];
 
     const addDotBtnsWithClickHandlers = () => {
-      // Create new dot buttons using Lit's render
       const dots = emblaApi.scrollSnapList().map((_, index) => {
         const button = document.createElement("button");
         button.className = "embla__dot";
         button.type = "button";
         button.tabIndex = -1;
+        button.setAttribute("aria-label", `Go to slide ${index + 1}`); // TODO: localization
         button.addEventListener(
           "click",
           () => {
@@ -440,7 +521,6 @@ export class AuroSlideshow extends LitElement {
         return button;
       });
 
-      // Use a single DOM operation to update dots
       dotsNode.replaceChildren(...dots);
       dotNodes = dots;
     };
@@ -488,6 +568,8 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * @private
+   * Adds autoplay progress listeners to the progress bar.
+   * This function updates the progress bar animation based on the autoplay timer.
    */
   addAutoplayProgressListeners = (emblaApi, progressNode) => {
     const progressBarNode = progressNode.querySelector(".embla__progress__bar");
@@ -538,13 +620,34 @@ export class AuroSlideshow extends LitElement {
     };
   };
 
+  // ========== LIFECYCLE METHODS =================
+
   disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.embla.off("select", this.toggleTabIndex);
-
     // Clean up event listeners and Embla instance
     if (this.embla) {
+      this.embla.off("select", this.toggleTabIndex);
+
+      if (this.navigation) {
+        this.embla
+          .off("select", this.toggleNavBtnsState)
+          .off("init", this.toggleNavBtnsState)
+          .off("reInit", this.toggleNavBtnsState);
+      }
+
+      if (this.autoplay) {
+        this.embla
+          .off("autoplay:stop", this.togglePlayButtonOnStop)
+          .off("autoplay:play", this.togglePlayButtonOnPlay);
+      }
+
+      if (this.autoScroll) {
+        this.embla
+          .off("autoScroll:stop", this.togglePlayButtonOnStop)
+          .off("autoScroll:play", this.togglePlayButtonOnPlay);
+      }
+
       this.embla.destroy();
       this.embla = null;
     }
@@ -555,6 +658,8 @@ export class AuroSlideshow extends LitElement {
     });
     this.slides = [];
   }
+
+  // ========== RENDER METHODS =================
 
   /**
    * Internal function to generate the HTML for the icon to use.
@@ -584,7 +689,8 @@ export class AuroSlideshow extends LitElement {
         shape="circle"
         onDark
         size="lg"
-        @click=${() => this.embla?.scrollPrev()}>
+        @click=${() => this.handleNavClick("prev")}
+        part="prev-button">
         ${this.generateIconHtml(chevronLeft.svg)}
       </${this.buttonTag}>
       <${this.buttonTag} 
@@ -593,7 +699,8 @@ export class AuroSlideshow extends LitElement {
         shape="circle"
         onDark
         size="lg"
-        @click=${() => this.embla?.scrollNext()}>
+        @click=${() => this.handleNavClick("next")}
+        part="next-button">
         ${this.generateIconHtml(chevronRight.svg)}
       </${this.buttonTag}>`;
   }
@@ -605,6 +712,8 @@ export class AuroSlideshow extends LitElement {
       aria-label="${this.playBtnLabel}"
       class="play-pause"
       shape="circle"
+      @click=${() => this.handlePlayClick()}
+      part="play-pause-button"
       >
         ${this.generateIconHtml(play.svg, this.isPlaying)}
         ${this.generateIconHtml(pause.svg, !this.isPlaying)}
@@ -638,7 +747,11 @@ export class AuroSlideshow extends LitElement {
             </div>
           </div>
         </div>
-        ${this.pagination || this.autoplay || this.autoScroll ? this.renderPaginationContainer() : nothing}
+        ${
+          this.pagination || this.autoplay || this.autoScroll
+            ? this.renderPaginationContainer()
+            : nothing
+        }
       </div>
     `;
   }
