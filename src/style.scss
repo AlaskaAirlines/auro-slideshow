@@ -5,9 +5,7 @@
 
 /* stylelint-disable */
 
-// Import Auro Sass variables
-@import "./../node_modules/@aurodesignsystem/design-tokens/dist/legacy/auro-classic/SCSSVariables";
-@import "./../node_modules/@aurodesignsystem/design-tokens/dist/themes/alaska/SCSSVariables--alaska";
+@use "./../node_modules/@aurodesignsystem/design-tokens/dist/themes/alaska/SCSSVariables--alaska" as v;
 
 :host {
   --border-size: 6px; /* Tokenize */
@@ -23,11 +21,11 @@
 
 .slideshow-wrapper {
   position: relative;
-  width: 100%;
   display: flex;
-  justify-content: start;
-  align-items: center;
+  width: 100%;
   overflow: hidden;
+  align-items: center;
+  justify-content: start;
   padding: var(--border-size);
 }
 
@@ -43,17 +41,17 @@
 
 .embla__slide {
   transform: translate3d(0, 0, 0);
-  flex: 0 0 var(--slide-size);
   min-width: 0;
+  flex: 0 0 var(--slide-size);
   border-radius: var(--border-radius);
-  margin-right: 1rem;
   box-sizing: border-box;
+  margin-right: 1rem;
   overflow: hidden;
 
   &:focus-visible {
     outline: unset;
-    box-shadow: 0 0 0 2px var(--ds-basic-color-border-inverse, $ds-basic-color-border-inverse), 
-      0 0 0 var(--border-size) var(--ds-advanced-color-state-focused, $ds-advanced-color-state-focused);
+    box-shadow: 0 0 0 2px var(--ds-basic-color-border-inverse, v.$ds-basic-color-border-inverse), 
+      0 0 0 var(--border-size) var(--ds-advanced-color-state-focused, v.$ds-advanced-color-state-focused);
   }
 
   &:not(.active):not(.in-view) {
@@ -71,13 +69,13 @@
   transform: translateY(-50%);
   z-index: 10;
 
-  --ds-auro-button-container-color: var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
-  --ds-auro-button-container-image: var(--ds-advanced-color-state-focused, #{$ds-advanced-color-state-focused});
+  --ds-auro-button-container-color: var(--ds-advanced-color-state-focused, #{v.$ds-advanced-color-state-focused});
+  --ds-auro-button-container-image: var(--ds-advanced-color-state-focused, #{v.$ds-advanced-color-state-focused});
 
-  color: var(--ds-advanced-color-shared-background, #{$ds-advanced-color-shared-background});
+  color: var(--ds-advanced-color-shared-background, #{v.$ds-advanced-color-shared-background});
 
   &:hover {
-    --ds-auro-button-container-color: var(--ds-advanced-color-button-primary-background-inverse-hover, #{$ds-advanced-color-button-primary-background-inverse-hover});
+    --ds-auro-button-container-color: var(--ds-advanced-color-button-primary-background-inverse-hover, #{v.$ds-advanced-color-button-primary-background-inverse-hover});
   }
 }
 
@@ -116,14 +114,13 @@
   height: 12px;
   border-radius: 50%;
   border: none;
-  background-color: var(--ds-advanced-color-button-primary-background-inactive, $ds-advanced-color-button-primary-background-inactive);
+  background-color: var(--ds-advanced-color-button-primary-background-inactive, v.$ds-advanced-color-button-primary-background-inactive);
   position: relative;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 
-
   &:hover:not(.embla__dot--selected) {
-    background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, $ds-advanced-color-button-primary-background-inactive-hover);
+    background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, v.$ds-advanced-color-button-primary-background-inactive-hover);
   }
 }
 
@@ -144,7 +141,7 @@
   width: 52px;
   height: 12px;
   border-radius: 1.8rem;
-  background-color: var(--ds-advanced-color-button-primary-background, $ds-advanced-color-button-primary-background);
+  background-color: var(--ds-advanced-color-button-primary-background, v.$ds-advanced-color-button-primary-background);
 
   &::before {
     width: 64px;
@@ -154,7 +151,7 @@
 .embla__progress {
   border-radius: 1.8rem;
   border: none;
-  background-color: var(--ds-advanced-color-button-primary-background-inactive, $ds-advanced-color-button-primary-background-inactive);
+  background-color: var(--ds-advanced-color-button-primary-background-inactive, v.$ds-advanced-color-button-primary-background-inactive);
   position: relative;
   align-self: center;
   height: 12px;
@@ -166,13 +163,13 @@
   transition: all 0.3s ease-in-out;
 
    &:hover {
-    background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, $ds-advanced-color-button-primary-background-inactive-hover);
+    background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, v.$ds-advanced-color-button-primary-background-inactive-hover);
   }
 }
 
 .embla__progress__bar {
   border-radius: inherit;
-  background-color: var(--ds-advanced-color-button-primary-background, $ds-advanced-color-button-primary-background);
+  background-color: var(--ds-advanced-color-button-primary-background, v.$ds-advanced-color-button-primary-background);
   position: absolute;
   width: 100%;
   top: 0;
