@@ -127,9 +127,9 @@
 /* Creates 24x24px clickable area for bullet */
 .embla__dot::before {
   content: "";
-  position: absolute;
   width: 24px;
   height: 24px;
+  position: absolute;
   cursor: pointer;
   top: 50%;
   left: 50%;
@@ -149,20 +149,19 @@
 }
 
 .embla__progress {
+  width: 52px;
+  height: 12px;
   border-radius: 1.8rem;
   border: none;
   background-color: var(--ds-advanced-color-button-primary-background-inactive, v.$ds-advanced-color-button-primary-background-inactive);
   position: relative;
-  align-self: center;
-  height: 12px;
-  width: 56px;
-  max-width: 90%;
   overflow: hidden;
   cursor: pointer;
+  align-self: center;
   justify-self: center;
   transition: all 0.3s ease-in-out;
 
-   &:hover {
+   &:hover:not(.stopped) {
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, v.$ds-advanced-color-button-primary-background-inactive-hover);
   }
 }
@@ -183,6 +182,10 @@
 
 .embla__progress--paused .embla__progress__bar {
   animation-play-state: paused;
+}
+
+.stopped {
+  background-color: var(--ds-advanced-color-button-primary-background, v.$ds-advanced-color-button-primary-background);
 }
 
 @keyframes autoplay-progress {

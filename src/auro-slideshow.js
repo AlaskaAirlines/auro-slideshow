@@ -530,6 +530,14 @@ export class AuroSlideshow extends LitElement {
       dotNodes = dots;
     };
 
+    // 'stopped' class adds fill color to progress dot when not playing
+    const toggleProgressStopped = () => {
+      const selected = emblaApi.selectedScrollSnap();
+      if (dotNodes[selected]) {
+        dotNodes[selected].classList.toggle("stopped", !this.isPlaying);
+      }
+    };
+
     const toggleDotBtnsActive = () => {
       const previous = emblaApi.previousScrollSnap();
       const selected = emblaApi.selectedScrollSnap();
@@ -546,9 +554,16 @@ export class AuroSlideshow extends LitElement {
         if (dotNodes[selected]) {
           dotNodes[selected].className = "embla__progress";
           dotNodes[selected].replaceChildren(progressBar);
+          if (!this.isPlaying) {
+            dotNodes[selected].classList.add("stopped");
+          }
         }
 
         this.addAutoplayProgressListeners(this.embla, this._progressNode);
+
+        emblaApi
+          .on("autoplay:play", toggleProgressStopped) // Removes fill color when autoplay starts
+          .on("autoplay:stop", toggleProgressStopped); // Adds fill color when autoplay stops (temp solution until paused state is implemented)
       } else {
         if (dotNodes[previous]) {
           dotNodes[previous].classList.remove("embla__dot--selected");
