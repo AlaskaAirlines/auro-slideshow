@@ -29,7 +29,9 @@ The `<auro-slideshow>` component is a wrapper element. All slides are slotted co
 <!-- AURO-GENERATED-CONTENT:END -->
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/readmeAddlInfo.md) -->
 <!-- The below content is automatically added from ./docs/partials/readmeAddlInfo.md -->
-`autoplay` and `autoScroll` are mutually exclusive properties and should not be used together on the same component instance.
+`autoplay` and `autoScroll` are mutually exclusive properties and should not be used together on the same component instance. 
+
+On mobile devices, `autoScroll` and `navigation` controls are automatically disabled.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## UI development browser support
@@ -80,7 +82,7 @@ import "@aurodesignsystem/auro-slideshow";
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
 ```html
-  <auro-slideshow pagination autoplay playOnInit loop>
+  <auro-slideshow>
     <div style="height: 480px">
       <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
     </div>
@@ -140,7 +142,7 @@ The `<auro-slideshow>` element should be used in situations where:
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
 ```html
-  <auro-slideshow pagination autoplay playOnInit loop>
+  <auro-slideshow>
     <div style="height: 480px">
       <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
     </div>
