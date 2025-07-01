@@ -110,28 +110,28 @@ export class AuroSlideshow extends LitElement {
         reflect: true,
       },
       /**
-       * If true, the slideshow will start playing automatically on page load.
+       * If true, the slideshow will start playing automatically on page load when `autoplay` or `autoScroll` are on.
        */
       playOnInit: {
         type: Boolean,
         reflect: true,
       },
       /**
-       * Slide duration in milliseconds.
+       * Slide duration in milliseconds. (Only used with `autoplay`)
        */
       delay: {
         type: Number,
         reflect: true,
       },
       /**
-       * Number of pixels auto scroll should advance per frame.
+       * Number of pixels auto scroll should advance per frame. (Only used with `autoScroll`)
        */
       scrollSpeed: {
         type: Number,
         reflect: true,
       },
       /**
-       * Delay in milliseconds before the auto scroll starts.
+       * Delay in milliseconds before the auto scroll starts. (Only used with `autoScroll`)
        */
       startDelay: {
         type: Number,
