@@ -35,7 +35,7 @@ describe("auro-slideshow", () => {
     await expect(el.navigation).to.be.false;
     await expect(el.pagination).to.be.false;
     await expect(el.delay).to.equal(7000);
-    await expect(el.scrollSpeed).to.equal(1);
+    await expect(el.scrollSpeed).to.equal(0.75);
     await expect(el.startDelay).to.equal(1000);
     await expect(el.playBtnLabel).to.equal(el.playLabel);
     await expect(el.isPlaying).to.be.false;

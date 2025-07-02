@@ -43,7 +43,7 @@ export class AuroSlideshow extends LitElement {
     this.delay = 7000;
 
     this.autoScroll = false;
-    this.scrollSpeed = 1;
+    this.scrollSpeed = 0.75;
     this.startDelay = 1000;
 
     this.playOnInit = false;
@@ -318,13 +318,15 @@ export class AuroSlideshow extends LitElement {
     if (this.autoplay) {
       this.embla
         .on("autoplay:stop", this.togglePlayButtonOnStop)
-        .on("autoplay:play", this.togglePlayButtonOnPlay);
+        .on("autoplay:play", this.togglePlayButtonOnPlay)
+        .on("init", this.togglePlayButtonOnStop);
     }
 
     if (this.autoScroll && !this.isTouchDevice()) {
       this.embla
         .on("autoScroll:stop", this.togglePlayButtonOnStop)
-        .on("autoScroll:play", this.togglePlayButtonOnPlay);
+        .on("autoScroll:play", this.togglePlayButtonOnPlay)
+        .on("init", this.togglePlayButtonOnStop);
     }
   }
 
@@ -442,8 +444,11 @@ export class AuroSlideshow extends LitElement {
     // add event listener to embla instance to toggle tabindex on active slide whenever slide is changed
     this.embla.on("select", this.toggleTabIndex);
 
-    // Set isPlaying to true if play is triggered on init
-    this.isPlaying = this.playOnInit;
+    // Set isPlaying to true if autoplay or autoScroll is enabled
+    // this ensures that the play button label is set correctly on page load
+    if (this.autoplay || (this.autoScroll && !this.isTouchDevice())) {
+      this.isPlaying = true;
+    }
   }
 
   /**
