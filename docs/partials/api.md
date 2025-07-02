@@ -73,7 +73,7 @@ Setting the `autoScroll` attribute will also render the play button, but unlike 
 
 ### ScrollSpeed
 
-To set a custom speed on an `autoScroll` slideshow, use the `scrollSpeed` attribute to pass in a new value in pixels per frame. The default value is 1. To make the slideshow scroll faster, use a higher number. The value does not need to be whole number.
+To set a custom speed on an `autoScroll` slideshow, use the `scrollSpeed` attribute to pass in a new value in pixels per frame. The default value is 0.75. To make the slideshow scroll faster, use a higher number. The value does not need to be whole number.
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/scrollspeed.html) -->
@@ -105,7 +105,7 @@ To set a custom delay before the `autoScroll` restarts, use the `startDelay` att
 
 ### PlayOnInit
 
-Setting the `playOnInit` attribute will start playing the slideshow when the page loads if `autoplay` or `autoScroll` are enabled. Otherwise, the slideshow will not start playing until the user clicks the play button or the `play()` method is called.
+Setting the `playOnInit` attribute will start playing the slideshow when the page loads if either `autoplay` or `autoScroll` are enabled. Otherwise, the slideshow will not start playing until the user clicks the play button or the `play()` method is called.
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/playoninit.html) -->
@@ -135,12 +135,11 @@ If the `loop` attribute is on, the slideshow will go back to the first slide whe
 
 </auro-accordion>
 
-
 ### Navigation
 
 Setting the `navigation` attribute will render previous/next arrow controls to allow the user to manually navigate the slideshow. These controls will only appear when the slides are hovered.
 
-If `loop` is off, the respective arrow control will be disabled when the slideshow is at the beginning or the end.
+If `loop` is off, the respective arrow control will be disabled/hidden when the slideshow is at the beginning or the end.
 
 `navigation` controls are disabled on mobile devices.
 

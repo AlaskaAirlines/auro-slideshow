@@ -13,7 +13,7 @@
 | `pauseLabel`  | `pauseLabel`  | `string`  | "Pause slideshow" | The aria-label for the pause button.             |
 | `playLabel`   | `playLabel`   | `string`  | "Play slideshow"  | The aria-label for the play button.              |
 | `playOnInit`  | `playOnInit`  | `boolean` | false             | If true, the slideshow will start playing automatically on page load when `autoplay` or `autoScroll` are on. |
-| `scrollSpeed` | `scrollSpeed` | `number`  | 1                 | Number of pixels auto scroll should advance per frame. (Only used with `autoScroll`) |
+| `scrollSpeed` | `scrollSpeed` | `number`  | 0.75              | Number of pixels auto scroll should advance per frame. (Only used with `autoScroll`) |
 | `startDelay`  | `startDelay`  | `number`  | 1000              | Delay in milliseconds before the auto scroll starts. (Only used with `autoScroll`) |
 
 ## Methods
