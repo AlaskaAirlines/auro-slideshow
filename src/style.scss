@@ -50,7 +50,7 @@
 
   &:focus-visible {
     outline: unset;
-    box-shadow: 0 0 0 2px var(--ds-basic-color-border-inverse, v.$ds-basic-color-border-inverse), 
+    box-shadow: 0 0 0 2px var(--ds-advanced-color-state-focused-inverse, v.$ds-advanced-color-state-focused-inverse), 
       0 0 0 var(--border-size) var(--ds-advanced-color-state-focused, v.$ds-advanced-color-state-focused);
   }
 
