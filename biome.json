@@ -1,0 +1,10 @@
+{
+  "extends": ["@aurodesignsystem/auro-config/biome"],
+  "linter": {
+    "rules": {
+      "complexity": {
+        "noForEach": "off"
+      }
+    }
+  }
+}

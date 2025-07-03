@@ -3,35 +3,188 @@
 
 // ---------------------------------------------------------------------
 
-// Import Auro tokens
-@import './../node_modules/@aurodesignsystem/design-tokens/dist/tokens/SCSSVariables';
-@import './../node_modules/@aurodesignsystem/design-tokens/dist/tokens/SCSSVariableMap';
+/* stylelint-disable */
 
-// general WCSS imports
-@import './../node_modules/@aurodesignsystem/webcorestylesheets/src/breakpoints';
-@import './../node_modules/@aurodesignsystem/webcorestylesheets/src/core';
-@import './../node_modules/@aurodesignsystem/webcorestylesheets/src/animation';
+@use "./../node_modules/@aurodesignsystem/design-tokens/dist/themes/alaska/SCSSVariables--alaska" as v;
 
-// Support for auroElement styles
-// @import './node_modules/@aurodesignsystem/webcorestylesheets/dist/auroElement/auroElement';
-
-// container styles - defines the look of the outer custom component
-// :host {
-//   ...
-// }
-
-
-// Selector is for initial setup only
-// delete when building new custom element
-.testClass {
-  display: inline-block;
-  padding: var(--auro-text-body-size-default);
-  border: 1px solid var(--auro-color-border-error-on-light);
-  color:  var(--auro-color-border-error-on-light);
+:host {
+  --border-size: 6px; /* Tokenize */
+  --border-radius: 24px; /* Tokenize */
 }
 
-// Selector for native :focus-visible support
-:focus-visible {
-  background-color: var(--auro-color-border-error-on-light);
-  color: var(--auro-color-base-white);
+.container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.slideshow-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+  justify-content: start;
+  padding: var(--border-size);
+}
+
+.embla {
+  max-width: 100%;
+  margin: 0;
+  --slide-size: 100%;
+}
+
+.embla__container {
+  display: flex;
+}
+
+.embla__slide {
+  transform: translate3d(0, 0, 0);
+  min-width: 0;
+  flex: 0 0 var(--slide-size);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  margin-right: 1rem;
+  overflow: hidden;
+
+  &:focus-visible {
+    outline: unset;
+    box-shadow: 0 0 0 2px var(--ds-advanced-color-state-focused-inverse, v.$ds-advanced-color-state-focused-inverse), 
+      0 0 0 var(--border-size) var(--ds-advanced-color-state-focused, v.$ds-advanced-color-state-focused);
+  }
+
+  &:not(.active):not(.in-view) {
+    filter: brightness(30%);
+  }
+}
+
+// ==== Controls ====
+
+.scroll-prev,
+.scroll-next {
+  position: absolute;
+  display: none;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+
+}
+
+.scroll-prev {
+  left: 8px;
+}
+
+.scroll-next {
+  right: 8px;
+}
+
+.slideshow-wrapper:hover .scroll-prev:not([disabled]),
+.slideshow-wrapper:hover .scroll-next:not([disabled]) {
+  display: block;
+}
+
+// ==== Pagination ====
+
+.pagination-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 40px;
+  gap: 14px;
+}
+
+.embla__dots {
+  display: flex;
+  gap: 16px;
+}
+
+.embla__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--ds-advanced-color-button-primary-background-inactive, v.$ds-advanced-color-button-primary-background-inactive);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover:not(.embla__dot--selected) {
+    background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, v.$ds-advanced-color-button-primary-background-inactive-hover);
+  }
+}
+
+/* Creates 24x24px clickable area for bullet */
+.embla__dot::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Active bullet without progress bar */
+.embla__dot--selected {
+  width: 52px;
+  height: 12px;
+  border-radius: 1.8rem;
+  background-color: var(--ds-advanced-color-button-primary-background, v.$ds-advanced-color-button-primary-background);
+
+  &::before {
+    width: 64px;
+  }
+}
+
+.embla__progress {
+  width: 52px;
+  height: 12px;
+  border-radius: 1.8rem;
+  border: none;
+  background-color: var(--ds-advanced-color-button-primary-background-inactive, v.$ds-advanced-color-button-primary-background-inactive);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  align-self: center;
+  justify-self: center;
+  transition: all 0.3s ease-in-out;
+
+   &:hover:not(.stopped) {
+    background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, v.$ds-advanced-color-button-primary-background-inactive-hover);
+  }
+}
+
+.embla__progress__bar {
+  border-radius: inherit;
+  background-color: var(--ds-advanced-color-button-primary-background, v.$ds-advanced-color-button-primary-background);
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  animation-name: autoplay-progress;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-play-state: running;
+}
+
+.embla__progress--paused .embla__progress__bar {
+  animation-play-state: paused;
+}
+
+.stopped {
+  background-color: var(--ds-advanced-color-button-primary-background, v.$ds-advanced-color-button-primary-background);
+}
+
+@keyframes autoplay-progress {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
 }

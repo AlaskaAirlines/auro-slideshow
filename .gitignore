@@ -8,13 +8,11 @@ demo/*.css
 demo/*.css.map
 
 ## CSS built from Sass process
-src/**/*.css
-src/**/*.css.map
-components/**/*.css
-components/**/*.css.map
+src/*.css
+src/*.css.map
 
 ## *-css built from sass-render process
-**/*-css.js
+*-css.js
 
 ## dist files
 dist/
@@ -22,3 +20,7 @@ build/
 
 ## Code coverage reports
 coverage/
+
+## Added by Auro CLI migration (github-config-and-gitignore-changes)
+demo/*.md
+demo/*.min.js
