@@ -30,7 +30,11 @@ The `<auro-slideshow>` element should be used in situations where:
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../docs/partials/readmeAddlInfo.md) -->
 <!-- The below content is automatically added from ./../docs/partials/readmeAddlInfo.md -->
-`autoplay` and `autoScroll` are mutually exclusive properties and should not be used together on the same component instance.
+`autoplay` and `autoScroll` are mutually exclusive properties and should not be used together on the same component instance. 
+
+On mobile devices, `autoScroll` and `navigation` controls are automatically disabled.
+
+Both `navigation` and `pagination` can be used together, but at least one must be used to give users a clear way to control the slides manually.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Example(s)
@@ -38,8 +42,8 @@ The `<auro-slideshow>` element should be used in situations where:
 ### Autoplay
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/basic.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/basic.html -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoplay.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/autoplay.html -->
     <auro-slideshow pagination autoplay playOnInit loop>
       <div style="height: 480px">
         <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
@@ -55,14 +59,14 @@ The `<auro-slideshow>` element should be used in situations where:
       </div>
       <div style="height: 480px">
         <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-      </div>    
+      </div>
     </auro-slideshow>
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/basic.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/basic.html -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/autoplay.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/autoplay.html -->
 
 ```html
   <auro-slideshow pagination autoplay playOnInit loop>
@@ -80,13 +84,13 @@ The `<auro-slideshow>` element should be used in situations where:
     </div>
     <div style="height: 480px">
       <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-    </div>    
+    </div>
   </auro-slideshow>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### Autoscroll
+### AutoScroll
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoscroll.html) -->
