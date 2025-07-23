@@ -67,7 +67,7 @@ export class AuroSlideshow extends LitElement {
     this.slides = [];
 
     /** @private */
-    this.wasHovered = false;
+    this.isHovered = false;
 
     /**
      * @private
@@ -456,7 +456,7 @@ export class AuroSlideshow extends LitElement {
     // this ensures that the play button label is set correctly on page load
     if (this.autoplay || (this.autoScroll && !this.isTouchDevice())) {
       this.isPlaying = true;
-      this.isStopped = false;
+      if (this.playOnInit) this.isStopped = false;
     }
   }
 
@@ -522,7 +522,7 @@ export class AuroSlideshow extends LitElement {
   handleMouseEnter = () => {
     if (this.isPlaying) {
       this.stop();
-      this.wasHovered = true;
+      this.isHovered = true;
     }
   };
 
@@ -532,9 +532,9 @@ export class AuroSlideshow extends LitElement {
    * It will only start playing if the slideshow was stopped by hovering.
    */
   handleMouseLeave = () => {
-    if (!this.isPlaying && !this.isStopped && this.wasHovered) {
+    if (!this.isPlaying && !this.isStopped && this.isHovered) {
       this.play();
-      this.wasHovered = false;
+      this.isHovered = false;
     }
   };
 

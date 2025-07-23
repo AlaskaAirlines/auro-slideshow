@@ -47,6 +47,7 @@ describe("auro-slideshow", () => {
     await expect(el._playBtn).to.not.exist;
     await expect(el._prevBtn).to.not.exist;
     await expect(el._nextBtn).to.not.exist;
+    await expect(el.isStopped).to.be.true;
   });
 
   it("auro-slideshow custom element is defined", async () => {
@@ -64,6 +65,7 @@ describe("auro-slideshow", () => {
 
     await expect(el.autoplay).to.be.true;
     await expect(el._playBtn).to.exist;
+    await expect(el.isStopped).to.be.true;
     await expect(el.embla.plugins().autoplay.options.delay).to.equal(7000);
     await expect(el.playBtnLabel).to.equal(el.playLabel);
     await expect(shadowButton.getAttribute("aria-label")).to.equal(
@@ -81,6 +83,7 @@ describe("auro-slideshow", () => {
     await expect(el.autoplay).to.be.true;
     await expect(el.playOnInit).to.be.true;
     await expect(el.isPlaying).to.be.true;
+    await expect(el.isStopped).to.be.false;
     await expect(el.playBtnLabel).to.equal(el.pauseLabel);
     await expect(shadowButton.getAttribute("aria-label")).to.equal(
       el.pauseLabel,
@@ -335,5 +338,29 @@ describe("auro-slideshow", () => {
     el.play();
     el._dotsNode.querySelectorAll(".embla__dot")[1].click();
     await expect(el.isPlaying).to.be.false;
+  });
+
+  it("stops autoplay when user hovers over the slideshow and resumes when user hovers off", async () => {
+    const el = await fixture(html`
+      <auro-slideshow autoplay playOnInit> ${slides} </auro-slideshow>
+    `);
+
+    await expect(el.isPlaying).to.be.true;
+
+    // Simulate mouse enter
+    el.shadowRoot
+      .querySelector(".embla__container")
+      .dispatchEvent(new MouseEvent("mouseenter", { bubbles: true }));
+
+    await expect(el.isPlaying).to.be.false;
+    await expect(el.isHovered).to.be.true;
+
+    // Simulate mouse leave
+    el.shadowRoot
+      .querySelector(".embla__container")
+      .dispatchEvent(new MouseEvent("mouseleave", { bubbles: true }));
+
+    await expect(el.isPlaying).to.be.true;
+    await expect(el.isHovered).to.be.false;
   });
 });
