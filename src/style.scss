@@ -52,6 +52,8 @@
   box-sizing: border-box;
   margin-right: 1rem;
   overflow: hidden;
+  filter: brightness(100%);
+  transition: filter 0.7s ease-in-out;
 
   &:focus-visible {
     outline: unset;
@@ -60,7 +62,7 @@
   }
 
   &:not(.active):not(.in-view) {
-    filter: brightness(30%);
+    filter: brightness(65%);
   }
 }
 
