@@ -186,3 +186,21 @@ To set a custom aria-label for the play/pause button, pass in new values to the 
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
+
+### Full-Bleed Preview
+
+To enable the slideshow to show a preview of the previous and next slides, use the `fullBleed` attribute. This will unhide the overflow of the view area. 
+
+**Note:** To use this properly, a parent container MUST have `overflow-x: hidden` to prevent horizontal scrolling on the page. 
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/fullBleed.html) -->
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/fullBleed.html) -->
+<!-- AURO-GENERATED-CONTENT:END -->
+
+</auro-accordion>
