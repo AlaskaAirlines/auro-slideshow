@@ -29,6 +29,11 @@
   padding: var(--border-size);
 }
 
+/* A parent container MUST have `overflow-x: hidden`!! */
+:host([fullBleed]) .slideshow-wrapper {
+  overflow: visible;
+}
+
 .embla {
   max-width: 100%;
   margin: 0;
