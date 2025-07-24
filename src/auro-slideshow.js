@@ -66,6 +66,15 @@ export class AuroSlideshow extends LitElement {
     /** @private */
     this.slides = [];
 
+    /** @private */
+    this.isHovered = false;
+
+    /**
+     * @private
+     * The initial state or stop method has been called.
+     */
+    this.isStopped = true;
+
     const versioning = new AuroDependencyVersioning();
 
     /** @private */
@@ -270,7 +279,6 @@ export class AuroSlideshow extends LitElement {
     const autoplayOptions = {
       playOnInit: this.playOnInit,
       delay: this.delay,
-      stopOnMouseEnter: true,
       stopOnLastSnap: !this.loop,
     };
 
@@ -278,7 +286,6 @@ export class AuroSlideshow extends LitElement {
       playOnInit: this.playOnInit,
       speed: this.scrollSpeed,
       startDelay: this.startDelay,
-      stopOnMouseEnter: true,
     };
 
     const plugins = [ClassNames(classNamesOptions)];
@@ -304,7 +311,7 @@ export class AuroSlideshow extends LitElement {
       this.addDotBtnsAndClickHandlers(
         this.embla,
         this._dotsNode,
-        this.stopAutoplayOnInteraction,
+        this.stopOnInteraction,
       );
     }
 
@@ -409,11 +416,12 @@ export class AuroSlideshow extends LitElement {
    * @private
    * Stops autoplay when the user interacts with the navigation controls or pagination dots.
    */
-  stopAutoplayOnInteraction = (emblaApi) => {
-    const autoplay = emblaApi?.plugins()?.autoplay;
-    if (!autoplay) return;
-
-    autoplay.stop();
+  stopOnInteraction = () => {
+    if (this.isPlaying) {
+      this.stop();
+      this.togglePlayButtonOnStop();
+      this.isStopped = true;
+    }
   };
 
   /**
@@ -448,6 +456,7 @@ export class AuroSlideshow extends LitElement {
     // this ensures that the play button label is set correctly on page load
     if (this.autoplay || (this.autoScroll && !this.isTouchDevice())) {
       this.isPlaying = true;
+      if (this.playOnInit) this.isStopped = false;
     }
   }
 
@@ -463,7 +472,7 @@ export class AuroSlideshow extends LitElement {
     if (direction === "next") {
       this.scrollNext();
     }
-    this.stopAutoplayOnInteraction(this.embla);
+    this.stopOnInteraction();
   }
 
   /**
@@ -498,11 +507,36 @@ export class AuroSlideshow extends LitElement {
     if (this.isPlaying) {
       this.stop();
       this.togglePlayButtonOnStop();
+      this.isStopped = true;
     } else {
       this.play();
       this.togglePlayButtonOnPlay();
+      this.isStopped = false;
     }
   }
+
+  /**
+   * @private
+   * Handles mouse enter event on the slideshow container to stop autoplay or autoScroll.
+   */
+  handleMouseEnter = () => {
+    if (this.isPlaying) {
+      this.stop();
+      this.isHovered = true;
+    }
+  };
+
+  /**
+   * @private
+   * Handles mouse leave event on the slideshow container to start autoplay or autoScroll.
+   * It will only start playing if the slideshow was stopped by hovering.
+   */
+  handleMouseLeave = () => {
+    if (!this.isPlaying && !this.isStopped && this.isHovered) {
+      this.play();
+      this.isHovered = false;
+    }
+  };
 
   // ========== DOTS AND PROGRESS BAR METHODS =================
 
@@ -510,7 +544,7 @@ export class AuroSlideshow extends LitElement {
    * @private
    * Adds dot buttons and click handlers for pagination.
    */
-  addDotBtnsAndClickHandlers = (emblaApi, dotsNode, onButtonClick) => {
+  addDotBtnsAndClickHandlers = (emblaApi, dotsNode) => {
     let dotNodes = [];
 
     const addDotBtnsWithClickHandlers = () => {
@@ -524,7 +558,7 @@ export class AuroSlideshow extends LitElement {
           "click",
           () => {
             emblaApi.scrollTo(index);
-            if (onButtonClick) onButtonClick(emblaApi);
+            this.stopOnInteraction();
           },
           false,
         );
@@ -767,7 +801,7 @@ export class AuroSlideshow extends LitElement {
         <div class="slideshow-wrapper">
           ${this.navigation && !this.isTouchDevice() ? this.renderNavigationControls() : nothing}
           <div class="embla">
-            <div class="embla__container">
+            <div class="embla__container" @mouseenter=${this.handleMouseEnter} @mouseleave=${this.handleMouseLeave}>
               <slot @slotchange=${this.handleSlotChange}></slot>
             </div>
           </div>
