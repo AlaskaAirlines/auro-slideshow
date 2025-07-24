@@ -64,6 +64,10 @@
   }
 }
 
+:host([autoScroll]) .embla__slide {
+  filter: unset;
+}
+
 // ==== Controls ====
 
 .scroll-prev,
