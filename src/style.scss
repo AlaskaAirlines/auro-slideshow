@@ -29,6 +29,11 @@
   padding: var(--border-size);
 }
 
+/* A parent container MUST have `overflow-x: hidden`!! */
+:host([fullBleed]) .slideshow-wrapper {
+  overflow: visible;
+}
+
 .embla {
   max-width: 100%;
   margin: 0;
@@ -47,6 +52,8 @@
   box-sizing: border-box;
   margin-right: 1rem;
   overflow: hidden;
+  filter: brightness(100%);
+  transition: filter 0.7s ease-in-out;
 
   &:focus-visible {
     outline: unset;
@@ -55,8 +62,12 @@
   }
 
   &:not(.active):not(.in-view) {
-    filter: brightness(30%);
+    filter: brightness(65%);
   }
+}
+
+:host([autoScroll]) .embla__slide {
+  filter: unset;
 }
 
 // ==== Controls ====

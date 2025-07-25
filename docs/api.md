@@ -1,5 +1,11 @@
 # auro-slideshow
 
+## Attributes
+
+| Attribute   | Description                                      |
+|-------------|--------------------------------------------------|
+| `fullBleed` | If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling. |
+
 ## Properties
 
 | Property      | Attribute     | Type      | Default           | Description                                      |

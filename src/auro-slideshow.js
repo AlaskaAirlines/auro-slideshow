@@ -31,6 +31,7 @@ import styleCss from "./style.scss";
  * with several options such as autoplay, navigation controls, and pagination dots.
  *
  * @slot - Default slot for the slides. Each child element will be treated as a slide.
+ * @attr fullBleed - If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling.
  * @csspart prev-button - Use to style the previous button control.
  * @csspart next-button - Use to style the next button control.
  * @csspart play-pause-button - Use to style the play/pause button control.
