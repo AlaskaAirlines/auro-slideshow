@@ -3,6 +3,12 @@
 
 # auro-slideshow
 
+## Attributes
+
+| Attribute   | Description                                      |
+|-------------|--------------------------------------------------|
+| [fullBleed](#fullBleed) | If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling. |
+
 ## Properties
 
 | Property      | Attribute     | Type      | Default           | Description                                      |
@@ -632,6 +638,133 @@ To set a custom aria-label for the play/pause button, pass in new values to the 
       <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
     </div>
   </auro-slideshow>
+```
+<!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>
+
+### Full-Bleed Preview
+
+To enable the slideshow to show a preview of the previous and next slides, use the `fullBleed` attribute. This will unhide the overflow of the view area. 
+
+**Note:** To use this properly, a parent container MUST have `overflow-x: hidden` to prevent horizontal scrolling on the page. It is not recommended to put `overflow-x: hidden` on the `<body>` element as this will prevent horizontal scrolling if fixed-width elements become wider than the page. This is only done for demo purposes.
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/fullBleed.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/fullBleed.html -->
+    <auro-slideshow fullBleed autoplay pagination navigation loop>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+      </div>
+    </auro-slideshow>
+    <!-- For demo purposes only -->
+    <style>
+      body {
+        overflow-x: hidden;
+      }
+    </style>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/fullBleed.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/fullBleed.html -->
+
+```html
+  <auro-slideshow fullBleed autoplay pagination navigation loop>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+    </div>
+  </auro-slideshow>
+  <!-- For demo purposes only -->
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+  </style>
+```
+<!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/fullBleedAutoScroll.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/fullBleedAutoScroll.html -->
+    <auro-slideshow fullBleed navigation autoscroll playOnInit loop>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
+      </div>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=2" alt="Random image 2">
+      </div>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=3" alt="Random image 3">
+      </div>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=4" alt="Random image 4">
+      </div>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=5" alt="Random image 5">
+      </div> 
+    </auro-slideshow>
+    <!-- For demo purposes only -->
+    <style>
+      body {
+        overflow-x: hidden;
+      }
+    </style>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/fullBleedAutoScroll.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/fullBleedAutoScroll.html -->
+
+```html
+  <auro-slideshow fullBleed navigation autoscroll playOnInit loop>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
+    </div>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=2" alt="Random image 2">
+    </div>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=3" alt="Random image 3">
+    </div>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=4" alt="Random image 4">
+    </div>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=5" alt="Random image 5">
+    </div> 
+  </auro-slideshow>
+  <!-- For demo purposes only -->
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+  </style>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
