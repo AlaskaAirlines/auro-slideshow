@@ -267,7 +267,7 @@ export class AuroSlideshow extends LitElement {
    */
   initializeEmbla() {
     const emblaNode = this.shadowRoot.querySelector(".embla");
-    const options = { loop: this.loop, align: "start", inViewThreshold: 0.9 };
+    const options = { loop: this.loop, align: "start", inViewThreshold: 0.5 };
 
     const classNamesOptions = {
       snapped: "active",
