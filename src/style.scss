@@ -61,7 +61,7 @@
       0 0 0 var(--border-size) var(--ds-advanced-color-state-focused, v.$ds-advanced-color-state-focused);
   }
 
-  &:not(.active):not(.in-view) {
+  &:not(.in-view) {
     filter: brightness(65%);
   }
 }
