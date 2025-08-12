@@ -6,6 +6,8 @@
 /* stylelint-disable */
 
 @use "@aurodesignsystem/design-tokens/dist/themes/alaska/SCSSVariables--alaska" as v;
+// Import type classes
+@use '@aurodesignsystem/webcorestylesheets/dist/bundled/type/classes.alaska.min.css';
 
 :host {
   --border-size: 6px; /* Tokenize */
