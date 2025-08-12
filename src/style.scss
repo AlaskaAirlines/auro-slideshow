@@ -6,6 +6,8 @@
 /* stylelint-disable */
 
 @use "@aurodesignsystem/design-tokens/dist/themes/alaska/SCSSVariables--alaska" as v;
+// Import type classes
+@use '@aurodesignsystem/webcorestylesheets/dist/bundled/type/classes.alaska.min.css';
 
 :host {
   --border-size: 6px; /* Tokenize */
@@ -53,7 +55,7 @@
   margin-right: 1rem;
   overflow: hidden;
   filter: brightness(100%);
-  transition: filter 0.7s ease-in-out;
+  transition: filter 0.5s ease-in-out;
 
   &:focus-visible {
     outline: unset;
@@ -61,7 +63,7 @@
       0 0 0 var(--border-size) var(--ds-advanced-color-state-focused, v.$ds-advanced-color-state-focused);
   }
 
-  &:not(.active):not(.in-view) {
+  &:not(.in-view) {
     filter: brightness(65%);
   }
 }
