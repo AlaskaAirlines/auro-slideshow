@@ -230,7 +230,11 @@
 
   .embla__slide {
     max-width: calc(var(--slideshow-width) - var(--border-size) * 2);
+  }
+}
 
+:host([fullBleed]:not([autoscroll])) {
+  .embla__slide {
     &:not(.active) {
       filter: brightness(65%);
     }
