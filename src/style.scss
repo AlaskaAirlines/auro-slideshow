@@ -12,6 +12,7 @@
 :host {
   --border-size: 6px; /* Tokenize */
   --border-radius: 24px; /* Tokenize */
+  --dot-animation-time: 0.3s; /* Tokenize */
 }
 
 .container {
@@ -123,7 +124,7 @@
   mix-blend-mode: multiply;
   position: relative;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all var(--dot-animation-time) ease-in-out;
 
   &:hover:not(.embla__dot--selected) {
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, v.$ds-advanced-color-button-primary-background-inactive-hover);
@@ -166,7 +167,7 @@
   cursor: pointer;
   align-self: center;
   justify-self: center;
-  transition: all 0.3s ease-in-out;
+  transition: all var(--dot-animation-time) ease-in-out;
 
    &:hover:not(.stopped) {
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, v.$ds-advanced-color-button-primary-background-inactive-hover);
@@ -181,7 +182,7 @@
   top: 0;
   bottom: 0;
   left: -100%;
-  animation-delay: 0.3s;
+  animation-delay: var(--dot-animation-time);
   animation-name: autoplay-progress;
   animation-timing-function: linear;
   animation-iteration-count: 1;
