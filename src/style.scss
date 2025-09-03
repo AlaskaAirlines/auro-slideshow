@@ -33,11 +33,6 @@
   box-sizing: border-box;
 }
 
-/* A parent container MUST have `overflow-x: hidden`!! */
-:host([fullBleed]) .slideshow-wrapper {
-  overflow: visible;
-}
-
 .embla {
   max-width: 100%;
   margin: 0;
@@ -216,5 +211,28 @@
 
   .embla__slide {
     margin-right: var(--slide-spacing);
+  }
+}
+
+/* A parent container MUST have `overflow-x: hidden`!! */
+:host([fullBleed]) {
+  .slideshow-wrapper {
+    overflow: visible;
+  }
+
+  .embla {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: none; /* Important */
+  }
+
+  .embla__slide {
+    max-width: calc(var(--slideshow-width) - calc(var(--border-size) * 2));
+
+    &:not(.active) {
+      filter: brightness(65%);
+    }
   }
 }

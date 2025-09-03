@@ -31,7 +31,6 @@ import styleCss from "./style.scss";
  * with several options such as autoplay, navigation controls, and pagination dots.
  *
  * @slot - Default slot for the slides. Each child element will be treated as a slide.
- * @attr fullBleed - If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling.
  * @csspart prev-button - Use to style the previous button control.
  * @csspart next-button - Use to style the next button control.
  * @csspart play-pause-button - Use to style the play/pause button control.
@@ -54,6 +53,8 @@ export class AuroSlideshow extends LitElement {
 
     this.playLabel = "Play slideshow";
     this.pauseLabel = "Pause slideshow";
+
+    this.fullBleed = false;
 
     /** @private */
     this.playBtnLabel = this.playLabel;
@@ -190,6 +191,13 @@ export class AuroSlideshow extends LitElement {
       isPlaying: {
         type: Boolean,
       },
+      /**
+       * If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling.
+       */
+      fullBleed: {
+        type: Boolean,
+        reflect: true,
+      },
     };
   }
 
@@ -215,6 +223,18 @@ export class AuroSlideshow extends LitElement {
 
   get _progressNode() {
     return this.shadowRoot.querySelector(".embla__progress");
+  }
+
+  get _slideshowWrapperNode() {
+    return this.shadowRoot.querySelector(".slideshow-wrapper");
+  }
+
+  get _slideshowPaddingSize() {
+    return (
+      Number.parseFloat(
+        getComputedStyle(this._slideshowWrapperNode).paddingLeft,
+      ) || 0
+    );
   }
 
   // ========== PUBLIC METHODS =================
@@ -262,12 +282,42 @@ export class AuroSlideshow extends LitElement {
   // ========== PRIVATE METHODS =================
 
   /**
+   * Calculate the difference between the left edge of the slideshow-wrapper and the embla container
+   * @returns offset in pixels
+   */
+  get _customAlign() {
+    if (!this.fullBleed) return 0;
+
+    if (this._slideshowWrapperNode) {
+      return () =>
+        this._slideshowWrapperNode.getBoundingClientRect().left +
+        this._slideshowPaddingSize;
+    }
+
+    return 0;
+  }
+
+  /**
+   * Calculate the width of the slideshow-wrapper and attach a css property to the host element '--slideshow-width'
+   * @returns {void}
+   */
+  _createWidthProp = () => {
+    const width = this._slideshowWrapperNode.getBoundingClientRect().width;
+
+    this.style.setProperty("--slideshow-width", `${width}px`);
+  };
+
+  /**
    * @private
    * Initializes the Embla carousel with the provided options and plugins.
    */
   initializeEmbla() {
     const emblaNode = this.shadowRoot.querySelector(".embla");
-    const options = { loop: this.loop, align: "start", inViewThreshold: 0.5 };
+    const options = {
+      loop: this.loop,
+      align: this.fullBleed ? this._customAlign : "start",
+      inViewThreshold: 0.5
+    };
 
     const classNamesOptions = {
       snapped: "active",
@@ -335,6 +385,12 @@ export class AuroSlideshow extends LitElement {
         .on("autoScroll:stop", this.togglePlayButtonOnStop)
         .on("autoScroll:play", this.togglePlayButtonOnPlay)
         .on("init", this.togglePlayButtonOnStop);
+    }
+
+    if (this.fullBleed) {
+      this.embla
+        .on("init", this._createWidthProp)
+        .on("resize", this._createWidthProp);
     }
   }
 
