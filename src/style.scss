@@ -229,7 +229,7 @@
   }
 
   .embla__slide {
-    max-width: calc(var(--slideshow-width) - calc(var(--border-size) * 2));
+    max-width: calc(var(--slideshow-width) - var(--border-size) * 2);
 
     &:not(.active) {
       filter: brightness(65%);

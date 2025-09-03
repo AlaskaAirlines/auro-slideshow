@@ -283,10 +283,10 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * Calculate the difference between the left edge of the slideshow-wrapper and the embla container
-   * @returns offset in pixels
+   * @returns a callback function that returns the offset in pixels
    */
   get _customAlign() {
-    if (!this.fullBleed) return 0;
+    if (!this.fullBleed) return () => 0;
 
     if (this._slideshowWrapperNode) {
       return () =>
@@ -294,7 +294,7 @@ export class AuroSlideshow extends LitElement {
         this._slideshowPaddingSize;
     }
 
-    return 0;
+    return () => 0;
   }
 
   /**
@@ -302,9 +302,11 @@ export class AuroSlideshow extends LitElement {
    * @returns {void}
    */
   _createWidthProp = () => {
-    const width = this._slideshowWrapperNode.getBoundingClientRect().width;
+    if (this._slideshowWrapperNode) {
+      const { width } = this._slideshowWrapperNode.getBoundingClientRect();
 
-    this.style.setProperty("--slideshow-width", `${width}px`);
+      this.style.setProperty("--slideshow-width", `${width}px`);
+    }
   };
 
   /**
