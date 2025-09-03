@@ -17,6 +17,8 @@ import AuroLibraryRuntimeUtils from "@aurodesignsystem/auro-library/scripts/util
 import { AuroButton } from "@aurodesignsystem/auro-button/src/auro-button.js";
 import buttonVersion from "./buttonVersion.js";
 
+import chevronLeft from "@alaskaairux/icons/dist/icons/interface/chevron-left.mjs";
+import chevronRight from "@alaskaairux/icons/dist/icons/interface/chevron-right.mjs";
 import pause from "@alaskaairux/icons/dist/icons/interface/pause.mjs";
 import play from "@alaskaairux/icons/dist/icons/interface/play-filled.mjs";
 import { AuroIcon } from "@aurodesignsystem/auro-icon/src/auro-icon.js";
@@ -731,7 +733,7 @@ export class AuroSlideshow extends LitElement {
     const svg = dom.body.firstChild;
     svg.setAttribute("slot", "svg");
 
-    return html`<${this.iconTag} customColor customSvg ?hidden="${hideIcon}">${svg}</${this.iconTag}>`;
+    return html`<${this.iconTag} style="--ds-auro-icon-size: inherit" customColor customSvg ?hidden="${hideIcon}">${svg}</${this.iconTag}>`;
   }
 
   /**
@@ -749,7 +751,7 @@ export class AuroSlideshow extends LitElement {
         size="lg"
         @click=${() => this.handleNavClick("prev")}
         part="prev-button">
-        <${this.iconTag} customColor category="interface" name="chevron-left"></${this.iconTag}>
+        ${this.generateIconHtml(chevronLeft.svg)}
       </${this.buttonTag}>
       <${this.buttonTag} 
         aria-label="Next slide" 
@@ -759,7 +761,7 @@ export class AuroSlideshow extends LitElement {
         size="lg"
         @click=${() => this.handleNavClick("next")}
         part="next-button">
-        <${this.iconTag} customColor category="interface" name="chevron-right"></${this.iconTag}>
+        ${this.generateIconHtml(chevronRight.svg)}
       </${this.buttonTag}>`;
   }
 
