@@ -3,12 +3,6 @@
 
 # auro-slideshow
 
-## Attributes
-
-| Attribute   | Description                                      |
-|-------------|--------------------------------------------------|
-| [fullBleed](#fullBleed) | If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling. |
-
 ## Properties
 
 | Property      | Attribute     | Type      | Default           | Description                                      |
@@ -16,6 +10,7 @@
 | [autoScroll](#autoScroll)  | `autoScroll`  | `boolean` | false             | If true, the slideshow will scroll continuously. |
 | [autoplay](#autoplay)    | `autoplay`    | `boolean` | false             | If true, the slideshow will play automatically.  |
 | [delay](#delay)       | `delay`       | `number`  | 7000              | Slide duration in milliseconds. (Only used with `autoplay`) |
+| [fullBleed](#fullBleed)   | `fullBleed`   | `boolean` | false             | If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling. |
 | [loop](#loop)        | `loop`        | `boolean` | false             | If true, the slideshow will loop back to the first slide after reaching the last slide. |
 | [navigation](#navigation)  | `navigation`  | `boolean` | false             | If true, the slideshow will display navigation arrows for previous and next slides when the slide container is hovered. |
 | [pagination](#pagination)  | `pagination`  | `boolean` | false             | If true, the slideshow will display pagination dots for each slide. If autoplay is on, the active dot will also show a progress bar. |
@@ -708,6 +703,11 @@ To enable the slideshow to show a preview of the previous and next slides, use t
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
+
+### Full-Bleed + AutoScroll Preview
+
+ There must be enough slides to trigger looping. If all the slides can fit on the page `autoscroll` will not enable.
+
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/fullBleedAutoScroll.html) -->
   <!-- The below content is automatically added from ./../apiExamples/fullBleedAutoScroll.html -->
@@ -726,6 +726,15 @@ To enable the slideshow to show a preview of the previous and next slides, use t
       </div>
       <div style="height: 480px; max-width: 400px;">
         <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=5" alt="Random image 5">
+      </div> 
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=6" alt="Random image 6">
+      </div> 
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=7" alt="Random image 7">
+      </div> 
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=8" alt="Random image 8">
       </div> 
     </auro-slideshow>
     <!-- For demo purposes only -->
@@ -757,6 +766,15 @@ To enable the slideshow to show a preview of the previous and next slides, use t
     </div>
     <div style="height: 480px; max-width: 400px;">
       <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=5" alt="Random image 5">
+    </div> 
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=6" alt="Random image 6">
+    </div> 
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=7" alt="Random image 7">
+    </div> 
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=8" alt="Random image 8">
     </div> 
   </auro-slideshow>
   <!-- For demo purposes only -->
