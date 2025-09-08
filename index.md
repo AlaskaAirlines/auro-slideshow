@@ -13,6 +13,8 @@ This file is generated based on a template fetched from `./docs/partials/index.m
 The `<auro-slideshow>` component is a wrapper element. All slides are slotted content and must be direct children of the component. Slides must have assigned `width` and `height` properties to display properly.
 
 `<auro-slideshow>` is a fully customizable component and does not come with any features turned on by default. The features of `<auro-slideshow>` are turned on by including the proper attributes on the element.
+
+**Note:** If all the slides can fit on the page at once, the slideshow will not activate.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## auro-slideshow use cases
@@ -100,7 +102,7 @@ On mobile devices, `autoScroll` and `navigation` controls are automatically disa
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoscroll.html) -->
   <!-- The below content is automatically added from ./../apiExamples/autoscroll.html -->
-    <auro-slideshow navigation autoscroll playOnInit loop>
+    <auro-slideshow navigation autoScroll playOnInit loop>
       <div style="height: 480px; max-width: 400px;">
         <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
       </div>
@@ -125,7 +127,7 @@ On mobile devices, `autoScroll` and `navigation` controls are automatically disa
 <!-- The below code snippet is automatically added from ./../apiExamples/autoscroll.html -->
 
 ```html
-  <auro-slideshow navigation autoscroll playOnInit loop>
+  <auro-slideshow navigation autoScroll playOnInit loop>
     <div style="height: 480px; max-width: 400px;">
       <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
     </div>

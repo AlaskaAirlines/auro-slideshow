@@ -379,7 +379,7 @@ Setting the `autoScroll` attribute will also render the play button, but unlike 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoscroll.html) -->
   <!-- The below content is automatically added from ./../apiExamples/autoscroll.html -->
-    <auro-slideshow navigation autoscroll playOnInit loop>
+    <auro-slideshow navigation autoScroll playOnInit loop>
       <div style="height: 480px; max-width: 400px;">
         <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
       </div>
@@ -404,7 +404,7 @@ Setting the `autoScroll` attribute will also render the play button, but unlike 
 <!-- The below code snippet is automatically added from ./../apiExamples/autoscroll.html -->
 
 ```html
-  <auro-slideshow navigation autoscroll playOnInit loop>
+  <auro-slideshow navigation autoScroll playOnInit loop>
     <div style="height: 480px; max-width: 400px;">
       <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
     </div>
@@ -432,7 +432,7 @@ To set a custom speed on an `autoScroll` slideshow, use the `scrollSpeed` attrib
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/scrollspeed.html) -->
   <!-- The below content is automatically added from ./../apiExamples/scrollspeed.html -->
-    <auro-slideshow navigation autoscroll scrollSpeed="2.88" loop>
+    <auro-slideshow navigation autoScroll scrollSpeed="2.88" loop>
       <div style="height: 480px; max-width: 400px;">
         <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
       </div>
@@ -457,7 +457,7 @@ To set a custom speed on an `autoScroll` slideshow, use the `scrollSpeed` attrib
 <!-- The below code snippet is automatically added from ./../apiExamples/scrollspeed.html -->
 
 ```html
-  <auro-slideshow navigation autoscroll scrollSpeed="2.88" loop>
+  <auro-slideshow navigation autoScroll scrollSpeed="2.88" loop>
     <div style="height: 480px; max-width: 400px;">
       <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
     </div>
@@ -485,7 +485,7 @@ To set a custom delay before the `autoScroll` restarts, use the `startDelay` att
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/startdelay.html) -->
   <!-- The below content is automatically added from ./../apiExamples/startdelay.html -->
-  <auro-slideshow navigation autoscroll startDelay="200" loop>
+  <auro-slideshow navigation autoScroll startDelay="200" loop>
     <div style="height: 480px; max-width: 400px;">
       <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
     </div>
@@ -510,7 +510,7 @@ To set a custom delay before the `autoScroll` restarts, use the `startDelay` att
 <!-- The below code snippet is automatically added from ./../apiExamples/startdelay.html -->
 
 ```html
-<auro-slideshow navigation autoscroll startDelay="200" loop>
+<auro-slideshow navigation autoScroll startDelay="200" loop>
   <div style="height: 480px; max-width: 400px;">
     <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
   </div>
@@ -538,7 +538,7 @@ Setting the `playOnInit` attribute will start playing the slideshow when the pag
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/playoninit.html) -->
   <!-- The below content is automatically added from ./../apiExamples/playoninit.html -->
-    <auro-slideshow autoscroll playOnInit loop>
+    <auro-slideshow autoScroll playOnInit loop>
       <div style="height: 480px; max-width: 400px;">
         <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
       </div>
@@ -563,7 +563,7 @@ Setting the `playOnInit` attribute will start playing the slideshow when the pag
 <!-- The below code snippet is automatically added from ./../apiExamples/playoninit.html -->
 
 ```html
-  <auro-slideshow autoscroll playOnInit loop>
+  <auro-slideshow autoScroll playOnInit loop>
     <div style="height: 480px; max-width: 400px;">
       <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
     </div>
@@ -706,12 +706,10 @@ To enable the slideshow to show a preview of the previous and next slides, use t
 
 ### Full-Bleed + AutoScroll Preview
 
- There must be enough slides to trigger looping. If all the slides can fit on the page `autoscroll` will not enable.
-
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/fullBleedAutoScroll.html) -->
   <!-- The below content is automatically added from ./../apiExamples/fullBleedAutoScroll.html -->
-    <auro-slideshow fullBleed navigation autoscroll playOnInit loop>
+    <auro-slideshow fullBleed navigation autoScroll playOnInit loop>
       <div style="height: 480px; max-width: 400px;">
         <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
       </div>
@@ -751,7 +749,7 @@ To enable the slideshow to show a preview of the previous and next slides, use t
 <!-- The below code snippet is automatically added from ./../apiExamples/fullBleedAutoScroll.html -->
 
 ```html
-  <auro-slideshow fullBleed navigation autoscroll playOnInit loop>
+  <auro-slideshow fullBleed navigation autoScroll playOnInit loop>
     <div style="height: 480px; max-width: 400px;">
       <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
     </div>
