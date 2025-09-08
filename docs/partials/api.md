@@ -205,6 +205,8 @@ To enable the slideshow to show a preview of the previous and next slides, use t
 
 </auro-accordion>
 
+### Full-Bleed + AutoScroll Preview
+
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/fullBleedAutoScroll.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->

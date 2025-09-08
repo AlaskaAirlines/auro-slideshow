@@ -20,12 +20,12 @@
     "node": "^20.x || ^22.x"
   },
   "dependencies": {
-    "@alaskaairux/icons": "^5.6.0",
-    "@aurodesignsystem/auro-button": "^11.3.2",
-    "@aurodesignsystem/auro-icon": "^8.1.1",
-    "@aurodesignsystem/auro-library": "^5.3.2",
-    "@aurodesignsystem/design-tokens": "^8.3.0",
-    "@aurodesignsystem/webcorestylesheets": "^10.0.2",
+    "@alaskaairux/icons": "^5.7.1",
+    "@aurodesignsystem/auro-button": "^11.4.0",
+    "@aurodesignsystem/auro-icon": "^8.1.4",
+    "@aurodesignsystem/auro-library": "^5.5.2",
+    "@aurodesignsystem/design-tokens": "^8.4.2",
+    "@aurodesignsystem/webcorestylesheets": "^10.0.4",
     "chalk": "^5.4.1",
     "embla-carousel": "^8.6.0",
     "embla-carousel-auto-scroll": "^8.6.0",
@@ -34,10 +34,10 @@
     "lit": "^3.3.1"
   },
   "devDependencies": {
-    "@aurodesignsystem/auro-cli": "^2.5.0",
+    "@aurodesignsystem/auro-cli": "^3.0.0",
     "@aurodesignsystem/auro-config": "^1.0.1",
-    "@aurodesignsystem/design-tokens": "^8.3.0",
-    "@aurodesignsystem/webcorestylesheets": "^10.0.2",
+    "@aurodesignsystem/design-tokens": "^8.4.2",
+    "@aurodesignsystem/webcorestylesheets": "^10.0.4",
     "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
@@ -100,7 +100,8 @@
   "keywords": ["alaska airlines", "auro", "design system", "web components"],
   "scripts": {
     "build": "auro build",
-    "dev": "auro dev --open",
+    "build:version": "node ./scripts/version.mjs",
+    "dev": "auro dev -w -s --open",
     "lint": "biome check --fix --no-errors-on-unmatched && stylelint \"./src/**/*.scss\"",
     "preCommit": "node ./node_modules/@aurodesignsystem/auro-library/scripts/build/pre-commit.mjs",
     "test": "auro test",

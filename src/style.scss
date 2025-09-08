@@ -6,10 +6,13 @@
 /* stylelint-disable */
 
 @use "@aurodesignsystem/design-tokens/dist/themes/alaska/SCSSVariables--alaska" as v;
+// Import type classes
+@use '@aurodesignsystem/webcorestylesheets/dist/bundled/type/classes.alaska.min.css';
 
 :host {
   --border-size: 6px; /* Tokenize */
   --border-radius: 24px; /* Tokenize */
+  --dot-animation-time: 0.3s; /* Tokenize */
 }
 
 .container {
@@ -27,21 +30,19 @@
   align-items: center;
   justify-content: start;
   padding: var(--border-size);
-}
-
-/* A parent container MUST have `overflow-x: hidden`!! */
-:host([fullBleed]) .slideshow-wrapper {
-  overflow: visible;
+  box-sizing: border-box;
 }
 
 .embla {
   max-width: 100%;
   margin: 0;
   --slide-size: 100%;
+  --slide-spacing: 1rem;
 }
 
 .embla__container {
   display: flex;
+  gap: var(--slide-spacing);
 }
 
 .embla__slide {
@@ -50,10 +51,9 @@
   flex: 0 0 var(--slide-size);
   border-radius: var(--border-radius);
   box-sizing: border-box;
-  margin-right: 1rem;
   overflow: hidden;
   filter: brightness(100%);
-  transition: filter 0.7s ease-in-out;
+  transition: filter 0.5s ease-in-out;
 
   &:focus-visible {
     outline: unset;
@@ -61,7 +61,7 @@
       0 0 0 var(--border-size) var(--ds-advanced-color-state-focused, v.$ds-advanced-color-state-focused);
   }
 
-  &:not(.active):not(.in-view) {
+  &:not(.in-view) {
     filter: brightness(65%);
   }
 }
@@ -79,7 +79,6 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-
 }
 
 .scroll-prev {
@@ -105,6 +104,8 @@
   width: 100%;
   margin-top: 40px;
   gap: 14px;
+  padding-inline: var(--border-size);
+  box-sizing: border-box;
 }
 
 .embla__dots {
@@ -121,7 +122,7 @@
   mix-blend-mode: multiply;
   position: relative;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all var(--dot-animation-time) ease-in-out;
 
   &:hover:not(.embla__dot--selected) {
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, v.$ds-advanced-color-button-primary-background-inactive-hover);
@@ -164,7 +165,7 @@
   cursor: pointer;
   align-self: center;
   justify-self: center;
-  transition: all 0.3s ease-in-out;
+  transition: all var(--dot-animation-time) ease-in-out;
 
    &:hover:not(.stopped) {
     background-color: var(--ds-advanced-color-button-primary-background-inactive-hover, v.$ds-advanced-color-button-primary-background-inactive-hover);
@@ -179,6 +180,7 @@
   top: 0;
   bottom: 0;
   left: -100%;
+  animation-delay: var(--dot-animation-time);
   animation-name: autoplay-progress;
   animation-timing-function: linear;
   animation-iteration-count: 1;
@@ -199,5 +201,42 @@
   }
   100% {
     transform: translate3d(100%, 0, 0);
+  }
+}
+
+:host([loop]) {
+  .embla__container {
+    gap: unset;
+  }
+
+  .embla__slide {
+    margin-right: var(--slide-spacing);
+  }
+}
+
+/* A parent container MUST have `overflow-x: hidden`!! */
+:host([fullBleed]) {
+  .slideshow-wrapper {
+    overflow: visible;
+  }
+
+  .embla {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: none; /* Important */
+  }
+
+  .embla__slide {
+    max-width: calc(var(--slideshow-width) - var(--border-size) * 2);
+  }
+}
+
+:host([fullBleed]:not([autoscroll])) {
+  .embla__slide {
+    &:not(.active) {
+      filter: brightness(65%);
+    }
   }
 }
