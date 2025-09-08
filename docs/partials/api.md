@@ -207,8 +207,6 @@ To enable the slideshow to show a preview of the previous and next slides, use t
 
 ### Full-Bleed + AutoScroll Preview
 
-`autoScroll` only works if there are more slides than can fit on the page at once. If every slide is visible without scrolling, `autoScroll` will not activate.
-
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/fullBleedAutoScroll.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
