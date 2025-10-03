@@ -14,17 +14,17 @@ import ClassNames from "embla-carousel-class-names";
 import { AuroDependencyVersioning } from "@aurodesignsystem/auro-library/scripts/runtime/dependencyTagVersioning.mjs";
 import AuroLibraryRuntimeUtils from "@aurodesignsystem/auro-library/scripts/utils/runtimeUtils.mjs";
 
-import { AuroButton } from "@aurodesignsystem/auro-button/src/auro-button.js";
+import { AuroButton } from "@aurodesignsystem/auro-button/class";
 import buttonVersion from "./buttonVersion.js";
 
 import chevronLeft from "@alaskaairux/icons/dist/icons/interface/chevron-left.mjs";
 import chevronRight from "@alaskaairux/icons/dist/icons/interface/chevron-right.mjs";
 import pause from "@alaskaairux/icons/dist/icons/interface/pause.mjs";
 import play from "@alaskaairux/icons/dist/icons/interface/play-filled.mjs";
-import { AuroIcon } from "@aurodesignsystem/auro-icon/src/auro-icon.js";
+import { AuroIcon } from "@aurodesignsystem/auro-icon/class";
 import iconVersion from "./iconVersion.js";
 
-import styleCss from "./style.scss";
+import styleCss from "./styles/style.scss";
 
 /**
  * The auro-slideshow component is a customizable slideshow that displays a series of slides
