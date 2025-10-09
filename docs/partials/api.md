@@ -171,18 +171,22 @@ Setting the `playOnInit` attribute will start playing the slideshow when the pag
 
 </auro-accordion>
 
-### Custom labels for Play/Pause button
+### Custom labels for accessibility
 
-To set a custom aria-label for the play/pause button, pass in new values to the `playLabel` and `pauseLabel` attributes respectively. If not provided, they will default to "Play slideshow" and "Pause slideshow".
+To customize the aria-labels for the slideshow controls, use the following slots:
+- `ariaLabel.scroll.left` - Previous slide button
+- `ariaLabel.scroll.right` - Next slide button
+- `ariaLabel.slideshow.play` - Play slideshow button
+- `ariaLabel.slideshow.pause` - Pause slideshow button
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/customlabels.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/ariaLabelSlots.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/customlabels.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/ariaLabelSlots.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>

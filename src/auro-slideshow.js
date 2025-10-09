@@ -31,6 +31,10 @@ import styleCss from "./styles/style.scss";
  * with several options such as autoplay, navigation controls, and pagination dots.
  *
  * @slot - Default slot for the slides. Each child element will be treated as a slide.
+ * @slot ariaLabel.scroll.left - The aria-label for the button navigating to the previous slide. Default is "Previous slide".
+ * @slot ariaLabel.scroll.right - The aria-label for the button navigating to the next slide. Default is "Next slide".
+ * @slot ariaLabel.slideshow.play - The aria-label for the button that starts the slideshow. Default is "Play slideshow".
+ * @slot ariaLabel.slideshow.pause - The aria-label for the button that pauses the slideshow. Default is "Pause slideshow".
  * @csspart prev-button - Use to style the previous button control.
  * @csspart next-button - Use to style the next button control.
  * @csspart play-pause-button - Use to style the play/pause button control.
@@ -57,7 +61,7 @@ export class AuroSlideshow extends LitElement {
     this.fullBleed = false;
 
     /** @private */
-    this.playBtnLabel = this.playLabel;
+    this.playBtnLabel = "Play slideshow";
 
     /** @private */
     this.isPlaying = false;
@@ -76,6 +80,9 @@ export class AuroSlideshow extends LitElement {
      * The initial state or stop method has been called.
      */
     this.isStopped = true;
+
+    /** @private */
+    this.runtimeUtils = new AuroLibraryRuntimeUtils();
 
     const versioning = new AuroDependencyVersioning();
 
@@ -149,16 +156,14 @@ export class AuroSlideshow extends LitElement {
         reflect: true,
       },
       /**
-       * The aria-label for the play button.
-       * @default Play slideshow
+       * DEPRECATED - Use `ariaLabel.slideshow.play` instead.
        */
       playLabel: {
         type: String,
         reflect: true,
       },
       /**
-       * The aria-label for the pause button.
-       * @default Pause slideshow
+       * DEPRECATED - Use `ariaLabel.slideshow.pause` instead.
        */
       pauseLabel: {
         type: String,
@@ -441,7 +446,7 @@ export class AuroSlideshow extends LitElement {
    */
   togglePlayButtonOnStop = () => {
     this.isPlaying = false;
-    this.playBtnLabel = this.playLabel;
+    this.playBtnLabel = this.runtimeUtils.getSlotText(this, "ariaLabel.slideshow.play") || this.playLabel;
   };
 
   /**
@@ -450,7 +455,7 @@ export class AuroSlideshow extends LitElement {
    */
   togglePlayButtonOnPlay = () => {
     this.isPlaying = true;
-    this.playBtnLabel = this.pauseLabel;
+    this.playBtnLabel = this.runtimeUtils.getSlotText(this, "ariaLabel.slideshow.pause") || this.pauseLabel;
   };
 
   /**
@@ -612,7 +617,7 @@ export class AuroSlideshow extends LitElement {
         button.className = "embla__dot";
         button.type = "button";
         button.tabIndex = -1;
-        button.setAttribute("aria-label", `Go to slide ${index + 1}`); // TODO: localization
+        button.setAttribute("aria-label", `Go to slide ${index + 1}`); // TODO: localization - Don't need to address now since pagination bullets are not focusable
         button.addEventListener(
           "click",
           () => {
@@ -802,7 +807,7 @@ export class AuroSlideshow extends LitElement {
   renderNavigationControls() {
     return html`
       <${this.buttonTag} 
-        aria-label="Previous slide" 
+        aria-label="${this.runtimeUtils.getSlotText(this, "ariaLabel.scroll.left") || "Previous slide"}" 
         class="scroll-prev"
         shape="circle"
         onDark
@@ -812,7 +817,7 @@ export class AuroSlideshow extends LitElement {
         ${this.generateIconHtml(chevronLeft.svg)}
       </${this.buttonTag}>
       <${this.buttonTag} 
-        aria-label="Next slide" 
+        aria-label="${this.runtimeUtils.getSlotText(this, "ariaLabel.scroll.right") || "Next slide"}"
         class="scroll-next"
         shape="circle"
         onDark
@@ -856,6 +861,12 @@ export class AuroSlideshow extends LitElement {
 
   render() {
     return html`
+      <!-- Hidden slots for aria labels -->
+      <slot name="ariaLabel.scroll.left" hidden @slotchange="${this.requestUpdate}"></slot>
+      <slot name="ariaLabel.scroll.right" hidden @slotchange="${this.requestUpdate}"></slot>
+      <slot name="ariaLabel.slideshow.play" hidden @slotchange="${this.requestUpdate}"></slot>
+      <slot name="ariaLabel.slideshow.pause" hidden @slotchange="${this.requestUpdate}"></slot>
+
       <div class="container">
         <div class="slideshow-wrapper">
           ${this.navigation && !this.isTouchDevice() ? this.renderNavigationControls() : nothing}
