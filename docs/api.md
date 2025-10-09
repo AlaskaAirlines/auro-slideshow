@@ -11,8 +11,8 @@
 | `loop`        | `loop`        | `boolean` | false             | If true, the slideshow will loop back to the first slide after reaching the last slide. |
 | `navigation`  | `navigation`  | `boolean` | false             | If true, the slideshow will display navigation arrows for previous and next slides when the slide container is hovered. |
 | `pagination`  | `pagination`  | `boolean` | false             | If true, the slideshow will display pagination dots for each slide. If autoplay is on, the active dot will also show a progress bar. |
-| `pauseLabel`  | `pauseLabel`  | `string`  | "Pause slideshow" | The aria-label for the pause button.             |
-| `playLabel`   | `playLabel`   | `string`  | "Play slideshow"  | The aria-label for the play button.              |
+| `pauseLabel`  | `pauseLabel`  | `string`  | "Pause slideshow" | DEPRECATED - Use `ariaLabel.slideshow.pause` instead. |
+| `playLabel`   | `playLabel`   | `string`  | "Play slideshow"  | DEPRECATED - Use `ariaLabel.slideshow.play` instead. |
 | `playOnInit`  | `playOnInit`  | `boolean` | false             | If true, the slideshow will start playing automatically on page load when `autoplay` or `autoScroll` are on. |
 | `scrollSpeed` | `scrollSpeed` | `number`  | 0.75              | Number of pixels auto scroll should advance per frame. (Only used with `autoScroll`) |
 | `startDelay`  | `startDelay`  | `number`  | 1000              | Delay in milliseconds before the auto scroll starts. (Only used with `autoScroll`) |
@@ -28,9 +28,13 @@
 
 ## Slots
 
-| Name | Description                                      |
-|------|--------------------------------------------------|
-|      | Default slot for the slides. Each child element will be treated as a slide. |
+| Name                        | Description                                      |
+|-----------------------------|--------------------------------------------------|
+|                             | Default slot for the slides. Each child element will be treated as a slide. |
+| `ariaLabel.scroll.left`     | The aria-label for the button navigating to the previous slide. Default is "Previous slide". |
+| `ariaLabel.scroll.right`    | The aria-label for the button navigating to the next slide. Default is "Next slide". |
+| `ariaLabel.slideshow.pause` | The aria-label for the button that pauses the slideshow. Default is "Pause slideshow". |
+| `ariaLabel.slideshow.play`  | The aria-label for the button that starts the slideshow. Default is "Play slideshow". |
 
 ## CSS Shadow Parts
 
