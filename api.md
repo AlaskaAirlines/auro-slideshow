@@ -14,8 +14,8 @@
 | [loop](#loop)        | `loop`        | `boolean` | false             | If true, the slideshow will loop back to the first slide after reaching the last slide. |
 | [navigation](#navigation)  | `navigation`  | `boolean` | false             | If true, the slideshow will display navigation arrows for previous and next slides when the slide container is hovered. |
 | [pagination](#pagination)  | `pagination`  | `boolean` | false             | If true, the slideshow will display pagination dots for each slide. If autoplay is on, the active dot will also show a progress bar. |
-| [pauseLabel](#pauseLabel)  | `pauseLabel`  | `string`  | "Pause slideshow" | The aria-label for the pause button.             |
-| [playLabel](#playLabel)   | `playLabel`   | `string`  | "Play slideshow"  | The aria-label for the play button.              |
+| [pauseLabel](#pauseLabel)  | `pauseLabel`  | `string`  | "Pause slideshow" | DEPRECATED - Use `ariaLabel.slideshow.pause` instead. |
+| [playLabel](#playLabel)   | `playLabel`   | `string`  | "Play slideshow"  | DEPRECATED - Use `ariaLabel.slideshow.play` instead. |
 | [playOnInit](#playOnInit)  | `playOnInit`  | `boolean` | false             | If true, the slideshow will start playing automatically on page load when `autoplay` or `autoScroll` are on. |
 | [scrollSpeed](#scrollSpeed) | `scrollSpeed` | `number`  | 0.75              | Number of pixels auto scroll should advance per frame. (Only used with `autoScroll`) |
 | [startDelay](#startDelay)  | `startDelay`  | `number`  | 1000              | Delay in milliseconds before the auto scroll starts. (Only used with `autoScroll`) |
@@ -31,9 +31,13 @@
 
 ## Slots
 
-| Name | Description                                      |
-|------|--------------------------------------------------|
-|      | Default slot for the slides. Each child element will be treated as a slide. |
+| Name                        | Description                                      |
+|-----------------------------|--------------------------------------------------|
+|                             | Default slot for the slides. Each child element will be treated as a slide. |
+| `ariaLabel.scroll.left`     | The aria-label for the button navigating to the previous slide. Default is "Previous slide". |
+| `ariaLabel.scroll.right`    | The aria-label for the button navigating to the next slide. Default is "Next slide". |
+| `ariaLabel.slideshow.pause` | The aria-label for the button that pauses the slideshow. Default is "Pause slideshow". |
+| `ariaLabel.slideshow.play`  | The aria-label for the button that starts the slideshow. Default is "Play slideshow". |
 
 ## CSS Shadow Parts
 
@@ -584,39 +588,22 @@ Setting the `playOnInit` attribute will start playing the slideshow when the pag
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### Custom labels for Play/Pause button
+### Custom labels for accessibility
 
-To set a custom aria-label for the play/pause button, pass in new values to the `playLabel` and `pauseLabel` attributes respectively. If not provided, they will default to "Play slideshow" and "Pause slideshow".
+To customize the aria-labels for the slideshow controls, use the following slots:
+- `ariaLabel.scroll.left` - Previous slide button
+- `ariaLabel.scroll.right` - Next slide button
+- `ariaLabel.slideshow.play` - Play slideshow button
+- `ariaLabel.slideshow.pause` - Pause slideshow button
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/customlabels.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/customlabels.html -->
-    <auro-slideshow pagination autoplay playLabel="Reproducir diapositivas" pauseLabel="Pausar diapositivas">
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-      </div>
-    </auro-slideshow>
-  <!-- AURO-GENERATED-CONTENT:END -->
-</div>
-<auro-accordion alignRight>
-  <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/customlabels.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/customlabels.html -->
-
-```html
-  <auro-slideshow pagination autoplay playLabel="Reproducir diapositivas" pauseLabel="Pausar diapositivas">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/ariaLabelSlots.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/ariaLabelSlots.html -->
+  <auro-slideshow autoplay navigation>
+    <span slot="ariaLabel.scroll.left">Custom label for previous slide</span>
+    <span slot="ariaLabel.scroll.right">Custom label for next slide</span>
+    <span slot="ariaLabel.slideshow.play">Custom label for play slideshow</span>
+    <span slot="ariaLabel.slideshow.pause">Custom label for pause slideshow</span>
     <div style="height: 480px">
       <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
     </div>
@@ -633,6 +620,35 @@ To set a custom aria-label for the play/pause button, pass in new values to the 
       <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
     </div>
   </auro-slideshow>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/ariaLabelSlots.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/ariaLabelSlots.html -->
+
+```html
+<auro-slideshow autoplay navigation>
+  <span slot="ariaLabel.scroll.left">Custom label for previous slide</span>
+  <span slot="ariaLabel.scroll.right">Custom label for next slide</span>
+  <span slot="ariaLabel.slideshow.play">Custom label for play slideshow</span>
+  <span slot="ariaLabel.slideshow.pause">Custom label for pause slideshow</span>
+  <div style="height: 480px">
+    <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+  </div>
+  <div style="height: 480px">
+    <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+  </div>
+  <div style="height: 480px">
+    <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+  </div>
+  <div style="height: 480px">
+    <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+  </div>
+  <div style="height: 480px">
+    <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+  </div>
+</auro-slideshow>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
