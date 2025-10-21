@@ -810,7 +810,7 @@ export class AuroSlideshow extends LitElement {
         aria-label="${this.runtimeUtils.getSlotText(this, "ariaLabel.scroll.left") || "Previous slide"}" 
         class="scroll-prev"
         shape="circle"
-        onDark
+        appearance="inverse"
         size="lg"
         @click=${() => this.handleNavClick("prev")}
         part="prev-button">
@@ -820,7 +820,7 @@ export class AuroSlideshow extends LitElement {
         aria-label="${this.runtimeUtils.getSlotText(this, "ariaLabel.scroll.right") || "Next slide"}"
         class="scroll-next"
         shape="circle"
-        onDark
+        appearance="inverse"
         size="lg"
         @click=${() => this.handleNavClick("next")}
         part="next-button">
