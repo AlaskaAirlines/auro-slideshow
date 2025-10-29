@@ -5,3 +5,5 @@ The `<auro-slideshow>` component is a wrapper element. All slides are slotted co
 `<auro-slideshow>` is a fully customizable component and does not come with any features turned on by default. The features of `<auro-slideshow>` are turned on by including the proper attributes on the element.
 
 **Note:** If all the slides can fit on the page at once, the slideshow will not activate.
+
+This is a test.
