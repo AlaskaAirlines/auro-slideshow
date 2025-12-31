@@ -23,11 +23,11 @@ The following sections are editable by making changes to the following files:
 <!-- The below content is automatically added from ./docs/partials/description.md -->
 `<auro-slideshow>` is an [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of displaying a sequence of slides, which can automatically advance through the content or be manually controlled by the user. 
 
-The `<auro-slideshow>` component is a wrapper element. All slides are slotted content and must be direct children of the component. Slides must have assigned `width` and `height` properties to display properly.
+The `<auro-slideshow>` element is a wrapper element. All slides are slotted content and must be direct children of the element. Slides must have assigned `width` and `height` properties to display properly.
 
-`<auro-slideshow>` is a fully customizable component and does not come with any features turned on by default. The features of `<auro-slideshow>` are turned on by including the proper attributes on the element.
+`<auro-slideshow>` is a fully customizable element and does not come with any features turned on by default. The features of `<auro-slideshow>` are turned on by including the proper attributes on the element.
 
-**Note:** If all the slides can fit on the page at once, the slideshow will not activate.
+**Note:** If all the slides can fit on the screen at once, the slideshow will not activate.
 <!-- AURO-GENERATED-CONTENT:END -->
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/readmeAddlInfo.md) -->
 <!-- The below content is automatically added from ./docs/partials/readmeAddlInfo.md -->
@@ -43,84 +43,7 @@ Both `navigation` and `pagination` can be used together, but at least one must b
 On mobile devices, `autoScroll` and `navigation` controls are automatically disabled. Users can navigate the slideshow by swiping left or right.
 <!-- AURO-GENERATED-CONTENT:END -->
 
-## UI development browser support
-
-<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/browserSupport.md) -->
-For the most up to date information on [UI development browser support](https://auro.alaskaair.com/support/browsersSupport)
-
-<!-- AURO-GENERATED-CONTENT:END -->
-
-## Install
-
-<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/componentInstall.md) -->
-[![Build Status](https://img.shields.io/github/actions/workflow/status/AlaskaAirlines/auro-slideshow/testPublish.yml?style=for-the-badge)](https://github.com/AlaskaAirlines/auro-slideshow/actions/workflows/testPublish.yml)
-[![See it on NPM!](https://img.shields.io/npm/v/@aurodesignsystem/auro-slideshow?style=for-the-badge&color=orange)](https://www.npmjs.com/package/@aurodesignsystem/auro-slideshow)
-[![License](https://img.shields.io/npm/l/@aurodesignsystem/auro-slideshow?color=blue&style=for-the-badge)](https://www.apache.org/licenses/LICENSE-2.0)
-![ESM supported](https://img.shields.io/badge/ESM-compatible-FFE900?style=for-the-badge)
-
-```shell
-$ npm i @aurodesignsystem/auro-slideshow
-```
-
-<!-- AURO-GENERATED-CONTENT:END -->
-
-### Design Token CSS Custom Property dependency
-
-<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/development/designTokens.md) -->
-The use of any Auro custom element has a dependency on the [Auro Design Tokens](https://auro.alaskaair.com/getting-started/developers/design-tokens).
-
-<!-- AURO-GENERATED-CONTENT:END -->
-
-### Define dependency in project component
-
-<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/componentImportDescription.md) -->
-Defining the component dependency within each component that is using the `<auro-slideshow>` component.
-
-<!-- AURO-GENERATED-CONTENT:END -->
-<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/componentImport.md) -->
-
-```js
-import "@aurodesignsystem/auro-slideshow";
-```
-
-<!-- AURO-GENERATED-CONTENT:END -->
-**Reference component in HTML**
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./apiExamples/basic.html) -->
-<!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
-
-```html
-  <auro-slideshow>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-    </div>    
-  </auro-slideshow>
-```
-<!-- AURO-GENERATED-CONTENT:END -->
-
-## Use CDN
-
-<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/bundleInstallDescription.md) -->
-In cases where the project is not able to process JS assets, there are pre-processed assets available for use. Legacy browsers such as IE11 are no longer supported.
-
-```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@aurodesignsystem/auro-slideshow@latest/+esm"></script>
-```
-
-<!-- AURO-GENERATED-CONTENT:END -->
-
-## auro-slideshow use cases
+## Use Cases
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/useCases.md) -->
 <!-- The below content is automatically added from ./docs/partials/useCases.md -->
@@ -131,9 +54,46 @@ The `<auro-slideshow>` element should be used in situations where:
 * A current slide indicator is required
 <!-- AURO-GENERATED-CONTENT:END -->
 
-## API Code Examples
+## Install
 
-### Default auro-slideshow
+<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/componentInstall.md) -->
+[![Build Status](https://img.shields.io/github/actions/workflow/status/AlaskaAirlines/auro-slideshow/release.yml?style=for-the-badge)](https://github.com/AlaskaAirlines/auro-slideshow/actions/workflows/release.yml)
+[![See it on NPM!](https://img.shields.io/npm/v/@aurodesignsystem/auro-slideshow?style=for-the-badge&color=orange)](https://www.npmjs.com/package/@aurodesignsystem/auro-slideshow)
+[![License](https://img.shields.io/npm/l/@aurodesignsystem/auro-slideshow?color=blue&style=for-the-badge)](https://www.apache.org/licenses/LICENSE-2.0)
+![ESM supported](https://img.shields.io/badge/ESM-compatible-FFE900?style=for-the-badge)
+
+```shell
+$ npm i @aurodesignsystem/auro-slideshow
+```
+
+<!-- AURO-GENERATED-CONTENT:END -->
+
+### Define Dependency in Project
+
+<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/componentImportDescription.md) -->
+Defining the dependency within each project that is using the `<auro-slideshow>` component.
+
+<!-- AURO-GENERATED-CONTENT:END -->
+<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/componentImport.md) -->
+
+```js
+import "@aurodesignsystem/auro-slideshow";
+```
+
+<!-- AURO-GENERATED-CONTENT:END -->
+
+### Use CDN
+
+<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/bundleInstallDescription.md) -->
+In cases where the project is not able to process JS assets, there are pre-processed assets available for use. Legacy browsers such as IE11 are no longer supported.
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@aurodesignsystem/auro-slideshow@latest/+esm"></script>
+```
+
+<!-- AURO-GENERATED-CONTENT:END -->
+
+## Basic Example
 
 <!-- AURO-GENERATED-CONTENT:START (CODE:src=./apiExamples/basic.html) -->
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
@@ -159,31 +119,63 @@ The `<auro-slideshow>` element should be used in situations where:
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 
-## Development
+## Custom Component Registration for Version Management
 
-<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/development/developmentDescription.md) -->
-In order to develop against this project, if you are not part of the core team, you will be required to fork the project prior to submitting a pull request.
+There are two key parts to every Auro component: the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">class</a> and the custom element definition.
+The class defines the component’s behavior, while the custom element registers it under a specific name so it can be used in HTML.
 
-Please be sure to review the [contribution guidelines](https://auro.alaskaair.com/contributing) for this project. Please make sure to **pay special attention** to the **conventional commits** section of the document.
+When you install the component as described on the `Install` page, the class is imported automatically, and the component is registered globally for you.
 
-<!-- AURO-GENERATED-CONTENT:END -->
+However, if you need to load multiple versions of the same component on a single page (for example, when two projects depend on different versions), you can manually register the class under a custom element name to avoid conflicts.
 
-### Start development environment
+You can do this by importing only the component class and using the `register(name)` method with a unique name:
 
-<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/development/localhost.md) -->
-Once the project has been cloned to your local resource and you have installed all the dependencies you will need to open a shell session to run the **dev server**.
+<!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/customRegistration.md) -->
+<!-- The below content is automatically added from ./docs/partials/customRegistration.md -->
 
-```shell
-$ npm run dev
+```js
+// Import the class only
+import { AuroSlideshow } from '@aurodesignsystem/auro-slideshow/class';
+
+// Register with a custom name if desired
+AuroSlideshow.register('custom-slideshow');
 ```
 
-Open [localhost:8000](http://localhost:8000/)
-
+This will create a new custom element `<custom-slideshow>` that behaves exactly like `<auro-slideshow>`, allowing both to coexist on the same page without interfering with each other.
 <!-- AURO-GENERATED-CONTENT:END -->
+<div class="exampleWrapper exampleWrapper--flex">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./apiExamples/custom.html) -->
+  <!-- The below content is automatically added from ./apiExamples/custom.html -->
+    <custom-slideshow navigation>
+      <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+        <p>Slide 1</p>
+      </div>
+      <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+        <p>Slide 2</p>
+      </div>
+      <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+        <p>Slide 3</p>
+      </div>
+    </custom-slideshow>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./apiExamples/custom.html) -->
+<!-- The below code snippet is automatically added from ./apiExamples/custom.html -->
 
-### Testing
-
-<!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/development/testing.md) -->
-Automated tests are required for every Auro component. See `.\test\auro-slideshow.test.js` for the tests for this component. Run `npm run test` to run the tests and check code coverage. Tests must pass and meet a certain coverage threshold to commit. See [the testing documentation](https://auro.alaskaair.com/support/tests) for more details.
-
+```html
+  <custom-slideshow navigation>
+    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+      <p>Slide 1</p>
+    </div>
+    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+      <p>Slide 2</p>
+    </div>
+    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+      <p>Slide 3</p>
+    </div>
+  </custom-slideshow>
+```
 <!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>

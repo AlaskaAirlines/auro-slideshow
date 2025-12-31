@@ -27,8 +27,9 @@ import iconVersion from "./iconVersion.js";
 import styleCss from "./styles/style.scss";
 
 /**
- * The auro-slideshow component is a customizable slideshow that displays a series of slides
+ * The `auro-slideshow` element is a customizable slideshow that displays a series of slides
  * with several options such as autoplay, navigation controls, and pagination dots.
+ * @customElement auro-slideshow
  *
  * @slot - Default slot for the slides. Each child element will be treated as a slide.
  * @slot ariaLabel.scroll.left - The aria-label for the button navigating to the previous slide. Default is "Previous slide".
@@ -43,6 +44,10 @@ export class AuroSlideshow extends LitElement {
   constructor() {
     super();
 
+    this._initializeDefaults();
+  }
+
+  _initializeDefaults() {
     this.autoplay = false;
     this.delay = 7000;
 
@@ -99,7 +104,7 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * Registers the custom element with the browser.
-   * @param {string} [name="auro-slideshow"] - Custom element name to register.
+   * @param {string} [name="auro-slideshow"] - The name of the element that you want to register.
    * @example
    * AuroSlideshow.register("custom-slideshow") // registers <custom-slideshow/>
    */
@@ -135,21 +140,24 @@ export class AuroSlideshow extends LitElement {
         reflect: true,
       },
       /**
-       * Slide duration in milliseconds. (Only used with `autoplay`)
+       * Slide duration in milliseconds (Only used with `autoplay`).
+       * @default 7000
        */
       delay: {
         type: Number,
         reflect: true,
       },
       /**
-       * Number of pixels auto scroll should advance per frame. (Only used with `autoScroll`)
+       * Number of pixels auto scroll should advance per frame (Only used with `autoScroll`).
+       * @default 0.75
        */
       scrollSpeed: {
         type: Number,
         reflect: true,
       },
       /**
-       * Delay in milliseconds before the auto scroll starts. (Only used with `autoScroll`)
+       * Delay in milliseconds before the auto scroll starts (Only used with `autoScroll`).
+       * @default 1000
        */
       startDelay: {
         type: Number,
@@ -246,7 +254,6 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * Starts the slideshow playback.
-   * @returns {void}
    */
   play() {
     if (this.autoplay) {
@@ -258,7 +265,6 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * Stops the slideshow playback.
-   * @returns {void}
    */
   stop() {
     if (this.autoplay) {
@@ -270,7 +276,6 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * Scrolls to the previous slide.
-   * @returns {void}
    */
   scrollPrev() {
     this.embla.scrollPrev();
@@ -278,7 +283,6 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * Scrolls to the next slide.
-   * @returns {void}
    */
   scrollNext() {
     this.embla.scrollNext();
