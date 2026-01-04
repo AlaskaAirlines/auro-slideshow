@@ -3,56 +3,56 @@
 
 # auro-slideshow
 
-## Properties
+The `auro-slideshow` element is a customizable slideshow that displays a series of slides
+with several options such as autoplay, navigation controls, and pagination dots.
 
-| Property      | Attribute     | Type      | Default           | Description                                      |
-|---------------|---------------|-----------|-------------------|--------------------------------------------------|
-| [autoScroll](#autoScroll)  | `autoScroll`  | `boolean` | false             | If true, the slideshow will scroll continuously. |
-| [autoplay](#autoplay)    | `autoplay`    | `boolean` | false             | If true, the slideshow will play automatically.  |
-| [delay](#delay)       | `delay`       | `number`  | 7000              | Slide duration in milliseconds. (Only used with `autoplay`) |
-| [fullBleed](#fullBleed)   | `fullBleed`   | `boolean` | false             | If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling. |
-| [loop](#loop)        | `loop`        | `boolean` | false             | If true, the slideshow will loop back to the first slide after reaching the last slide. |
-| [navigation](#navigation)  | `navigation`  | `boolean` | false             | If true, the slideshow will display navigation arrows for previous and next slides when the slide container is hovered. |
-| [pagination](#pagination)  | `pagination`  | `boolean` | false             | If true, the slideshow will display pagination dots for each slide. If autoplay is on, the active dot will also show a progress bar. |
-| [pauseLabel](#pauseLabel)  | `pauseLabel`  | `string`  | "Pause slideshow" | DEPRECATED - Use `ariaLabel.slideshow.pause` instead. |
-| [playLabel](#playLabel)   | `playLabel`   | `string`  | "Play slideshow"  | DEPRECATED - Use `ariaLabel.slideshow.play` instead. |
-| [playOnInit](#playOnInit)  | `playOnInit`  | `boolean` | false             | If true, the slideshow will start playing automatically on page load when `autoplay` or `autoScroll` are on. |
-| [scrollSpeed](#scrollSpeed) | `scrollSpeed` | `number`  | 0.75              | Number of pixels auto scroll should advance per frame. (Only used with `autoScroll`) |
-| [startDelay](#startDelay)  | `startDelay`  | `number`  | 1000              | Delay in milliseconds before the auto scroll starts. (Only used with `autoScroll`) |
+### Properties & Attributes
 
-## Methods
+| Properties  | Attributes  | Modifiers | Type    | Default | Description                                                                                                                                                                                         |
+| ----------- | ----------- | --------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| autoplay    | autoplay    |           | boolean |         | If true, the slideshow will play automatically.                                                                                                                                                     |
+| autoScroll  | autoScroll  |           | boolean |         | If true, the slideshow will scroll continuously.                                                                                                                                                    |
+| delay       | delay       |           | number  | `7000`  | Slide duration in milliseconds (Only used with `autoplay`).                                                                                                                                         |
+| fullBleed   | fullBleed   |           | boolean |         | If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling. |
+| loop        | loop        |           | boolean |         | If true, the slideshow will loop back to the first slide after reaching the last slide.                                                                                                             |
+| navigation  | navigation  |           | boolean |         | If true, the slideshow will display navigation arrows for previous and next slides when the slide container is hovered.                                                                             |
+| pagination  | pagination  |           | boolean |         | If true, the slideshow will display pagination dots for each slide. If autoplay is on, the active dot will also show a progress bar.                                                                |
+| pauseLabel  | pauseLabel  |           | string  |         | DEPRECATED - Use `ariaLabel.slideshow.pause` instead.                                                                                                                                               |
+| playLabel   | playLabel   |           | string  |         | DEPRECATED - Use `ariaLabel.slideshow.play` instead.                                                                                                                                                |
+| playOnInit  | playOnInit  |           | boolean |         | If true, the slideshow will start playing automatically on page load when `autoplay` or `autoScroll` are on.                                                                                        |
+| scrollSpeed | scrollSpeed |           | number  | `0.75`  | Number of pixels auto scroll should advance per frame (Only used with `autoScroll`).                                                                                                                |
+| startDelay  | startDelay  |           | number  | `1000`  | Delay in milliseconds before the auto scroll starts (Only used with `autoScroll`).                                                                                                                  |
 
-| Method       | Type       | Description                    |
-|--------------|------------|--------------------------------|
-| [play](#play)       | `(): void` | Starts the slideshow playback. |
-| [scrollNext](#scrollNext) | `(): void` | Scrolls to the next slide.     |
-| [scrollPrev](#scrollPrev) | `(): void` | Scrolls to the previous slide. |
-| [stop](#stop)       | `(): void` | Stops the slideshow playback.  |
+### Methods
 
-## Slots
+| Name       | Parameters                                                           | Return | Description                                    |
+| ---------- | -------------------------------------------------------------------- | ------ | ---------------------------------------------- |
+| play       | None                                                                 |        | Starts the slideshow playback.                 |
+| register   | `name` (string) - The name of the element that you want to register. |        | Registers the custom element with the browser. |
+| scrollNext | None                                                                 |        | Scrolls to the next slide.                     |
+| scrollPrev | None                                                                 |        | Scrolls to the previous slide.                 |
+| stop       | None                                                                 |        | Stops the slideshow playback.                  |
 
-| Name                        | Description                                      |
-|-----------------------------|--------------------------------------------------|
-|                             | Default slot for the slides. Each child element will be treated as a slide. |
-| `ariaLabel.scroll.left`     | The aria-label for the button navigating to the previous slide. Default is "Previous slide". |
-| `ariaLabel.scroll.right`    | The aria-label for the button navigating to the next slide. Default is "Next slide". |
-| `ariaLabel.slideshow.pause` | The aria-label for the button that pauses the slideshow. Default is "Pause slideshow". |
-| `ariaLabel.slideshow.play`  | The aria-label for the button that starts the slideshow. Default is "Play slideshow". |
+### Slots
 
-## CSS Shadow Parts
+| Name                      | Description                                                                                  |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| (default)                 | Default slot for the slides. Each child element will be treated as a slide.                  |
+| ariaLabel.scroll.left     | The aria-label for the button navigating to the previous slide. Default is "Previous slide". |
+| ariaLabel.scroll.right    | The aria-label for the button navigating to the next slide. Default is "Next slide".         |
+| ariaLabel.slideshow.pause | The aria-label for the button that pauses the slideshow. Default is "Pause slideshow".       |
+| ariaLabel.slideshow.play  | The aria-label for the button that starts the slideshow. Default is "Play slideshow".        |
 
-| Part                | Description                                 |
-|---------------------|---------------------------------------------|
-| `next-button`       | Use to style the next button control.       |
-| `play-pause-button` | Use to style the play/pause button control. |
-| `prev-button`       | Use to style the previous button control.   |
+### CSS Shadow Parts
+
+| Name              | Description                                 |
+| ----------------- | ------------------------------------------- |
+| next-button       | Use to style the next button control.       |
+| play-pause-button | Use to style the play/pause button control. |
+| prev-button       | Use to style the previous button control.   |
 <!-- AURO-GENERATED-CONTENT:END -->
 
-## API Examples
-
-### Basic
-
-This is the slideshow with no features turned on. It can only be navigated by dragging/swiping or with the keyboard by tabbing to the slide and using the left/right arrow keys.
+## Basic
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/basic.html) -->
@@ -98,6 +98,291 @@ This is the slideshow with no features turned on. It can only be navigated by dr
     <div style="height: 480px">
       <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
     </div>    
+  </auro-slideshow>
+```
+<!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>
+
+## Property & Attribute Examples
+
+### Autoplay
+
+Setting the `autoplay` attribute will render the play button so users can stop or start the slideshow. 
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoplay.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/autoplay.html -->
+    <auro-slideshow autoplay playOnInit loop>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+      </div>
+    </auro-slideshow>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/autoplay.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/autoplay.html -->
+
+```html
+  <auro-slideshow autoplay playOnInit loop>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+    </div>
+  </auro-slideshow>
+```
+<!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>
+
+### AutoScroll
+
+Setting the `autoScroll` attribute will also render the play button, but unlike `autoplay`, the slideshow will not stop on each slide. Instead, it will scroll continuously at a set pace and only stop on hover/focus or if any controls are clicked. 
+
+`pagination` and `navigation` controls will not work unless the slideshow is stopped. 
+
+`autoScroll` is disabled on mobile devices. 
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoscroll.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/autoscroll.html -->
+    <auro-slideshow navigation autoScroll playOnInit loop>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
+      </div>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=2" alt="Random image 2">
+      </div>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=3" alt="Random image 3">
+      </div>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=4" alt="Random image 4">
+      </div>
+      <div style="height: 480px; max-width: 400px;">
+        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=5" alt="Random image 5">
+      </div> 
+    </auro-slideshow>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/autoscroll.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/autoscroll.html -->
+
+```html
+  <auro-slideshow navigation autoScroll playOnInit loop>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
+    </div>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=2" alt="Random image 2">
+    </div>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=3" alt="Random image 3">
+    </div>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=4" alt="Random image 4">
+    </div>
+    <div style="height: 480px; max-width: 400px;">
+      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=5" alt="Random image 5">
+    </div> 
+  </auro-slideshow>
+```
+<!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>
+
+### Delay
+
+To set a custom slide duration on an `autoplay` slideshow, use the `delay` attribute to pass in a new value in milliseconds. The default value is 7000. This will show each slide for 7 seconds before moving to the next slide.
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/delay.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/delay.html -->
+    <auro-slideshow autoplay delay="2000">
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+      </div>
+    </auro-slideshow>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/delay.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/delay.html -->
+
+```html
+  <auro-slideshow autoplay delay="2000">
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+    </div>
+  </auro-slideshow>
+```
+<!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>
+
+### Full-Bleed Preview
+
+To enable the slideshow to show a preview of the previous and next slides, use the `fullBleed` attribute. This will unhide the overflow of the view area. 
+
+**Note:** To use this properly, a parent container MUST have `overflow-x: hidden` to prevent horizontal scrolling on the page. It is not recommended to put `overflow-x: hidden` on the `<body>` element as this will prevent horizontal scrolling if fixed-width elements become wider than the page. This is only done for demo purposes.
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/full-bleed.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/full-bleed.html -->
+    <auro-slideshow fullBleed autoplay navigation loop>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+      </div>
+    </auro-slideshow>
+    <!-- For demo purposes only -->
+    <style>
+      body {
+        overflow-x: hidden;
+      }
+    </style>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/full-bleed.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/full-bleed.html -->
+
+```html
+  <auro-slideshow fullBleed autoplay navigation loop>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+    </div>
+  </auro-slideshow>
+  <!-- For demo purposes only -->
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+  </style>
+```
+<!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>
+
+### Loop
+
+If the `loop` attribute is on, the slideshow will go back to the first slide when it reaches the end. If `autoplay` or `autoScroll` is on and `loop` is off, the slideshow will stop on the last slide.
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/loop.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/loop.html -->
+    <auro-slideshow pagination navigation loop>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+      </div>
+      <div style="height: 480px">
+        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+      </div>
+    </auro-slideshow>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/loop.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/loop.html -->
+
+```html
+  <auro-slideshow pagination navigation loop>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
+    </div>
+    <div style="height: 480px">
+      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
+    </div>
   </auro-slideshow>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
@@ -213,177 +498,14 @@ Setting the `pagination` attribute will render pagination dots to indicate the n
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### Loop
+### PlayOnInit
 
-If the `loop` attribute is on, the slideshow will go back to the first slide when it reaches the end. If `autoplay` or `autoScroll` is on and `loop` is off, the slideshow will stop on the last slide.
-
-<div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/loop.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/loop.html -->
-    <auro-slideshow pagination navigation loop>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-      </div>
-    </auro-slideshow>
-  <!-- AURO-GENERATED-CONTENT:END -->
-</div>
-<auro-accordion alignRight>
-  <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/loop.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/loop.html -->
-
-```html
-  <auro-slideshow pagination navigation loop>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-    </div>
-  </auro-slideshow>
-```
-<!-- AURO-GENERATED-CONTENT:END -->
-</auro-accordion>
-
-### Autoplay
-
-Setting the `autoplay` attribute will render the play button so users can stop or start the slideshow. Adding the `pagination` attribute will render pagination dots with an animated progress bar in place of the current slide dot showing the time until the next slide. When stopped, the progress bar will be filled. Playing will stop if any of the controls are clicked or a slide is hovered/receives focus.
+Setting the `playOnInit` attribute will start playing the slideshow when the page loads if either `autoplay` or `autoScroll` are enabled. Otherwise, the slideshow will not start playing until the user clicks the play button or the `play()` method is called.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoplay.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/autoplay.html -->
-    <auro-slideshow pagination autoplay playOnInit loop>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-      </div>
-    </auro-slideshow>
-  <!-- AURO-GENERATED-CONTENT:END -->
-</div>
-<auro-accordion alignRight>
-  <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/autoplay.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/autoplay.html -->
-
-```html
-  <auro-slideshow pagination autoplay playOnInit loop>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-    </div>
-  </auro-slideshow>
-```
-<!-- AURO-GENERATED-CONTENT:END -->
-</auro-accordion>
-
-### Delay
-
-To set a custom slide duration on an `autoplay` slideshow, use the `delay` attribute to pass in a new value in milliseconds. The default value is 7000. This will show each slide for 7 seconds before moving to the next slide.
-
-<div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/delay.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/delay.html -->
-    <auro-slideshow pagination autoplay delay="2000">
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-      </div>
-    </auro-slideshow>
-  <!-- AURO-GENERATED-CONTENT:END -->
-</div>
-<auro-accordion alignRight>
-  <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/delay.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/delay.html -->
-
-```html
-  <auro-slideshow pagination autoplay delay="2000">
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-    </div>
-  </auro-slideshow>
-```
-<!-- AURO-GENERATED-CONTENT:END -->
-</auro-accordion>
-
-### AutoScroll
-
-Setting the `autoScroll` attribute will also render the play button, but unlike `autoplay`, the slideshow will not stop on each slide. Instead, it will scroll continuously at a set pace and only stop on hover/focus or if any controls are clicked. 
-
-`pagination` and `navigation` controls will not work unless the slideshow is stopped. 
-
-`autoScroll` is disabled on mobile devices. 
-
-<div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoscroll.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/autoscroll.html -->
-    <auro-slideshow navigation autoScroll playOnInit loop>
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/playoninit.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/playoninit.html -->
+    <auro-slideshow autoScroll playOnInit loop>
       <div style="height: 480px; max-width: 400px;">
         <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
       </div>
@@ -404,11 +526,11 @@ Setting the `autoScroll` attribute will also render the play button, but unlike 
 </div>
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/autoscroll.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/autoscroll.html -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/playoninit.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/playoninit.html -->
 
 ```html
-  <auro-slideshow navigation autoScroll playOnInit loop>
+  <auro-slideshow autoScroll playOnInit loop>
     <div style="height: 480px; max-width: 400px;">
       <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
     </div>
@@ -535,60 +657,9 @@ To set a custom delay before the `autoScroll` restarts, use the `startDelay` att
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### PlayOnInit
+## Slot Examples
 
-Setting the `playOnInit` attribute will start playing the slideshow when the page loads if either `autoplay` or `autoScroll` are enabled. Otherwise, the slideshow will not start playing until the user clicks the play button or the `play()` method is called.
-
-<div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/playoninit.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/playoninit.html -->
-    <auro-slideshow autoScroll playOnInit loop>
-      <div style="height: 480px; max-width: 400px;">
-        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
-      </div>
-      <div style="height: 480px; max-width: 400px;">
-        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=2" alt="Random image 2">
-      </div>
-      <div style="height: 480px; max-width: 400px;">
-        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=3" alt="Random image 3">
-      </div>
-      <div style="height: 480px; max-width: 400px;">
-        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=4" alt="Random image 4">
-      </div>
-      <div style="height: 480px; max-width: 400px;">
-        <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=5" alt="Random image 5">
-      </div> 
-    </auro-slideshow>
-  <!-- AURO-GENERATED-CONTENT:END -->
-</div>
-<auro-accordion alignRight>
-  <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/playoninit.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/playoninit.html -->
-
-```html
-  <auro-slideshow autoScroll playOnInit loop>
-    <div style="height: 480px; max-width: 400px;">
-      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
-    </div>
-    <div style="height: 480px; max-width: 400px;">
-      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=2" alt="Random image 2">
-    </div>
-    <div style="height: 480px; max-width: 400px;">
-      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=3" alt="Random image 3">
-    </div>
-    <div style="height: 480px; max-width: 400px;">
-      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=4" alt="Random image 4">
-    </div>
-    <div style="height: 480px; max-width: 400px;">
-      <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=5" alt="Random image 5">
-    </div> 
-  </auro-slideshow>
-```
-<!-- AURO-GENERATED-CONTENT:END -->
-</auro-accordion>
-
-### Custom labels for accessibility
+### Slots for Aria-Labels
 
 To customize the aria-labels for the slideshow controls, use the following slots:
 - `ariaLabel.scroll.left` - Previous slide button
@@ -597,8 +668,8 @@ To customize the aria-labels for the slideshow controls, use the following slots
 - `ariaLabel.slideshow.pause` - Pause slideshow button
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/ariaLabelSlots.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/ariaLabelSlots.html -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/slots_aria-label.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/slots_aria-label.html -->
   <auro-slideshow autoplay navigation>
     <span slot="ariaLabel.scroll.left">Custom label for previous slide</span>
     <span slot="ariaLabel.scroll.right">Custom label for next slide</span>
@@ -624,8 +695,8 @@ To customize the aria-labels for the slideshow controls, use the following slots
 </div>
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/ariaLabelSlots.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/ariaLabelSlots.html -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/slots_aria-label.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/slots_aria-label.html -->
 
 ```html
 <auro-slideshow autoplay navigation>
@@ -653,78 +724,13 @@ To customize the aria-labels for the slideshow controls, use the following slots
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### Full-Bleed Preview
-
-To enable the slideshow to show a preview of the previous and next slides, use the `fullBleed` attribute. This will unhide the overflow of the view area. 
-
-**Note:** To use this properly, a parent container MUST have `overflow-x: hidden` to prevent horizontal scrolling on the page. It is not recommended to put `overflow-x: hidden` on the `<body>` element as this will prevent horizontal scrolling if fixed-width elements become wider than the page. This is only done for demo purposes.
-
-<div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/fullBleed.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/fullBleed.html -->
-    <auro-slideshow fullBleed autoplay pagination navigation loop>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-      </div>
-      <div style="height: 480px">
-        <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-      </div>
-    </auro-slideshow>
-    <!-- For demo purposes only -->
-    <style>
-      body {
-        overflow-x: hidden;
-      }
-    </style>
-  <!-- AURO-GENERATED-CONTENT:END -->
-</div>
-<auro-accordion alignRight>
-  <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/fullBleed.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/fullBleed.html -->
-
-```html
-  <auro-slideshow fullBleed autoplay pagination navigation loop>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-    </div>
-  </auro-slideshow>
-  <!-- For demo purposes only -->
-  <style>
-    body {
-      overflow-x: hidden;
-    }
-  </style>
-```
-<!-- AURO-GENERATED-CONTENT:END -->
-</auro-accordion>
+## Common Usage Patterns & Functional Examples
 
 ### Full-Bleed + AutoScroll Preview
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/fullBleedAutoScroll.html) -->
-  <!-- The below content is automatically added from ./../apiExamples/fullBleedAutoScroll.html -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/full-bleed-autoscroll.html) -->
+  <!-- The below content is automatically added from ./../apiExamples/full-bleed-autoscroll.html -->
     <auro-slideshow fullBleed navigation autoScroll playOnInit loop>
       <div style="height: 480px; max-width: 400px;">
         <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=1" alt="Random image 1">
@@ -761,8 +767,8 @@ To enable the slideshow to show a preview of the previous and next slides, use t
 </div>
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/fullBleedAutoScroll.html) -->
-<!-- The below code snippet is automatically added from ./../apiExamples/fullBleedAutoScroll.html -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/full-bleed-autoscroll.html) -->
+<!-- The below code snippet is automatically added from ./../apiExamples/full-bleed-autoscroll.html -->
 
 ```html
   <auro-slideshow fullBleed navigation autoScroll playOnInit loop>
