@@ -1,7 +1,6 @@
 ```js
 // Import the class only
 import { AuroSlideshow } from '@aurodesignsystem/auro-slideshow/class';
-
 // Register with a custom name if desired
 AuroSlideshow.register('custom-slideshow');
 ```
