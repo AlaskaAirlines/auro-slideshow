@@ -129,6 +129,7 @@ export class AuroSlideshow extends LitElement {
        * If true, the slideshow will scroll continuously.
        */
       autoScroll: {
+        attribute: "autoscroll",
         type: Boolean,
         reflect: true,
       },
@@ -136,6 +137,7 @@ export class AuroSlideshow extends LitElement {
        * If true, the slideshow will start playing automatically on page load when `autoplay` or `autoScroll` are on.
        */
       playOnInit: {
+        attribute: "playoninit",
         type: Boolean,
         reflect: true,
       },
@@ -152,6 +154,7 @@ export class AuroSlideshow extends LitElement {
        * @default 0.75
        */
       scrollSpeed: {
+        attribute: "scrollspeed",
         type: Number,
         reflect: true,
       },
@@ -160,20 +163,25 @@ export class AuroSlideshow extends LitElement {
        * @default 1000
        */
       startDelay: {
+        attribute: "startdelay",
         type: Number,
         reflect: true,
       },
       /**
-       * DEPRECATED - Use `ariaLabel.slideshow.play` instead.
+       * Accessible label for the play button. **Deprecated:** use `ariaLabel.slideshow.play` instead.
+       * @deprecated Use `ariaLabel.slideshow.play` instead.
        */
       playLabel: {
+        attribute: "playlabel",
         type: String,
         reflect: true,
       },
       /**
-       * DEPRECATED - Use `ariaLabel.slideshow.pause` instead.
+       * Accessible label for the pause button. **Deprecated:** use `ariaLabel.slideshow.pause` instead.
+       * @deprecated Use `ariaLabel.slideshow.pause` instead.
        */
       pauseLabel: {
+        attribute: "pauselabel",
         type: String,
         reflect: true,
       },
@@ -203,11 +211,13 @@ export class AuroSlideshow extends LitElement {
        */
       isPlaying: {
         type: Boolean,
+        attribute: false,
       },
       /**
        * If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling.
        */
       fullBleed: {
+        attribute: "fullbleed",
         type: Boolean,
         reflect: true,
       },
