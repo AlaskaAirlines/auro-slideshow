@@ -62,9 +62,7 @@ The `<auro-slideshow>` element should be used in situations where:
 [![License](https://img.shields.io/npm/l/@aurodesignsystem/auro-slideshow?color=blue&style=for-the-badge)](https://www.apache.org/licenses/LICENSE-2.0)
 ![ESM supported](https://img.shields.io/badge/ESM-compatible-FFE900?style=for-the-badge)
 
-```shell
-$ npm i @aurodesignsystem/auro-slideshow
-```
+<pre class="language-shell"><code class="language-shell">$ npm i @aurodesignsystem/auro-slideshow</code></pre>
 
 <!-- AURO-GENERATED-CONTENT:END -->
 
@@ -76,9 +74,7 @@ Defining the dependency within each project that is using the `<auro-slideshow>`
 <!-- AURO-GENERATED-CONTENT:END -->
 <!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/componentImport.md) -->
 
-```js
-import "@aurodesignsystem/auro-slideshow";
-```
+<pre class="language-js"><code class="language-js">import "@aurodesignsystem/auro-slideshow";</code></pre>
 
 <!-- AURO-GENERATED-CONTENT:END -->
 
@@ -87,9 +83,7 @@ import "@aurodesignsystem/auro-slideshow";
 <!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/bundleInstallDescription.md) -->
 In cases where the project is not able to process JS assets, there are pre-processed assets available for use. Legacy browsers such as IE11 are no longer supported.
 
-```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@aurodesignsystem/auro-slideshow@latest/+esm"></script>
-```
+<pre class="language-html"><code class="language-html">&lt;script type="module" src="https://cdn.jsdelivr.net/npm/@aurodesignsystem/auro-slideshow@latest/+esm"&gt;&lt;/script&gt;</code></pre>
 
 <!-- AURO-GENERATED-CONTENT:END -->
 
@@ -98,25 +92,23 @@ In cases where the project is not able to process JS assets, there are pre-proce
 <!-- AURO-GENERATED-CONTENT:START (CODE:src=./apiExamples/basic.html) -->
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
-```html
-  <auro-slideshow>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-    </div>    
-  </auro-slideshow>
-```
+<pre class="language-html"><code class="language-html">&lt;auro-slideshow&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1"&gt;
+  &lt;/div&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2"&gt;
+  &lt;/div&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3"&gt;
+  &lt;/div&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4"&gt;
+  &lt;/div&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5"&gt;
+  &lt;/div&gt;    
+&lt;/auro-slideshow&gt;</code></pre>
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Custom Component Registration for Version Management
@@ -133,49 +125,45 @@ You can do this by importing only the component class and using the `register(na
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/customRegistration.md) -->
 <!-- The below content is automatically added from ./docs/partials/customRegistration.md -->
 
-```js
-// Import the class only
+<pre class="language-js"><code class="language-js">// Import the class only
 import { AuroSlideshow } from '@aurodesignsystem/auro-slideshow/class';
-
+​
 // Register with a custom name if desired
-AuroSlideshow.register('custom-slideshow');
-```
+AuroSlideshow.register('custom-slideshow');</code></pre>
 
 This will create a new custom element `<custom-slideshow>` that behaves exactly like `<auro-slideshow>`, allowing both to coexist on the same page without interfering with each other.
 <!-- AURO-GENERATED-CONTENT:END -->
 <div class="exampleWrapper exampleWrapper--flex">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./apiExamples/custom.html) -->
-  <!-- The below content is automatically added from ./apiExamples/custom.html -->
-    <custom-slideshow navigation>
-      <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-        <p>Slide 1</p>
-      </div>
-      <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-        <p>Slide 2</p>
-      </div>
-      <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-        <p>Slide 3</p>
-      </div>
-    </custom-slideshow>
-  <!-- AURO-GENERATED-CONTENT:END -->
+<!-- AURO-GENERATED-CONTENT:START (FILE:src=./apiExamples/custom.html) -->
+<!-- The below content is automatically added from ./apiExamples/custom.html -->
+<custom-slideshow navigation>
+<div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+<p>Slide 1</p>
+</div>
+<div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+<p>Slide 2</p>
+</div>
+<div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+<p>Slide 3</p>
+</div>
+</custom-slideshow>
+<!-- AURO-GENERATED-CONTENT:END -->
 </div>
 <auro-accordion alignRight>
-  <span slot="trigger">See code</span>
+<span slot="trigger">See code</span>
 <!-- AURO-GENERATED-CONTENT:START (CODE:src=./apiExamples/custom.html) -->
 <!-- The below code snippet is automatically added from ./apiExamples/custom.html -->
 
-```html
-  <custom-slideshow navigation>
-    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-      <p>Slide 1</p>
-    </div>
-    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-      <p>Slide 2</p>
-    </div>
-    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-      <p>Slide 3</p>
-    </div>
-  </custom-slideshow>
-```
+<pre class="language-html"><code class="language-html">&lt;custom-slideshow navigation&gt;
+  &lt;div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
+    &lt;p&gt;Slide 1&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
+    &lt;p&gt;Slide 2&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
+    &lt;p&gt;Slide 3&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/custom-slideshow&gt;</code></pre>
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
