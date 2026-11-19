@@ -1,6 +1,6 @@
-The `<auro-slideshow>` element should be used in situations where:
+Use `<auro-slideshow>` when you need to:
 
-* A series of images or content needs to be displayed in a space-saving way
-* Autoplaying or autoscrolling functionality is needed
-* A current slide indicator is required
+* Show a series of images or content in a space-saving way
+* Advance slides automatically or scroll them continuously
+* Show which slide is current
 
