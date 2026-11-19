@@ -3,53 +3,66 @@
 
 # auro-slideshow
 
-The `auro-slideshow` element is a customizable slideshow that displays a series of slides
-with several options such as autoplay, navigation controls, and pagination dots.
+A slideshow for presenting a series of images or other content in a space-saving way, with manual controls or automatic advancing.
 
-### Properties & Attributes
+**Key capabilities**
+- **Autoplay**: Set `autoplay` to move to the next slide after each `delay`.
+- **Continuous scroll**: Set `autoScroll` to scroll the slides at a steady pace.
+- **Navigation arrows**: Set `navigation` to show previous and next arrows when the slides are hovered.
+- **Pagination dots**: Set `pagination` to show a dot for each slide.
+- **Looping**: Set `loop` to return to the first slide after the last.
+- **Full-bleed preview**: Set `fullBleed` to show parts of the previous and next slides.
 
-| Properties  | Attributes  | Modifiers | Type    | Default | Description                                                                                                                                                                                         |
-| ----------- | ----------- | --------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| autoplay    | autoplay    |           | boolean |         | If true, the slideshow will play automatically.                                                                                                                                                     |
-| autoScroll  | autoscroll  |           | boolean |         | If true, the slideshow will scroll continuously.                                                                                                                                                    |
-| delay       | delay       |           | number  | `7000`  | Slide duration in milliseconds (Only used with `autoplay`).                                                                                                                                         |
-| fullBleed   | fullbleed   |           | boolean |         | If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling. |
-| loop        | loop        |           | boolean |         | If true, the slideshow will loop back to the first slide after reaching the last slide.                                                                                                             |
-| navigation  | navigation  |           | boolean |         | If true, the slideshow will display navigation arrows for previous and next slides when the slide container is hovered.                                                                             |
-| pagination  | pagination  |           | boolean |         | If true, the slideshow will display pagination dots for each slide. If autoplay is on, the active dot will also show a progress bar.                                                                |
-| playOnInit  | playoninit  |           | boolean |         | If true, the slideshow will start playing automatically on page load when `autoplay` or `autoScroll` are on.                                                                                        |
-| scrollSpeed | scrollspeed |           | number  | `0.75`  | Number of pixels auto scroll should advance per frame (Only used with `autoScroll`).                                                                                                                |
-| startDelay  | startdelay  |           | number  | `1000`  | Delay in milliseconds before the auto scroll starts (Only used with `autoScroll`).                                                                                                                  |
-| pauseLabel  | pauselabel  |           | string  |         | Accessible label for the pause button. **Deprecated:** use `ariaLabel.slideshow.pause` instead.                                                                                                     |
-| playLabel   | playlabel   |           | string  |         | Accessible label for the play button. **Deprecated:** use `ariaLabel.slideshow.play` instead.                                                                                                       |
+**Example**
+<pre class="language-html"><code class="language-html">&lt;auro-slideshow navigation pagination&gt;
+  &lt;div style="height: 480px"&gt;Slide 1&lt;/div&gt;
+  &lt;div style="height: 480px"&gt;Slide 2&lt;/div&gt;
+&lt;/auro-slideshow&gt;</code></pre>
+
+### Properties and attributes
+
+| Properties  | Attributes  | Modifiers | Type    | Default           | Relevant when | Description                                                                                                                                                                                                                                                                                                     |
+| ----------- | ----------- | --------- | ------- | ----------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| autoplay    | autoplay    |           | boolean |                   |               | Adds a play and pause button and moves to the next slide after each `delay`. The slideshow starts playing on page load only when `playOnInit` is also set.                                                                                                                                                      |
+| autoScroll  | autoscroll  |           | boolean |                   |               | Scrolls the slides at a steady pace instead of stopping on each slide, and adds a play and pause button. The slideshow starts scrolling on page load only when `playOnInit` is also set. Doesn't apply on touch devices (those with a coarse primary pointer), and `autoplay` takes priority when both are set. |
+| delay       | delay       |           | number  | `7000`            | `autoplay`    | Sets how long each slide shows before the slideshow moves to the next one, in milliseconds. Applies only when `autoplay` is set.                                                                                                                                                                                |
+| fullBleed   | fullbleed   |           | boolean |                   |               | Stretches the slideshow to the full width of the browser window, so parts of the previous and next slides show beside the current slide. Each slide stays as wide as the slideshow's container. To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container.                                |
+| loop        | loop        |           | boolean |                   |               | Goes back to the first slide after the last slide instead of stopping at the end. When `loop` isn't set, `autoplay` and `autoScroll` stop on the last slide.                                                                                                                                                    |
+| navigation  | navigation  |           | boolean |                   |               | Shows previous and next arrow buttons when the slides are hovered. When `loop` isn't set, the arrow for a direction is hidden at the first or last slide. The arrows don't appear on touch devices, where the primary pointer is coarse.                                                                        |
+| pagination  | pagination  |           | boolean |                   |               | Shows a dot for each slide, with a wider dot for the current slide. When `autoplay` is set, the current dot also shows a progress bar.                                                                                                                                                                          |
+| playOnInit  | playoninit  |           | boolean |                   |               | Starts playback when the slideshow loads. Applies only when `autoplay` or `autoScroll` is set.                                                                                                                                                                                                                  |
+| scrollSpeed | scrollspeed |           | number  | `0.75`            | `autoScroll`  | Sets how fast the slides scroll, in pixels per frame. Use a higher number to scroll faster. Applies only when `autoScroll` is set.                                                                                                                                                                              |
+| startDelay  | startdelay  |           | number  | `1000`            | `autoScroll`  | Sets how long the slideshow waits before it starts or resumes scrolling, in milliseconds. Applies only when `autoScroll` is set.                                                                                                                                                                                |
+| pauseLabel  | pauselabel  |           | string  | `Pause slideshow` |               | Deprecated: Use `ariaLabel.slideshow.pause` instead.<br>Sets the text screen readers announce for the pause button. Used only when the `ariaLabel.slideshow.pause` slot is empty.                                                                                                                               |
+| playLabel   | playlabel   |           | string  | `Play slideshow`  |               | Deprecated: Use `ariaLabel.slideshow.play` instead.<br>Sets the text screen readers announce for the play button. Used only when the `ariaLabel.slideshow.play` slot is empty.                                                                                                                                  |
 
 ### Methods
 
-| Name       | Parameters                                                           | Return | Description                                    |
-| ---------- | -------------------------------------------------------------------- | ------ | ---------------------------------------------- |
-| play       | None                                                                 |        | Starts the slideshow playback.                 |
-| register   | `name` (string) - The name of the element that you want to register. |        | Registers the custom element with the browser. |
-| scrollNext | None                                                                 |        | Scrolls to the next slide.                     |
-| scrollPrev | None                                                                 |        | Scrolls to the previous slide.                 |
-| stop       | None                                                                 |        | Stops the slideshow playback.                  |
+| Name       | Parameters                                                           | Return | Description                                                                       |
+| ---------- | -------------------------------------------------------------------- | ------ | --------------------------------------------------------------------------------- |
+| play       | None                                                                 |        | Starts automatic playback. Does nothing unless `autoplay` or `autoScroll` is set. |
+| register   | `name` (string) - The name of the element that you want to register. |        | Registers the custom element with the browser.                                    |
+| scrollNext | None                                                                 |        | Scrolls to the next slide.                                                        |
+| scrollPrev | None                                                                 |        | Scrolls to the previous slide.                                                    |
+| stop       | None                                                                 |        | Stops automatic playback. Does nothing unless `autoplay` or `autoScroll` is set.  |
 
 ### Slots
 
-| Name                      | Description                                                                                  |
-| ------------------------- | -------------------------------------------------------------------------------------------- |
-| (default)                 | Default slot for the slides. Each child element will be treated as a slide.                  |
-| ariaLabel.scroll.left     | The aria-label for the button navigating to the previous slide. Default is "Previous slide". |
-| ariaLabel.scroll.right    | The aria-label for the button navigating to the next slide. Default is "Next slide".         |
-| ariaLabel.slideshow.pause | The aria-label for the button that pauses the slideshow. Default is "Pause slideshow".       |
-| ariaLabel.slideshow.play  | The aria-label for the button that starts the slideshow. Default is "Play slideshow".        |
+| Name                      | Relevant when | Description                                                                                           |
+| ------------------------- | ------------- | ----------------------------------------------------------------------------------------------------- |
+| (default)                 |               | The slides. Each direct child element becomes one slide.                                              |
+| ariaLabel.scroll.left     | `navigation`  | Text screen readers announce for the previous slide button. Defaults to "Previous slide".             |
+| ariaLabel.scroll.right    | `navigation`  | Text screen readers announce for the next slide button. Defaults to "Next slide".                     |
+| ariaLabel.slideshow.pause |               | Text screen readers announce for the button that pauses the slideshow. Defaults to "Pause slideshow". |
+| ariaLabel.slideshow.play  |               | Text screen readers announce for the button that starts the slideshow. Defaults to "Play slideshow".  |
 
-### CSS Shadow Parts
+### CSS shadow parts
 
-| Name              | Description                                 |
-| ----------------- | ------------------------------------------- |
-| next-button       | Use to style the next button control.       |
-| play-pause-button | Use to style the play/pause button control. |
-| prev-button       | Use to style the previous button control.   |
+| Name              | Relevant when | Description                                                                                                                                      |
+| ----------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| next-button       | `navigation`  | The button that goes to the next slide, shown when `navigation` is set, except on touch devices.                                                 |
+| play-pause-button |               | The button that plays and pauses the slideshow, shown when `autoplay` is set, or when `autoScroll` is set on a device that isn't a touch device. |
+| prev-button       | `navigation`  | The button that goes to the previous slide, shown when `navigation` is set, except on touch devices.                                             |
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Basic
@@ -101,11 +114,11 @@ with several options such as autoplay, navigation controls, and pagination dots.
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-## Property & Attribute Examples
+## Property and attribute examples
 
 ### Autoplay
 
-Setting the `autoplay` attribute will render the play button so users can stop or start the slideshow. 
+Set `autoplay` to add a play and pause button, so users can stop and start the slideshow.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoplay.html) -->
@@ -154,13 +167,13 @@ Setting the `autoplay` attribute will render the play button so users can stop o
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### AutoScroll
+### Autoscroll
 
-Setting the `autoScroll` attribute will also render the play button, but unlike `autoplay`, the slideshow will not stop on each slide. Instead, it will scroll continuously at a set pace and only stop on hover/focus or if any controls are clicked. 
+Set `autoScroll` to add a play and pause button. Unlike `autoplay`, the slideshow doesn't stop on each slide. It scrolls at a steady pace and stops when someone hovers over the slides, moves keyboard focus to a slide, drags the slides, or uses a control.
 
-`pagination` and `navigation` controls will not work unless the slideshow is stopped. 
+`pagination` and `navigation` controls don't work unless the slideshow is stopped. 
 
-`autoScroll` is disabled on mobile devices. 
+`autoScroll` doesn't work on touch devices, where the primary pointer is coarse.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/autoscroll.html) -->
@@ -211,7 +224,7 @@ Setting the `autoScroll` attribute will also render the play button, but unlike 
 
 ### Delay
 
-To set a custom slide duration on an `autoplay` slideshow, use the `delay` attribute to pass in a new value in milliseconds. The default value is 7000. This will show each slide for 7 seconds before moving to the next slide.
+To change how long each slide shows, set `delay` on an `autoplay` slideshow to a number of milliseconds. The default is 7000, so each slide shows for 7 seconds.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/delay.html) -->
@@ -260,11 +273,11 @@ To set a custom slide duration on an `autoplay` slideshow, use the `delay` attri
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### Full-Bleed Preview
+### Full-bleed preview
 
-To enable the slideshow to show a preview of the previous and next slides, use the `fullBleed` attribute. This will unhide the overflow of the view area. 
+Set `fullBleed` to show parts of the previous and next slides beside the current slide. The slideshow stretches to the full width of the browser window.
 
-**Note:** To use this properly, a parent container MUST have `overflow-x: hidden` to prevent horizontal scrolling on the page. It is not recommended to put `overflow-x: hidden` on the `<body>` element as this will prevent horizontal scrolling if fixed-width elements become wider than the page. This is only done for demo purposes.
+**Note:** To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container. Don't set it on the `<body>` element, because that stops horizontal scrolling when fixed-width elements become wider than the page. The example sets it on `<body>` for demo purposes only.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/full-bleed.html) -->
@@ -327,7 +340,7 @@ To enable the slideshow to show a preview of the previous and next slides, use t
 
 ### Loop
 
-If the `loop` attribute is on, the slideshow will go back to the first slide when it reaches the end. If `autoplay` or `autoScroll` is on and `loop` is off, the slideshow will stop on the last slide.
+When `loop` is set, the slideshow goes back to the first slide after the last slide. When `loop` isn't set and `autoplay` or `autoScroll` is set, the slideshow stops on the last slide.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/loop.html) -->
@@ -378,11 +391,11 @@ If the `loop` attribute is on, the slideshow will go back to the first slide whe
 
 ### Navigation
 
-Setting the `navigation` attribute will render previous/next arrow controls to allow the user to manually navigate the slideshow. These controls will only appear when the slides are hovered.
+Set `navigation` to add previous and next arrow buttons that let users move through the slides. The arrows appear only when the slides are hovered.
 
-If `loop` is off, the respective arrow control will be disabled/hidden when the slideshow is at the beginning or the end.
+When `loop` isn't set, the arrow for a direction is hidden at the first or last slide.
 
-`navigation` controls are disabled on mobile devices.
+The arrows don't appear on touch devices, where the primary pointer is coarse.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/navigation.html) -->
@@ -433,7 +446,7 @@ If `loop` is off, the respective arrow control will be disabled/hidden when the 
 
 ### Pagination
 
-Setting the `pagination` attribute will render pagination dots to indicate the number of slides. The current slide dot is represented by a filled wide dot to match the look of the progress bar. 
+Set `pagination` to show a dot for each slide. The current slide's dot is wider and filled, to match the progress bar.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/pagination.html) -->
@@ -482,9 +495,9 @@ Setting the `pagination` attribute will render pagination dots to indicate the n
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### PlayOnInit
+### Play on init
 
-Setting the `playOnInit` attribute will start playing the slideshow when the page loads if either `autoplay` or `autoScroll` are enabled. Otherwise, the slideshow will not start playing until the user clicks the play button or the `play()` method is called.
+Set `playOnInit` to start playing when the page loads. It applies only when `autoplay` or `autoScroll` is set. Without it, the slideshow starts playing only when the user clicks the play button or the `play()` method is called.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/playoninit.html) -->
@@ -533,9 +546,9 @@ Setting the `playOnInit` attribute will start playing the slideshow when the pag
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### ScrollSpeed
+### Scroll speed
 
-To set a custom speed on an `autoScroll` slideshow, use the `scrollSpeed` attribute to pass in a new value in pixels per frame. The default value is 0.75. To make the slideshow scroll faster, use a higher number. The value does not need to be whole number.
+To change how fast an `autoScroll` slideshow moves, set `scrollSpeed` to a number of pixels per frame. The default is 0.75. Use a higher number to scroll faster. The number doesn't need to be whole.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/scrollspeed.html) -->
@@ -584,9 +597,9 @@ To set a custom speed on an `autoScroll` slideshow, use the `scrollSpeed` attrib
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### StartDelay
+### Start delay
 
-To set a custom delay before the `autoScroll` restarts, use the `startDelay` attribute to pass in a new value in milliseconds. The default value is 1000. This will cause the slideshow to wait 1 second before it resumes autoscrolling. 
+To change how long an `autoScroll` slideshow waits before it starts or resumes scrolling, set `startDelay` to a number of milliseconds. The default is 1000, which is 1 second.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/startdelay.html) -->
@@ -635,24 +648,24 @@ To set a custom delay before the `autoScroll` restarts, use the `startDelay` att
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-## Slot Examples
+## Slot examples
 
-### Slots for Aria-Labels
+### Slots for aria labels
 
-To customize the aria-labels for the slideshow controls, use the following slots:
-- `ariaLabel.scroll.left` - Previous slide button
-- `ariaLabel.scroll.right` - Next slide button
-- `ariaLabel.slideshow.play` - Play slideshow button
-- `ariaLabel.slideshow.pause` - Pause slideshow button
+To change the text screen readers announce for the slideshow controls, use these slots:
+- `ariaLabel.scroll.left`: Previous slide button
+- `ariaLabel.scroll.right`: Next slide button
+- `ariaLabel.slideshow.play`: Play slideshow button
+- `ariaLabel.slideshow.pause`: Pause slideshow button
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/slots_aria-label.html) -->
 <!-- The below content is automatically added from ./../apiExamples/slots_aria-label.html -->
 <auro-slideshow autoplay navigation>
-<span slot="ariaLabel.scroll.left">Custom label for previous slide</span>
-<span slot="ariaLabel.scroll.right">Custom label for next slide</span>
-<span slot="ariaLabel.slideshow.play">Custom label for play slideshow</span>
-<span slot="ariaLabel.slideshow.pause">Custom label for pause slideshow</span>
+<span slot="ariaLabel.scroll.left">Show previous slide</span>
+<span slot="ariaLabel.scroll.right">Show next slide</span>
+<span slot="ariaLabel.slideshow.play">Play the slideshow</span>
+<span slot="ariaLabel.slideshow.pause">Pause the slideshow</span>
 <div style="height: 480px">
 <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
 </div>
@@ -677,10 +690,10 @@ To customize the aria-labels for the slideshow controls, use the following slots
 <!-- The below code snippet is automatically added from ./../apiExamples/slots_aria-label.html -->
 
 <pre class="language-html"><code class="language-html">&lt;auro-slideshow autoplay navigation&gt;
-  &lt;span slot="ariaLabel.scroll.left"&gt;Custom label for previous slide&lt;/span&gt;
-  &lt;span slot="ariaLabel.scroll.right"&gt;Custom label for next slide&lt;/span&gt;
-  &lt;span slot="ariaLabel.slideshow.play"&gt;Custom label for play slideshow&lt;/span&gt;
-  &lt;span slot="ariaLabel.slideshow.pause"&gt;Custom label for pause slideshow&lt;/span&gt;
+  &lt;span slot="ariaLabel.scroll.left"&gt;Show previous slide&lt;/span&gt;
+  &lt;span slot="ariaLabel.scroll.right"&gt;Show next slide&lt;/span&gt;
+  &lt;span slot="ariaLabel.slideshow.play"&gt;Play the slideshow&lt;/span&gt;
+  &lt;span slot="ariaLabel.slideshow.pause"&gt;Pause the slideshow&lt;/span&gt;
   &lt;div style="height: 480px"&gt;
     &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1"&gt;
   &lt;/div&gt;
@@ -700,9 +713,9 @@ To customize the aria-labels for the slideshow controls, use the following slots
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-## Common Usage Patterns & Functional Examples
+## Common usage patterns
 
-### Full-Bleed + AutoScroll Preview
+### Full-bleed and autoscroll preview
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/full-bleed-autoscroll.html) -->

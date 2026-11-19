@@ -21,37 +21,37 @@ The following sections are editable by making changes to the following files:
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/description.md) -->
 <!-- The below content is automatically added from ./docs/partials/description.md -->
-`<auro-slideshow>` is an [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of displaying a sequence of slides, which can automatically advance through the content or be manually controlled by the user. 
+`<auro-slideshow>` is an [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) that displays a sequence of slides. Slides can advance on their own or be controlled by the user.
 
-The `<auro-slideshow>` element is a wrapper element. All slides are slotted content and must be direct children of the element. Slides must have assigned `width` and `height` properties to display properly.
+The `<auro-slideshow>` element is a wrapper. Slides are slotted content and must be direct children of the element. Slides fill the width of the slideshow by default. To show more than one slide at a time, set a `max-width` on each slide.
 
-`<auro-slideshow>` is a fully customizable element and does not come with any features turned on by default. The features of `<auro-slideshow>` are turned on by including the proper attributes on the element.
+No features are on by default. Turn on a feature by adding its attribute to the element.
 
-**Note:** If all the slides can fit on the screen at once, the slideshow will not activate.
+**Note:** If all the slides fit on the screen at once, the slideshow doesn't activate.
 <!-- AURO-GENERATED-CONTENT:END -->
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/readmeAddlInfo.md) -->
 <!-- The below content is automatically added from ./docs/partials/readmeAddlInfo.md -->
 
-###  Properties usage
+### Properties usage
 
-`autoplay` and `autoScroll` are mutually exclusive properties and should not be used together on the same component instance. 
+`autoplay` and `autoScroll` can't be used together. If you set both, the slideshow turns off `autoScroll` and logs a warning in the console.
 
-Both `navigation` and `pagination` can be used together, but at least one must be used to give users a clear way to control the slides manually.
+Use `navigation`, `pagination`, or both, so users have a clear way to move through the slides manually.
 
 ### Mobile behavior
 
-On mobile devices, `autoScroll` and `navigation` controls are automatically disabled. Users can navigate the slideshow by swiping left or right.
+On touch devices, where the primary pointer is coarse, `autoScroll` and `navigation` are turned off. Users can swipe left or right to move through the slides.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Use cases
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/useCases.md) -->
 <!-- The below content is automatically added from ./docs/partials/useCases.md -->
-The `<auro-slideshow>` element should be used in situations where:
+Use `<auro-slideshow>` when you need to:
 
-* A series of images or content needs to be displayed in a space-saving way
-* Autoplaying or autoscrolling functionality is needed
-* A current slide indicator is required
+* Show a series of images or content in a space-saving way
+* Advance slides automatically or scroll them continuously
+* Show which slide is current
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Install
@@ -130,19 +130,19 @@ import { AuroSlideshow } from '@aurodesignsystem/auro-slideshow/class';
 // Register with a custom name if desired
 AuroSlideshow.register('custom-slideshow');</code></pre>
 
-This will create a new custom element `<custom-slideshow>` that behaves exactly like `<auro-slideshow>`, allowing both to coexist on the same page without interfering with each other.
+This registers a new custom element, `<custom-slideshow>`, that behaves like `<auro-slideshow>`. Both can be on the same page without interfering with each other.
 <!-- AURO-GENERATED-CONTENT:END -->
 <div class="exampleWrapper exampleWrapper--flex">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./apiExamples/custom.html) -->
 <!-- The below content is automatically added from ./apiExamples/custom.html -->
 <custom-slideshow navigation>
-<div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+<div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
 <p>Slide 1</p>
 </div>
-<div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+<div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
 <p>Slide 2</p>
 </div>
-<div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+<div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
 <p>Slide 3</p>
 </div>
 </custom-slideshow>
@@ -154,13 +154,13 @@ This will create a new custom element `<custom-slideshow>` that behaves exactly 
 <!-- The below code snippet is automatically added from ./apiExamples/custom.html -->
 
 <pre class="language-html"><code class="language-html">&lt;custom-slideshow navigation&gt;
-  &lt;div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
+  &lt;div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
     &lt;p&gt;Slide 1&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
+  &lt;div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
     &lt;p&gt;Slide 2&lt;/p&gt;
   &lt;/div&gt;
-  &lt;div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
+  &lt;div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
     &lt;p&gt;Slide 3&lt;/p&gt;
   &lt;/div&gt;
 &lt;/custom-slideshow&gt;</code></pre>

@@ -1,34 +1,34 @@
 <!--
  THIS PAGE'S CONTENT SHOULD BE KEPT MINIMAL.
- ONLY ADD EXAMPLES THAT ARE TRULY NECESSARY FOR THE INDEX PAGE — THE BASIC EXAMPLE IS USUALLY ENOUGH.
+ ONLY ADD EXAMPLES THAT ARE TRULY NECESSARY FOR THE INDEX PAGE. THE BASIC EXAMPLE IS USUALLY ENOUGH.
  ALL OTHER EXAMPLES SHOULD GO IN THE API DOCUMENTATION.
 -->
 
-#  Slideshow
+# Slideshow
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../docs/partials/description.md) -->
 <!-- The below content is automatically added from ./../docs/partials/description.md -->
-`<auro-slideshow>` is an [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of displaying a sequence of slides, which can automatically advance through the content or be manually controlled by the user. 
+`<auro-slideshow>` is an [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) that displays a sequence of slides. Slides can advance on their own or be controlled by the user.
 
-The `<auro-slideshow>` element is a wrapper element. All slides are slotted content and must be direct children of the element. Slides must have assigned `width` and `height` properties to display properly.
+The `<auro-slideshow>` element is a wrapper. Slides are slotted content and must be direct children of the element. Slides fill the width of the slideshow by default. To show more than one slide at a time, set a `max-width` on each slide.
 
-`<auro-slideshow>` is a fully customizable element and does not come with any features turned on by default. The features of `<auro-slideshow>` are turned on by including the proper attributes on the element.
+No features are on by default. Turn on a feature by adding its attribute to the element.
 
-**Note:** If all the slides can fit on the screen at once, the slideshow will not activate.
+**Note:** If all the slides fit on the screen at once, the slideshow doesn't activate.
 <!-- AURO-GENERATED-CONTENT:END -->
 
-## Use Cases
+## Use cases
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../docs/partials/useCases.md) -->
 <!-- The below content is automatically added from ./../docs/partials/useCases.md -->
-The `<auro-slideshow>` element should be used in situations where:
+Use `<auro-slideshow>` when you need to:
 
-* A series of images or content needs to be displayed in a space-saving way
-* Autoplaying or autoscrolling functionality is needed
-* A current slide indicator is required
+* Show a series of images or content in a space-saving way
+* Advance slides automatically or scroll them continuously
+* Show which slide is current
 <!-- AURO-GENERATED-CONTENT:END -->
 
-## Example(s)
+## Examples
 
 ### Autoplay
 
