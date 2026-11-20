@@ -299,7 +299,7 @@ Set `fullBleed` to show parts of the previous and next slides beside the current
 <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
 </div>
 </auro-slideshow>
-<!-- For demo purposes only -->
+<!-- For demo purposes only. On a real page, set overflow-x: hidden on a parent container that's as wide as the browser window, not on <body>. -->
 <style>
       body {
         overflow-x: hidden;
@@ -329,7 +329,7 @@ Set `fullBleed` to show parts of the previous and next slides beside the current
     &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5"&gt;
   &lt;/div&gt;
 &lt;/auro-slideshow&gt;
-&lt;!-- For demo purposes only --&gt;
+&lt;!-- For demo purposes only. On a real page, set overflow-x: hidden on a parent container that's as wide as the browser window, not on &lt;body&gt;. --&gt;
 &lt;style&gt;
   body {
     overflow-x: hidden;
@@ -746,7 +746,7 @@ To change the text screen readers announce for the slideshow controls, use these
 <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=8" alt="Random image 8">
 </div> 
 </auro-slideshow>
-<!-- For demo purposes only -->
+<!-- For demo purposes only. On a real page, set overflow-x: hidden on a parent container that's as wide as the browser window, not on <body>. -->
 <style>
       body {
         overflow-x: hidden;
@@ -785,7 +785,7 @@ To change the text screen readers announce for the slideshow controls, use these
     &lt;img style="object-fit: cover;" src="https://picsum.photos/400/480?random=8" alt="Random image 8"&gt;
   &lt;/div&gt; 
 &lt;/auro-slideshow&gt;
-&lt;!-- For demo purposes only --&gt;
+&lt;!-- For demo purposes only. On a real page, set overflow-x: hidden on a parent container that's as wide as the browser window, not on &lt;body&gt;. --&gt;
 &lt;style&gt;
   body {
     overflow-x: hidden;
