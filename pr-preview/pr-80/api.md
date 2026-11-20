@@ -171,7 +171,7 @@ Set `autoplay` to add a play and pause button, so users can stop and start the s
 
 Set `autoScroll` to add a play and pause button. Unlike `autoplay`, the slideshow doesn't stop on each slide. It scrolls at a steady pace and stops when someone hovers over the slides, moves keyboard focus to a slide, drags the slides, or uses a control.
 
-`pagination` and `navigation` controls don't work unless the slideshow is stopped. 
+Using a `pagination` dot or a `navigation` arrow stops the slideshow. 
 
 `autoScroll` doesn't work on touch devices, where the primary pointer is coarse.
 
@@ -277,7 +277,7 @@ To change how long each slide shows, set `delay` on an `autoplay` slideshow to a
 
 Set `fullBleed` to show parts of the previous and next slides beside the current slide. The slideshow stretches to the full width of the browser window.
 
-**Note:** To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container that's as wide as the browser window. A narrower container clips the previous and next slides. Don't set it on the `<body>` element, because that stops horizontal scrolling when fixed-width elements become wider than the page. The example sets it on `<body>` for demo purposes only.
+**Note:** To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container that's as wide as the browser window. A narrower container clips the previous and next slides. Don't set it on the `<body>` element, because that stops horizontal scrolling when fixed-width elements become wider than the page. The examples don't set it, so the demo page may scroll sideways.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/full-bleed.html) -->
@@ -299,12 +299,6 @@ Set `fullBleed` to show parts of the previous and next slides beside the current
 <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
 </div>
 </auro-slideshow>
-<!-- For demo purposes only. On a real page, set overflow-x: hidden on a parent container that's as wide as the browser window, not on <body>. -->
-<style>
-      body {
-        overflow-x: hidden;
-      }
-</style>
 <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 <auro-accordion alignRight>
@@ -328,13 +322,7 @@ Set `fullBleed` to show parts of the previous and next slides beside the current
   &lt;div style="height: 480px"&gt;
     &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5"&gt;
   &lt;/div&gt;
-&lt;/auro-slideshow&gt;
-&lt;!-- For demo purposes only. On a real page, set overflow-x: hidden on a parent container that's as wide as the browser window, not on &lt;body&gt;. --&gt;
-&lt;style&gt;
-  body {
-    overflow-x: hidden;
-  }
-&lt;/style&gt;</code></pre>
+&lt;/auro-slideshow&gt;</code></pre>
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
@@ -746,12 +734,6 @@ To change the text screen readers announce for the slideshow controls, use these
 <img style="object-fit: cover;" src="https://picsum.photos/400/480?random=8" alt="Random image 8">
 </div> 
 </auro-slideshow>
-<!-- For demo purposes only. On a real page, set overflow-x: hidden on a parent container that's as wide as the browser window, not on <body>. -->
-<style>
-      body {
-        overflow-x: hidden;
-      }
-</style>
 <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 <auro-accordion alignRight>
@@ -784,12 +766,6 @@ To change the text screen readers announce for the slideshow controls, use these
   &lt;div style="height: 480px; max-width: 400px;"&gt;
     &lt;img style="object-fit: cover;" src="https://picsum.photos/400/480?random=8" alt="Random image 8"&gt;
   &lt;/div&gt; 
-&lt;/auro-slideshow&gt;
-&lt;!-- For demo purposes only. On a real page, set overflow-x: hidden on a parent container that's as wide as the browser window, not on &lt;body&gt;. --&gt;
-&lt;style&gt;
-  body {
-    overflow-x: hidden;
-  }
-&lt;/style&gt;</code></pre>
+&lt;/auro-slideshow&gt;</code></pre>
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
