@@ -14,7 +14,7 @@ The `<auro-slideshow>` element is a wrapper. Slides are slotted content and must
 
 No features are on by default. Turn on a feature by adding its attribute to the element.
 
-**Note:** If all the slides fit on the screen at once, the slideshow doesn't activate.
+**Note:** If all the slides fit on the screen at once, the slideshow doesn't scroll or advance on its own.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Use cases
