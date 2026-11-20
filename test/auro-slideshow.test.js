@@ -321,6 +321,114 @@ describe("auro-slideshow", () => {
     await expect(el.isPlaying).to.be.false;
   });
 
+  it("does not throw when play and stop are called with autoScroll on a touch device", async () => {
+    const matchMediaStub = sinon
+      .stub(window, "matchMedia")
+      .callsFake((query) => ({
+        matches: query === "(pointer: coarse)",
+        media: query,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+      }));
+
+    try {
+      const el = await fixture(html`
+        <auro-slideshow autoScroll> ${slides} </auro-slideshow>
+      `);
+
+      await expect(el.embla.plugins().autoScroll).to.be.undefined;
+      await expect(() => el.play()).to.not.throw();
+      await expect(() => el.stop()).to.not.throw();
+    } finally {
+      matchMediaStub.restore();
+    }
+  });
+
+  describe("play state when playback starts on load", () => {
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    const modes = [
+      { name: "autoScroll", attrs: html`autoScroll`, plugin: "autoScroll" },
+      { name: "autoplay", attrs: html`autoplay`, plugin: "autoplay" },
+    ];
+
+    for (const mode of modes) {
+      const make = () =>
+        mode.name === "autoScroll"
+          ? fixture(html`
+              <auro-slideshow autoScroll navigation pagination playOnInit startDelay="0">
+                ${slides}
+              </auro-slideshow>
+            `)
+          : fixture(html`
+              <auro-slideshow autoplay navigation pagination playOnInit>
+                ${slides}
+              </auro-slideshow>
+            `);
+
+      it(`keeps isPlaying and the button label in sync with ${mode.name} after load`, async () => {
+        const el = await make();
+        await wait(150);
+
+        await expect(el.embla.plugins()[mode.plugin].isPlaying()).to.be.true;
+        await expect(el.isPlaying).to.be.true;
+        await expect(el.playBtnLabel).to.equal("Pause slideshow");
+      });
+
+      it(`pauses ${mode.name} on the first click of the play button`, async () => {
+        const el = await make();
+        await wait(150);
+
+        el._playBtn.click();
+        await expect(el.embla.plugins()[mode.plugin].isPlaying()).to.be.false;
+        await expect(el.isPlaying).to.be.false;
+        await expect(el.playBtnLabel).to.equal("Play slideshow");
+      });
+
+      it(`stops ${mode.name} when the slides are hovered`, async () => {
+        const el = await make();
+        await wait(150);
+
+        el.shadowRoot
+          .querySelector(".embla__container")
+          .dispatchEvent(new MouseEvent("mouseenter"));
+        await expect(el.embla.plugins()[mode.plugin].isPlaying()).to.be.false;
+      });
+
+      it(`moves to the next slide when the next button is used while ${mode.name} plays`, async () => {
+        const el = await make();
+        await wait(150);
+
+        el._nextBtn.click();
+        await wait(1200);
+        await expect(el.embla.selectedScrollSnap()).to.equal(1);
+        await expect(el.embla.plugins()[mode.plugin].isPlaying()).to.be.false;
+      });
+    }
+  });
+
+  it("does not throw when the slideshow is removed right after an arrow key press", async () => {
+    const errors = [];
+    const onError = (event) => errors.push(event);
+    window.addEventListener("error", onError);
+
+    try {
+      const el = await fixture(html`
+        <auro-slideshow> ${slides} </auro-slideshow>
+      `);
+
+      el.slides[0].dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }),
+      );
+      el.remove();
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      await expect(errors).to.have.lengthOf(0);
+    } finally {
+      window.removeEventListener("error", onError);
+    }
+  });
+
   it("stops autoplay when user clicks on nav buttons or pagination dots", async () => {
     const el = await fixture(html`
       <auro-slideshow autoplay navigation pagination playOnInit> ${slides} </auro-slideshow>
