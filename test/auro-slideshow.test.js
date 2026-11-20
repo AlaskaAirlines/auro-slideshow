@@ -321,6 +321,29 @@ describe("auro-slideshow", () => {
     await expect(el.isPlaying).to.be.false;
   });
 
+  it("does not throw when play and stop are called with autoScroll on a touch device", async () => {
+    const matchMediaStub = sinon
+      .stub(window, "matchMedia")
+      .callsFake((query) => ({
+        matches: query === "(pointer: coarse)",
+        media: query,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+      }));
+
+    try {
+      const el = await fixture(html`
+        <auro-slideshow autoScroll> ${slides} </auro-slideshow>
+      `);
+
+      await expect(el.embla.plugins().autoScroll).to.be.undefined;
+      await expect(() => el.play()).to.not.throw();
+      await expect(() => el.stop()).to.not.throw();
+    } finally {
+      matchMediaStub.restore();
+    }
+  });
+
   it("stops autoplay when user clicks on nav buttons or pagination dots", async () => {
     const el = await fixture(html`
       <auro-slideshow autoplay navigation pagination playOnInit> ${slides} </auro-slideshow>
