@@ -589,8 +589,8 @@ export class AuroSlideshow extends LitElement {
     const focusActiveSlide = () => {
       // Timeout added for UX optimization
       setTimeout(() => {
-        const activeSlide = this.slides[this.embla.selectedScrollSnap()];
-        activeSlide.focus();
+        const activeSlide = this.slides[this.embla?.selectedScrollSnap()];
+        activeSlide?.focus();
       }, 200);
     };
     if (event.key === "ArrowLeft") {
