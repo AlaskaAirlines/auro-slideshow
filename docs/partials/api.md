@@ -38,7 +38,7 @@ Set `autoplay` to add a play and pause button, so users can stop and start the s
 
 Set `autoScroll` to add a play and pause button. Unlike `autoplay`, the slideshow doesn't stop on each slide. It scrolls at a steady pace and stops when someone hovers over the slides, moves keyboard focus to a slide, drags the slides, or uses a control.
 
-`pagination` and `navigation` controls don't work unless the slideshow is stopped. 
+Using a `pagination` dot or a `navigation` arrow stops the slideshow. 
 
 `autoScroll` doesn't work on touch devices, where the primary pointer is coarse.
 
@@ -74,7 +74,7 @@ To change how long each slide shows, set `delay` on an `autoplay` slideshow to a
 
 Set `fullBleed` to show parts of the previous and next slides beside the current slide. The slideshow stretches to the full width of the browser window.
 
-**Note:** To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container that's as wide as the browser window. A narrower container clips the previous and next slides. Don't set it on the `<body>` element, because that stops horizontal scrolling when fixed-width elements become wider than the page. The example sets it on `<body>` for demo purposes only.
+**Note:** To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container that's as wide as the browser window. A narrower container clips the previous and next slides. Don't set it on the `<body>` element, because that stops horizontal scrolling when fixed-width elements become wider than the page. The examples don't set it, so the demo page may scroll sideways.
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/full-bleed.html) -->

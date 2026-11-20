@@ -328,7 +328,7 @@ export class AuroSlideshow extends LitElement {
   /**
    * Calculates the difference between the left edge of the slideshow wrapper and the Embla container.
    * @private
-   * @returns {() => number} A function that returns the offset in pixels.
+   * @returns {() => number} The function that returns the offset in pixels.
    */
   get _customAlign() {
     if (!this.fullBleed) return () => 0;
@@ -425,14 +425,14 @@ export class AuroSlideshow extends LitElement {
       this.embla
         .on("autoplay:stop", this.togglePlayButtonOnStop)
         .on("autoplay:play", this.togglePlayButtonOnPlay)
-        .on("init", this.togglePlayButtonOnStop);
+        .on("init", this.syncPlayState);
     }
 
     if (this.autoScroll && !this.isTouchDevice()) {
       this.embla
         .on("autoScroll:stop", this.togglePlayButtonOnStop)
         .on("autoScroll:play", this.togglePlayButtonOnPlay)
-        .on("init", this.togglePlayButtonOnStop);
+        .on("init", this.syncPlayState);
     }
 
     if (this.fullBleed) {
@@ -501,6 +501,22 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * @private
+   * Matches the play button state to the active plugin. Embla emits init after the plugin has
+   * already started playing on load, so init can't be treated as stopped.
+   */
+  syncPlayState = () => {
+    const plugins = this.embla?.plugins();
+    const plugin = plugins?.autoplay || plugins?.autoScroll;
+
+    if (plugin?.isPlaying()) {
+      this.togglePlayButtonOnPlay();
+    } else {
+      this.togglePlayButtonOnStop();
+    }
+  };
+
+  /**
+   * @private
    * Adds and removes disabled attribute if at the beginning or end of the slideshow and loop is off.
    */
   toggleNavBtnsState = () => {
@@ -543,7 +559,6 @@ export class AuroSlideshow extends LitElement {
   /**
    * @private
    * Handles the slot change event to update slides and initialize or reinitialize Embla.
-   * If the slot is empty, it doesn't initialize Embla.
    */
   handleSlotChange() {
     this.updateSlides();
