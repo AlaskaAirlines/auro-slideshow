@@ -239,7 +239,7 @@ export class AuroSlideshow extends LitElement {
         attribute: false,
       },
       /**
-       * Stretches the slideshow to the full width of the browser window, so parts of the previous and next slides show beside the current slide. Each slide stays as wide as the slideshow's container. To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container.
+       * Stretches the slideshow to the full width of the browser window, so parts of the previous and next slides show beside the current slide. Each slide stays as wide as the slideshow's container. To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container that's as wide as the browser window.
        */
       fullBleed: {
         attribute: "fullbleed",
@@ -292,9 +292,9 @@ export class AuroSlideshow extends LitElement {
    */
   play() {
     if (this.autoplay) {
-      this.embla?.plugins()?.autoplay.play();
+      this.embla?.plugins()?.autoplay?.play();
     } else if (this.autoScroll) {
-      this.embla?.plugins()?.autoScroll.play();
+      this.embla?.plugins()?.autoScroll?.play();
     }
   }
 
@@ -303,9 +303,9 @@ export class AuroSlideshow extends LitElement {
    */
   stop() {
     if (this.autoplay) {
-      this.embla?.plugins()?.autoplay.stop();
+      this.embla?.plugins()?.autoplay?.stop();
     } else if (this.autoScroll) {
-      this.embla?.plugins()?.autoScroll.stop();
+      this.embla?.plugins()?.autoScroll?.stop();
     }
   }
 

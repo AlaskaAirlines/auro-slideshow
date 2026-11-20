@@ -74,7 +74,7 @@ To change how long each slide shows, set `delay` on an `autoplay` slideshow to a
 
 Set `fullBleed` to show parts of the previous and next slides beside the current slide. The slideshow stretches to the full width of the browser window.
 
-**Note:** To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container. Don't set it on the `<body>` element, because that stops horizontal scrolling when fixed-width elements become wider than the page. The example sets it on `<body>` for demo purposes only.
+**Note:** To prevent horizontal scrolling, set `overflow-x: hidden` on a parent container that's as wide as the browser window. A narrower container clips the previous and next slides. Don't set it on the `<body>` element, because that stops horizontal scrolling when fixed-width elements become wider than the page. The example sets it on `<body>` for demo purposes only.
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/full-bleed.html) -->
