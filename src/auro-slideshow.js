@@ -27,18 +27,35 @@ import iconVersion from "./iconVersion.js";
 import styleCss from "./styles/style.scss";
 
 /**
- * The `auro-slideshow` element is a customizable slideshow that displays a series of slides
- * with several options such as autoplay, navigation controls, and pagination dots.
+ * A slideshow for presenting a series of images or other content in a space-saving way, with manual controls or automatic advancing.
+ *
+ * **Key capabilities**
+ * - **Autoplay**: Set `autoplay` to move to the next slide after each `delay`.
+ * - **Continuous scroll**: Set `autoScroll` to scroll the slides at a steady pace.
+ * - **Navigation arrows**: Set `navigation` to show previous and next arrows when the slides are hovered.
+ * - **Pagination dots**: Set `pagination` to show a dot for each slide.
+ * - **Looping**: Set `loop` to return to the first slide after the last.
+ * - **Full-bleed preview**: Set `fullBleed` to show parts of the previous and next slides.
+ *
+ * **Example**
+ * ```html
+ * <auro-slideshow navigation pagination>
+ *   <div style="height: 480px">Slide 1</div>
+ *   <div style="height: 480px">Slide 2</div>
+ * </auro-slideshow>
+ * ```
+ *
+ * @summary A customizable slideshow with autoplay, continuous scrolling, navigation arrows, and pagination dots.
  * @customElement auro-slideshow
  *
- * @slot - Default slot for the slides. Each child element will be treated as a slide.
- * @slot ariaLabel.scroll.left - The aria-label for the button navigating to the previous slide. Default is "Previous slide".
- * @slot ariaLabel.scroll.right - The aria-label for the button navigating to the next slide. Default is "Next slide".
- * @slot ariaLabel.slideshow.play - The aria-label for the button that starts the slideshow. Default is "Play slideshow".
- * @slot ariaLabel.slideshow.pause - The aria-label for the button that pauses the slideshow. Default is "Pause slideshow".
- * @csspart prev-button - Use to style the previous button control.
- * @csspart next-button - Use to style the next button control.
- * @csspart play-pause-button - Use to style the play/pause button control.
+ * @slot - The slides. Each direct child element becomes one slide.
+ * @slot ariaLabel.scroll.left - Text screen readers announce for the previous slide button. Defaults to "Previous slide". {@relevantWhen navigation}
+ * @slot ariaLabel.scroll.right - Text screen readers announce for the next slide button. Defaults to "Next slide". {@relevantWhen navigation}
+ * @slot ariaLabel.slideshow.play - Text screen readers announce for the button that starts the slideshow. Defaults to "Play slideshow". {@relevantWhen autoplay || autoScroll}
+ * @slot ariaLabel.slideshow.pause - Text screen readers announce for the button that pauses the slideshow. Defaults to "Pause slideshow". {@relevantWhen autoplay || autoScroll}
+ * @csspart prev-button - The button that goes to the previous slide, shown when `navigation` is set, except on touch devices. {@relevantWhen navigation}
+ * @csspart next-button - The button that goes to the next slide, shown when `navigation` is set, except on touch devices. {@relevantWhen navigation}
+ * @csspart play-pause-button - The button that plays and pauses the slideshow, shown when `autoplay` is set, or when `autoScroll` is set on a device that isn't a touch device. {@relevantWhen autoplay || autoScroll}
  */
 export class AuroSlideshow extends LitElement {
   constructor() {
@@ -119,28 +136,32 @@ export class AuroSlideshow extends LitElement {
   static get properties() {
     return {
       /**
-       * If true, the slideshow will play automatically.
+       * Adds a play and pause button and moves to the next slide after each `delay`. The slideshow starts playing on page load only when `playOnInit` is also set.
        */
       autoplay: {
         type: Boolean,
         reflect: true,
       },
       /**
-       * If true, the slideshow will scroll continuously.
+       * Scrolls the slides at a steady pace instead of stopping on each slide, and adds a play and pause button. The slideshow starts scrolling on page load only when `playOnInit` is also set. Doesn't apply on touch devices (those with a coarse primary pointer), and `autoplay` takes priority when both are set.
        */
       autoScroll: {
+        attribute: "autoscroll",
         type: Boolean,
         reflect: true,
       },
       /**
-       * If true, the slideshow will start playing automatically on page load when `autoplay` or `autoScroll` are on.
+       * Starts playback when the slideshow loads. Applies only when `autoplay` or `autoScroll` is set.
+       * @relevantWhen autoplay || autoScroll
        */
       playOnInit: {
+        attribute: "playoninit",
         type: Boolean,
         reflect: true,
       },
       /**
-       * Slide duration in milliseconds (Only used with `autoplay`).
+       * Sets how long each slide shows before the slideshow moves to the next one, in milliseconds. Applies only when `autoplay` is set.
+       * @relevantWhen autoplay
        * @default 7000
        */
       delay: {
@@ -148,51 +169,63 @@ export class AuroSlideshow extends LitElement {
         reflect: true,
       },
       /**
-       * Number of pixels auto scroll should advance per frame (Only used with `autoScroll`).
+       * Sets how fast the slides scroll, in pixels per frame. Use a higher number to scroll faster. Applies only when `autoScroll` is set.
+       * @relevantWhen autoScroll
        * @default 0.75
        */
       scrollSpeed: {
+        attribute: "scrollspeed",
         type: Number,
         reflect: true,
       },
       /**
-       * Delay in milliseconds before the auto scroll starts (Only used with `autoScroll`).
+       * Sets how long the slideshow waits before it starts or resumes scrolling, in milliseconds. Applies only when `autoScroll` is set.
+       * @relevantWhen autoScroll
        * @default 1000
        */
       startDelay: {
+        attribute: "startdelay",
         type: Number,
         reflect: true,
       },
       /**
-       * DEPRECATED - Use `ariaLabel.slideshow.play` instead.
+       * Deprecated: Use `ariaLabel.slideshow.play` instead.
+       * Sets the text screen readers announce for the play button. Used only when the `ariaLabel.slideshow.play` slot is empty.
+       * @deprecated Use `ariaLabel.slideshow.play` instead.
+       * @default "Play slideshow"
        */
       playLabel: {
+        attribute: "playlabel",
         type: String,
         reflect: true,
       },
       /**
-       * DEPRECATED - Use `ariaLabel.slideshow.pause` instead.
+       * Deprecated: Use `ariaLabel.slideshow.pause` instead.
+       * Sets the text screen readers announce for the pause button. Used only when the `ariaLabel.slideshow.pause` slot is empty.
+       * @deprecated Use `ariaLabel.slideshow.pause` instead.
+       * @default "Pause slideshow"
        */
       pauseLabel: {
+        attribute: "pauselabel",
         type: String,
         reflect: true,
       },
       /**
-       * If true, the slideshow will loop back to the first slide after reaching the last slide.
+       * Goes back to the first slide after the last slide instead of stopping at the end. When `loop` isn't set, `autoplay` and `autoScroll` stop on the last slide.
        */
       loop: {
         type: Boolean,
         reflect: true,
       },
       /**
-       * If true, the slideshow will display navigation arrows for previous and next slides when the slide container is hovered.
+       * Shows previous and next arrow buttons when the slides are hovered. When `loop` isn't set, the arrow for a direction is hidden at the first or last slide. The arrows don't appear on touch devices, where the primary pointer is coarse.
        */
       navigation: {
         type: Boolean,
         reflect: true,
       },
       /**
-       * If true, the slideshow will display pagination dots for each slide. If autoplay is on, the active dot will also show a progress bar.
+       * Shows a dot for each slide, with a wider dot for the current slide. When `autoplay` is set, the current dot also shows a progress bar.
        */
       pagination: {
         type: Boolean,
@@ -203,11 +236,13 @@ export class AuroSlideshow extends LitElement {
        */
       isPlaying: {
         type: Boolean,
+        attribute: false,
       },
       /**
-       * If set, the slideshow will take up the width of its parent container showing previous and next slides. **Note:** a parent container must have `overflow-x: hidden` to prevent horizontal scrolling.
+       * Stretches the slideshow to the full width of the browser window, so parts of the previous and next slides show beside the current slide. Each slide stays as wide as the slideshow's container.
        */
       fullBleed: {
+        attribute: "fullbleed",
         type: Boolean,
         reflect: true,
       },
@@ -253,24 +288,24 @@ export class AuroSlideshow extends LitElement {
   // ========== PUBLIC METHODS =================
 
   /**
-   * Starts the slideshow playback.
+   * Starts automatic playback. Does nothing unless `autoplay` or `autoScroll` is set.
    */
   play() {
     if (this.autoplay) {
-      this.embla?.plugins()?.autoplay.play();
+      this.embla?.plugins()?.autoplay?.play();
     } else if (this.autoScroll) {
-      this.embla?.plugins()?.autoScroll.play();
+      this.embla?.plugins()?.autoScroll?.play();
     }
   }
 
   /**
-   * Stops the slideshow playback.
+   * Stops automatic playback. Does nothing unless `autoplay` or `autoScroll` is set.
    */
   stop() {
     if (this.autoplay) {
-      this.embla?.plugins()?.autoplay.stop();
+      this.embla?.plugins()?.autoplay?.stop();
     } else if (this.autoScroll) {
-      this.embla?.plugins()?.autoScroll.stop();
+      this.embla?.plugins()?.autoScroll?.stop();
     }
   }
 
@@ -291,8 +326,9 @@ export class AuroSlideshow extends LitElement {
   // ========== PRIVATE METHODS =================
 
   /**
-   * Calculate the difference between the left edge of the slideshow-wrapper and the embla container
-   * @returns a callback function that returns the offset in pixels
+   * Calculates the difference between the left edge of the slideshow wrapper and the Embla container.
+   * @private
+   * @returns {() => number} The function that returns the offset in pixels.
    */
   get _customAlign() {
     if (!this.fullBleed) return () => 0;
@@ -307,7 +343,8 @@ export class AuroSlideshow extends LitElement {
   }
 
   /**
-   * Calculate the width of the slideshow-wrapper and attach a css property to the host element '--slideshow-width'
+   * Sets the `--slideshow-width` CSS custom property on the host element to the width of the slideshow wrapper.
+   * @private
    * @returns {void}
    */
   _createWidthProp = () => {
@@ -388,14 +425,14 @@ export class AuroSlideshow extends LitElement {
       this.embla
         .on("autoplay:stop", this.togglePlayButtonOnStop)
         .on("autoplay:play", this.togglePlayButtonOnPlay)
-        .on("init", this.togglePlayButtonOnStop);
+        .on("init", this.syncPlayState);
     }
 
     if (this.autoScroll && !this.isTouchDevice()) {
       this.embla
         .on("autoScroll:stop", this.togglePlayButtonOnStop)
         .on("autoScroll:play", this.togglePlayButtonOnPlay)
-        .on("init", this.togglePlayButtonOnStop);
+        .on("init", this.syncPlayState);
     }
 
     if (this.fullBleed) {
@@ -464,6 +501,22 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * @private
+   * Matches the play button state to the active plugin. Embla emits init after the plugin has
+   * already started playing on load, so init can't be treated as stopped.
+   */
+  syncPlayState = () => {
+    const plugins = this.embla?.plugins();
+    const plugin = plugins?.autoplay || plugins?.autoScroll;
+
+    if (plugin?.isPlaying()) {
+      this.togglePlayButtonOnPlay();
+    } else {
+      this.togglePlayButtonOnStop();
+    }
+  };
+
+  /**
+   * @private
    * Adds and removes disabled attribute if at the beginning or end of the slideshow and loop is off.
    */
   toggleNavBtnsState = () => {
@@ -506,7 +559,6 @@ export class AuroSlideshow extends LitElement {
   /**
    * @private
    * Handles the slot change event to update slides and initialize or reinitialize Embla.
-   * If the slot is empty, it will not initialize Embla.
    */
   handleSlotChange() {
     this.updateSlides();
@@ -552,8 +604,8 @@ export class AuroSlideshow extends LitElement {
     const focusActiveSlide = () => {
       // Timeout added for UX optimization
       setTimeout(() => {
-        const activeSlide = this.slides[this.embla.selectedScrollSnap()];
-        activeSlide.focus();
+        const activeSlide = this.slides[this.embla?.selectedScrollSnap()];
+        activeSlide?.focus();
       }, 200);
     };
     if (event.key === "ArrowLeft") {
@@ -597,7 +649,7 @@ export class AuroSlideshow extends LitElement {
   /**
    * @private
    * Handles mouse leave event on the slideshow container to start autoplay or autoScroll.
-   * It will only start playing if the slideshow was stopped by hovering.
+   * It starts playing only if the slideshow was stopped by hovering.
    */
   handleMouseLeave = () => {
     if (!this.isPlaying && !this.isStopped && this.isHovered) {
@@ -850,8 +902,8 @@ export class AuroSlideshow extends LitElement {
 
   /**
    * Generates the HTML for the pagination container, which includes the play button and pagination dots.
-   * If autoplay or autoScroll is enabled, it will render the play button.
-   * If pagination is enabled, it will render the dots.
+   * If autoplay or autoScroll is enabled, it renders the play button.
+   * If pagination is enabled, it renders the dots.
    * @private
    */
   renderPaginationContainer() {

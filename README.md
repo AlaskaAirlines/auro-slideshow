@@ -12,46 +12,48 @@ The following sections are editable by making changes to the following files:
 | SECTION                | DESCRIPTION                                       | FILE LOCATION                       |
 |------------------------|---------------------------------------------------|-------------------------------------|
 | Description            | Description of the component                      | `./docs/partials/description.md`    |
-| Use Cases              | Examples for when to use this component           | `./docs/partials/useCases.md`       |
-| Additional Information | For use to add any component specific information | `./docs/partials/readmeAddlInfo.md` |
-| Component Example Code | HTML sample code of the components use            | `./apiExamples/basic.html`          |
+| Use cases              | Examples for when to use this component           | `./docs/partials/useCases.md`       |
+| Additional information | For use to add any component specific information | `./docs/partials/readmeAddlInfo.md` |
+| Component example code | HTML sample code of the components use            | `./apiExamples/basic.html`          |
 -->
 
 # Slideshow
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/description.md) -->
 <!-- The below content is automatically added from ./docs/partials/description.md -->
-`<auro-slideshow>` is an [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of displaying a sequence of slides, which can automatically advance through the content or be manually controlled by the user. 
+`<auro-slideshow>` is an [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) that displays a sequence of slides. Slides can advance on their own or be controlled by the user.
 
-The `<auro-slideshow>` element is a wrapper element. All slides are slotted content and must be direct children of the element. Slides must have assigned `width` and `height` properties to display properly.
+The `<auro-slideshow>` element is a wrapper. Slides are slotted content and must be direct children of the element. Slides fill the width of the slideshow by default. To show more than one slide at a time, set a `max-width` on each slide.
 
-`<auro-slideshow>` is a fully customizable element and does not come with any features turned on by default. The features of `<auro-slideshow>` are turned on by including the proper attributes on the element.
+No features are on by default. Turn on a feature by adding its attribute to the element.
 
-**Note:** If all the slides can fit on the screen at once, the slideshow will not activate.
+**Note:** If all the slides fit on the screen at once, the slideshow doesn't scroll or advance on its own.
 <!-- AURO-GENERATED-CONTENT:END -->
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/readmeAddlInfo.md) -->
 <!-- The below content is automatically added from ./docs/partials/readmeAddlInfo.md -->
 
-###  Properties usage
+### Properties usage
 
-`autoplay` and `autoScroll` are mutually exclusive properties and should not be used together on the same component instance. 
+`autoplay` and `autoScroll` can't be used together. If you set both, the slideshow turns off `autoScroll` and logs a warning in the console.
 
-Both `navigation` and `pagination` can be used together, but at least one must be used to give users a clear way to control the slides manually.
+Use `navigation`, `pagination`, or both, so users have a clear way to move through the slides manually.
+
+Set `autoplay`, `autoScroll`, `playOnInit`, `delay`, `scrollSpeed`, `startDelay`, `loop`, `fullBleed`, `navigation`, and `pagination` before the slideshow loads, because changing them afterward doesn't fully take effect.
 
 ### Mobile behavior
 
-On mobile devices, `autoScroll` and `navigation` controls are automatically disabled. Users can navigate the slideshow by swiping left or right.
+On touch devices, where the primary pointer is coarse, `autoScroll` and `navigation` are turned off. Users can swipe left or right to move through the slides.
 <!-- AURO-GENERATED-CONTENT:END -->
 
-## Use Cases
+## Use cases
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/useCases.md) -->
 <!-- The below content is automatically added from ./docs/partials/useCases.md -->
-The `<auro-slideshow>` element should be used in situations where:
+Use `<auro-slideshow>` when you need to:
 
-* A series of images or content needs to be displayed in a space-saving way
-* Autoplaying or autoscrolling functionality is needed
-* A current slide indicator is required
+* Show a series of images or content in a space-saving way
+* Advance slides automatically or scroll them continuously
+* Show which slide is current
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Install
@@ -62,120 +64,107 @@ The `<auro-slideshow>` element should be used in situations where:
 [![License](https://img.shields.io/npm/l/@aurodesignsystem/auro-slideshow?color=blue&style=for-the-badge)](https://www.apache.org/licenses/LICENSE-2.0)
 ![ESM supported](https://img.shields.io/badge/ESM-compatible-FFE900?style=for-the-badge)
 
-```shell
-$ npm i @aurodesignsystem/auro-slideshow
-```
+<pre class="language-shell"><code class="language-shell">$ npm i @aurodesignsystem/auro-slideshow</code></pre>
 
 <!-- AURO-GENERATED-CONTENT:END -->
 
-### Define Dependency in Project
+### Define dependency in project
 
 <!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/componentImportDescription.md) -->
-Defining the dependency within each project that is using the `<auro-slideshow>` component.
+Import the component in each project that uses `<auro-slideshow>`.
 
 <!-- AURO-GENERATED-CONTENT:END -->
 <!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/componentImport.md) -->
 
-```js
-import "@aurodesignsystem/auro-slideshow";
-```
+<pre class="language-js"><code class="language-js">import "@aurodesignsystem/auro-slideshow";</code></pre>
 
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ### Use CDN
 
 <!-- AURO-GENERATED-CONTENT:START (REMOTE:url=https://raw.githubusercontent.com/AlaskaAirlines/auro-templates/main/templates/default/partials/usage/bundleInstallDescription.md) -->
-In cases where the project is not able to process JS assets, there are pre-processed assets available for use. Legacy browsers such as IE11 are no longer supported.
+If your project can't process JS assets, use the pre-processed assets. Legacy browsers, such as IE11, aren't supported.
 
-```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@aurodesignsystem/auro-slideshow@latest/+esm"></script>
-```
+<pre class="language-html"><code class="language-html">&lt;script type="module" src="https://cdn.jsdelivr.net/npm/@aurodesignsystem/auro-slideshow@latest/+esm"&gt;&lt;/script&gt;</code></pre>
 
 <!-- AURO-GENERATED-CONTENT:END -->
 
-## Basic Example
+## Basic example
 
 <!-- AURO-GENERATED-CONTENT:START (CODE:src=./apiExamples/basic.html) -->
 <!-- The below code snippet is automatically added from ./apiExamples/basic.html -->
 
-```html
-  <auro-slideshow>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4">
-    </div>
-    <div style="height: 480px">
-      <img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5">
-    </div>    
-  </auro-slideshow>
-```
+<pre class="language-html"><code class="language-html">&lt;auro-slideshow&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=1" alt="Random image 1"&gt;
+  &lt;/div&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=2" alt="Random image 2"&gt;
+  &lt;/div&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=3" alt="Random image 3"&gt;
+  &lt;/div&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=4" alt="Random image 4"&gt;
+  &lt;/div&gt;
+  &lt;div style="height: 480px"&gt;
+    &lt;img style="object-fit: cover;" src="https://picsum.photos/1000/480?random=5" alt="Random image 5"&gt;
+  &lt;/div&gt;    
+&lt;/auro-slideshow&gt;</code></pre>
 <!-- AURO-GENERATED-CONTENT:END -->
 
-## Custom Component Registration for Version Management
+## Custom component registration for version management
 
-There are two key parts to every Auro component: the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">class</a> and the custom element definition.
+Every Auro component has two key parts: the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">class</a> and the custom element definition.
 The class defines the component’s behavior, while the custom element registers it under a specific name so it can be used in HTML.
 
-When you install the component as described on the `Install` page, the class is imported automatically, and the component is registered globally for you.
+Installing the component as described in the Install section imports the class and registers the component globally for you.
 
-However, if you need to load multiple versions of the same component on a single page (for example, when two projects depend on different versions), you can manually register the class under a custom element name to avoid conflicts.
+However, if you need to load multiple versions of the same component on a single page (for example, when two projects depend on different versions), register the class manually under a custom element name to avoid conflicts.
 
-You can do this by importing only the component class and using the `register(name)` method with a unique name:
+To do this, import only the component class and call the `register(name)` method with a unique name:
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/customRegistration.md) -->
 <!-- The below content is automatically added from ./docs/partials/customRegistration.md -->
 
-```js
-// Import the class only
+<pre class="language-js"><code class="language-js">// Import the class only
 import { AuroSlideshow } from '@aurodesignsystem/auro-slideshow/class';
-
 // Register with a custom name if desired
-AuroSlideshow.register('custom-slideshow');
-```
+AuroSlideshow.register('custom-slideshow');</code></pre>
 
-This will create a new custom element `<custom-slideshow>` that behaves exactly like `<auro-slideshow>`, allowing both to coexist on the same page without interfering with each other.
+This registers a new custom element, `<custom-slideshow>`, that behaves like `<auro-slideshow>`. Both can be on the same page without interfering with each other.
 <!-- AURO-GENERATED-CONTENT:END -->
 <div class="exampleWrapper exampleWrapper--flex">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./apiExamples/custom.html) -->
-  <!-- The below content is automatically added from ./apiExamples/custom.html -->
-    <custom-slideshow navigation>
-      <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-        <p>Slide 1</p>
-      </div>
-      <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-        <p>Slide 2</p>
-      </div>
-      <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-        <p>Slide 3</p>
-      </div>
-    </custom-slideshow>
-  <!-- AURO-GENERATED-CONTENT:END -->
+<!-- AURO-GENERATED-CONTENT:START (FILE:src=./apiExamples/custom.html) -->
+<!-- The below content is automatically added from ./apiExamples/custom.html -->
+<custom-slideshow navigation>
+<div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+<p>Slide 1</p>
+</div>
+<div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+<p>Slide 2</p>
+</div>
+<div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
+<p>Slide 3</p>
+</div>
+</custom-slideshow>
+<!-- AURO-GENERATED-CONTENT:END -->
 </div>
 <auro-accordion alignRight>
-  <span slot="trigger">See code</span>
+<span slot="trigger">See code</span>
 <!-- AURO-GENERATED-CONTENT:START (CODE:src=./apiExamples/custom.html) -->
 <!-- The below code snippet is automatically added from ./apiExamples/custom.html -->
 
-```html
-  <custom-slideshow navigation>
-    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-      <p>Slide 1</p>
-    </div>
-    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-      <p>Slide 2</p>
-    </div>
-    <div style="width: 400px; border: 2px solid #000; display: flex; justify-content: center;">
-      <p>Slide 3</p>
-    </div>
-  </custom-slideshow>
-```
+<pre class="language-html"><code class="language-html">&lt;custom-slideshow navigation&gt;
+  &lt;div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
+    &lt;p&gt;Slide 1&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
+    &lt;p&gt;Slide 2&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div style="max-width: 400px; border: 2px solid #000; display: flex; justify-content: center;"&gt;
+    &lt;p&gt;Slide 3&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/custom-slideshow&gt;</code></pre>
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
